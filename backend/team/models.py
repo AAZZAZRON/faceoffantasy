@@ -8,7 +8,6 @@ class Team(models.Model):
 
     league = models.ForeignKey('league.League', on_delete=models.CASCADE, related_name='league')
 
-    forwards = models.ForeignKey('players.Player', on_delete=models.CASCADE, related_name='forward')
-    defensemen = models.ForeignKey('players.Player', on_delete=models.CASCADE, related_name='defensemen')
-    goalies = models.ForeignKey('players.Player', on_delete=models.CASCADE, related_name='goalies')
-
+    forwards = models.ManyToManyField('players.Player', related_name='forwards')
+    defensemen = models.ManyToManyField('players.Player', related_name='defensemen')
+    goalies = models.ManyToManyField('players.Player', related_name='goalies')

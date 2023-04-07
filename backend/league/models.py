@@ -6,7 +6,7 @@ class League(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=200)
     users = models.ManyToManyField(User, related_name='users')
-    teams = models.ManyToManyField('team.Team', related_name='teams')
+    teams = models.ManyToManyField('team.Team', related_name='teams', blank=True)
 
     # number per team
     numForwards = models.IntegerField()

@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'user',
     'player',
-    "league",
+    'league',
     'team',
 ]
 

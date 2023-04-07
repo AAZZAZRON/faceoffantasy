@@ -1,5 +1,5 @@
 import requests
-from players.models import Position, NHLTeam
+from player.models import Position, NHLTeam
 
 def initPositions():
     response = requests.get(f"https://statsapi.web.nhl.com/api/v1/positions")

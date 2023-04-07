@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "../css/nav.css";
 
+// the search bar {onSearch(text) called when enter is pressed, placeholder string}
 const Searchbar = ({onSearch, placeholder}) => {
     const [curText, setText] = useState("")
 
@@ -21,6 +22,7 @@ const Searchbar = ({onSearch, placeholder}) => {
     )
 }
 
+// the top navbar {message=the message to display at the top}
 export default function Navbar(props){
     const message = props.message
 

@@ -6,5 +6,4 @@ from django.http import HttpResponse
 
 class FrontendRenderView(View):
     def get(self, request, *args, **kwargs):
-        return HttpResponse('Hello World')
-        #return render(request, 'templates/base.html', {})
+        return render(request, 'base.html', {})

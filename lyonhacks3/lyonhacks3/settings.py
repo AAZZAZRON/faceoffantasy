@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
     'players.apps.PlayersConfig',
     'pages.apps.PagesConfig',
+    "league.apps.LeagueConfig",
 ]
 
 MIDDLEWARE = [

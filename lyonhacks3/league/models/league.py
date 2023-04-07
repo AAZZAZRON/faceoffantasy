@@ -13,3 +13,5 @@ class League(models.Model):
         return player.assists
     def team_score(self, team: Team):
         return sum([self.player_score(i) for i in team.players.all()])
+    def sorted_teams(self):
+        return reversed(sorted(Team.objects.filter(league_id=self.id), key=self.team_score))

@@ -1,8 +1,10 @@
 from django.db import models
+import uuid
 
 # Create your models here.
 class Team(models.Model):
     teamName = models.CharField(max_length=200)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
 
     owner = models.ForeignKey('users.User', on_delete=models.CASCADE, related_name='owner')
 

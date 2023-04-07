@@ -7,6 +7,11 @@ class League(models.Model):
     name = models.CharField(max_length=200)
     users = models.ManyToManyField(User, related_name='leagues')
 
+    # number per team
+    numForwards = models.IntegerField()
+    numDefensemen = models.IntegerField()
+    numGoalies = models.IntegerField()
+
     # skater point values
     goals = models.IntegerField()
     assists = models.IntegerField()

@@ -1,9 +1,12 @@
 from django.contrib import admin
-from django.urls import path, re_path
-from pages.views import FrontendRenderView
+from django.urls import path, include
+from players import views
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'players', views.PlayerView, 'players')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
-    re_path(r'(?P<path>.*)', FrontendRenderView.as_view(), name='home'),
+    path('api/', include(router.urls)), 
 ]

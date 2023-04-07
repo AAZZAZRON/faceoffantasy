@@ -1,11 +1,11 @@
 from django.db import models
-from django.contrib.auth.models import User
 import uuid
-
+    
 class League(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=200)
-    users = models.ManyToManyField(User, related_name='users')
+    users = models.ManyToManyField('user.User', related_name='users')
+    owner = models.ForeignKey('user.User', on_delete=models.CASCADE, related_name='owner')
     teams = models.ManyToManyField('team.Team', related_name='teams', blank=True)
 
     # number per team
@@ -30,4 +30,3 @@ class League(models.Model):
     saves = models.IntegerField()
     shutouts = models.IntegerField()
     goalsAgainst = models.IntegerField()
-

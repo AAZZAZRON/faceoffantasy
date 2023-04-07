@@ -112,7 +112,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
+lyonhacks3/.env
 .venv
 env/
 venv/

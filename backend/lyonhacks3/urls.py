@@ -7,6 +7,9 @@ from .views import MyTokenObtainPairView
 
 from rest_framework_simplejwt.views import TokenRefreshView
 
+from scripts.onLoadApi import initPositions, initTeams
+from scripts.dailyApiUpdate import updatePlayers
+
 router = routers.DefaultRouter()
 router.register(r'players', views.PlayerView, 'players')
 
@@ -16,3 +19,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)), 
 ]
+
+#initPositions()
+#initTeams()
+#updatePlayers()

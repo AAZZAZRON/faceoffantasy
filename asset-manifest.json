@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/lyonhacks3/static/css/main.b8e1a930.css",
+    "main.js": "/lyonhacks3/static/js/main.86b35a43.js",
+    "static/js/496.2e7f66eb.chunk.js": "/lyonhacks3/static/js/496.2e7f66eb.chunk.js",
+    "static/media/logo.jpg": "/lyonhacks3/static/media/logo.0f22500b50521f1e4ab4.jpg",
+    "index.html": "/lyonhacks3/index.html",
+    "main.b8e1a930.css.map": "/lyonhacks3/static/css/main.b8e1a930.css.map",
+    "main.86b35a43.js.map": "/lyonhacks3/static/js/main.86b35a43.js.map",
+    "496.2e7f66eb.chunk.js.map": "/lyonhacks3/static/js/496.2e7f66eb.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b8e1a930.css",
+    "static/js/main.86b35a43.js"
+  ]
+}

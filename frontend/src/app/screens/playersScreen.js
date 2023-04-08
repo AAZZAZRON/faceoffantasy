@@ -6,13 +6,15 @@ export default function PlayersScreen (props) {
     props.setMessage("<team name>'s Roster");
 
     const [skaters, setSkaters] = useState([]);
+    const [loaded, setLoaded] = useState(false);
 
     const onStartup = async() => {
-        await fetch('http://127.0.0.1:8000/api/skaters/')
+        await fetch('https://lyonhacks3-production.up.railway.app/api/skaters/')
         .then((response) => response.json())
         .then((data) => {
-            console.log(data);
+            console.log(data[0]);
             setSkaters(data);
+            setLoaded(true);
         })
         .catch((error) => console.log(error.message));
     }
@@ -21,11 +23,16 @@ export default function PlayersScreen (props) {
         onStartup();
     }, []);
 
-    console.log("HI");
-
     return (
         <>
-        <div>playerScreen</div>
+            {loaded ? <div class="playerHeader">Skaters</div> : <div class="playerHeader">Loading...</div>}
+            <ul class="player-list">
+                {skaters.map((skater, index) => (
+                    <li key={index} class="player">
+                        <div class="playerName">{skater.firstName + ' ' + skater.lastName}</div>
+                    </li>
+                ))}
+            </ul>
         </>
     );
 }

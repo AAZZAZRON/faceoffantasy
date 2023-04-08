@@ -7,6 +7,7 @@ import Navbar from "./components/navbar";
 import HomeScreen from "./screens/homeScreen";
 import LeagueScreen from "./screens/leagueScreen";
 import PlayersScreen from "./screens/playersScreen";
+import SignupScreen from './screens/signupScreen';
 
 export default function Base (props) {
 
@@ -20,28 +21,35 @@ export default function Base (props) {
         "/lyonhacks3/switch": "Switch"
     };
 
+    const noSideNavBar = ["/lyonhacks3/signup"];
+
     var selected = selections[window.location.pathname];
     const basePath = "/lyonhacks3";
     return (<>
-        <div className="row h-100">
-        <div className="row h-100 col-12">
-            <span className="col-lg-2 col-md-3 col-sm-4 p-0">
-                <Sidebar selected={selected}></Sidebar>
-            </span>
-            <span className="col right">
-                <Navbar message={message}></Navbar>
-                <div className="homeContainer h-100 row">
-                    <BrowserRouter>
+        <BrowserRouter>
+            {/* routes that don't have the sidebar and navbar */}
+            <Routes>
+                <Route path={basePath + '/signup'} element={<SignupScreen setMessage={setMessage}></SignupScreen>}></Route>
+            </Routes>
+
+            {/* routes that have the sidebar and navbar */}
+            <div className="row h-100" style={{display: (noSideNavBar.includes(window.location.pathname) ? 'none' : 'inline')}}>
+            <div className="row h-100 col-12">
+                <span className="col-lg-2 col-md-3 col-sm-4 p-0">
+                    <Sidebar selected={selected}></Sidebar>
+                </span>
+                <span className="col right">
+                    <Navbar message={message}></Navbar>
+                    <div className="homeContainer h-100 row">
                         <Routes>
                             <Route path={basePath} element={<HomeScreen setMessage={setMessage}></HomeScreen>}></Route>
                             <Route path={basePath + '/league'} element={<LeagueScreen setMessage={setMessage}></LeagueScreen>}></Route>
                             <Route path={basePath + '/players'} element={<PlayersScreen setMessage={setMessage}></PlayersScreen>}></Route>
                         </Routes>
-                    </BrowserRouter>
-                </div>
-            </span>
-        </div>
-        </div>
-        </>
-    );
+                    </div>
+                </span>
+            </div>
+            </div>
+        </BrowserRouter>
+    </>);
 }

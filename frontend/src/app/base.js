@@ -10,11 +10,7 @@ import PlayersScreen from "./screens/playersScreen";
 
 export default function Base (props) {
 
-    const [message, setMessage] = React.useState("Hello, user!");
-    function messageCallback(title) {
-        console.log("Callback called with title: " + title);
-        setMessage(title);
-    }
+    const [message, setMessage] = React.useState("Hello, <user>!");
 
     const selections = {
         "/lyonhacks3/league": "League", 
@@ -23,6 +19,7 @@ export default function Base (props) {
         "/lyonhacks3/settings": "Settings", 
         "/lyonhacks3/switch": "Switch"
     };
+
     var selected = selections[window.location.pathname];
     const basePath = "/lyonhacks3";
     return (<>
@@ -36,9 +33,9 @@ export default function Base (props) {
                 <div className="homeContainer h-100 row">
                     <BrowserRouter>
                         <Routes>
-                            <Route path={basePath} element={<HomeScreen handleCallback={messageCallback}></HomeScreen>}></Route>
-                            <Route path={basePath + '/league'} element={<LeagueScreen handleCallback={messageCallback}></LeagueScreen>}></Route>
-                            <Route path={basePath + '/players'} element={<PlayersScreen handleCallback={messageCallback}></PlayersScreen>}></Route>
+                            <Route path={basePath} element={<HomeScreen setMessage={setMessage}></HomeScreen>}></Route>
+                            <Route path={basePath + '/league'} element={<LeagueScreen setMessage={setMessage}></LeagueScreen>}></Route>
+                            <Route path={basePath + '/players'} element={<PlayersScreen setMessage={setMessage}></PlayersScreen>}></Route>
                         </Routes>
                     </BrowserRouter>
                 </div>

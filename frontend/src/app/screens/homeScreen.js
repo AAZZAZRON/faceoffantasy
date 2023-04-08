@@ -4,8 +4,7 @@ import {SessionContext} from "../utils/sessions";
 
 export default function HomeScreen (props) {
 
-    const message = "Hello, <User>!";
-    props.handleCallback(message);
+    props.setMessage("Hello, <user>!");
     const session = React.useContext(SessionContext);
     console.log(session);
 

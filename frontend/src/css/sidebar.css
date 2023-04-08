@@ -1,5 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Mukta:wght@500&display=swap');
 
+.sidebar { 
+    /* this doesn't work lol */
+    position: relative;
+    width: 100%;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 16.666667%;
+    flex: 0 0 16.666667%;
+    max-width: 16.666667%;
+}
+
 .sectionButton{
     margin-right: 10px;
     margin-top: 0.7em;
@@ -69,5 +82,5 @@
 .leftBar{
     background-color:#f1f1f1;
     height: 100%;
-    margin-right: 0;
+    margin-right: 20px;
 }

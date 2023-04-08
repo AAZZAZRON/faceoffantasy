@@ -50,6 +50,7 @@ def updatePlayers():
                     }
                 Goalie.objects.create(
                     id=player_response["id"],
+                    avatar=f"https://cms.nhl.bamgrid.com/images/headshots/current/168x168/{player_response['id']}.jpg",
                     firstName=player_response["firstName"],
                     lastName=player_response["lastName"],
                     primaryNumber=player_response["primaryNumber"],
@@ -108,6 +109,7 @@ def updatePlayers():
                     }
                 Skater.objects.create(
                     id=player_response["id"],
+                    avatar=f"https://cms.nhl.bamgrid.com/images/headshots/current/168x168/{player_response['id']}.jpg",
                     firstName=player_response["firstName"],
                     lastName=player_response["lastName"],
                     primaryNumber=player_response["primaryNumber"],

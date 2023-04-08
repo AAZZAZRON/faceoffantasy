@@ -27,6 +27,7 @@ class Position(models.Model):
 class Skater(models.Model):
     # player info as per https://statsapi.web.nhl.com/api/v1/people/8477956/
     id = models.IntegerField(primary_key=True)
+    avatar = models.CharField(max_length=200)
     firstName = models.CharField(max_length=200)
     lastName = models.CharField(max_length=200)
     primaryNumber = models.CharField(max_length=200)
@@ -70,6 +71,7 @@ class Skater(models.Model):
 class Goalie(models.Model):
     # player info as per https://statsapi.web.nhl.com/api/v1/people/8477956/
     id = models.IntegerField(primary_key=True)
+    avatar = models.CharField(max_length=200)
     firstName = models.CharField(max_length=200)
     lastName = models.CharField(max_length=200)
     primaryNumber = models.CharField(max_length=200)

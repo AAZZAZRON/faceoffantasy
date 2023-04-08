@@ -31,7 +31,7 @@ urlpatterns = [
     path('api/', include(router.urls)), 
 ]
 
-if not 'manage.py' in sys.argv:
+if 'manage.py' in sys.argv:
     initPositions()
     initTeams()
     updatePlayers()

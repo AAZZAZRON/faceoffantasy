@@ -19,7 +19,7 @@ export default function PlayersScreen (props) {
         {name: "PIM", value: "penaltyMinutes"},
         {name: "PPP", value: "powerPlayPoints"},
         {name: "SHG", value: "shortHandedGoals"},
-        {name: "SOG", value: "shotsOnGoal"},
+        {name: "SOG", value: "shots"},
         {name: "HIT", value: "hits"},
         {name: "BLK", value: "blocked"},
         {name: "+/-", value: "plusMinus"},

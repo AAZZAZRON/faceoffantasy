@@ -1,6 +1,11 @@
 import "../../css/homeScreen.css";
 
 export default function HomeScreen (props) {
+
+    const message = "Hello, <User>!";
+    props.handleCallback(message);
+    
+
     return (
         <>
             <div className="col-7 h-100">

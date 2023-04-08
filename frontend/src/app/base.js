@@ -18,10 +18,10 @@ export default function Base (props) {
     return (<>
         <div className="row h-100">
         <div className="row h-100 col-12">
-            <span className="col-2 p-0">
+            <span className="col-lg-2 col-md-3 col-sm-4 p-0">
                 <Sidebar selected={selected}></Sidebar>
             </span>
-            <span className="col-10 right">
+            <span className="col right">
                 <Navbar message="Hello, user!"></Navbar>
                 <div className="homeContainer h-100 row">
                     <BrowserRouter>

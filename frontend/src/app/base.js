@@ -7,6 +7,13 @@ import HomeScreen from "./screens/homeScreen";
 import PlayersScreen from "./screens/playersScreen";
 
 export default function Base (props) {
+
+    const [message, setMessage] = React.useState("Hello, user!");
+    function messageCallback(title) {
+        console.log("Callback called with title: " + title);
+        setMessage(title);
+    }
+
     const selections = {
         "/lyonhacks3/league": "League", 
         "/lyonhacks3": "Home", 
@@ -22,12 +29,12 @@ export default function Base (props) {
                 <Sidebar selected={selected}></Sidebar>
             </span>
             <span className="col right">
-                <Navbar message="Hello, user!"></Navbar>
+                <Navbar message={message}></Navbar>
                 <div className="homeContainer h-100 row">
                     <BrowserRouter>
                         <Routes>
-                            <Route path={basePath} element={<HomeScreen></HomeScreen>}></Route>
-                            <Route path={basePath + '/players'} element={<PlayersScreen></PlayersScreen>}></Route>
+                            <Route path={basePath} element={<HomeScreen handleCallback={messageCallback}></HomeScreen>}></Route>
+                            <Route path={basePath + '/players'} element={<PlayersScreen handleCallback={messageCallback}></PlayersScreen>}></Route>
                         </Routes>
                     </BrowserRouter>
                 </div>

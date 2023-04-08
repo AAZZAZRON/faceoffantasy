@@ -9,14 +9,52 @@ export default function PlayersScreen (props) {
     const [goalies, setGoalies] = useState([]);
     const [positions, setPositions] = useState([]);
     const [NHLTeams, setNHLTeams] = useState([]);
-    const [loaded, setLoaded] = useState(false);
+    const [selectedPosition, setSelectedPosition] = useState("All");
+    const [sortingBy, setSortingBy] = useState("-1");
+
+    const skaterSortParams = [
+        {name: " GP", value: "games"},
+        {name: "   G", value: "goals"},
+        {name: "   A", value: "assists"},
+        {name: "PIM", value: "penaltyMinutes"},
+        {name: "PPP", value: "powerPlayPoints"},
+        {name: "SHG", value: "shortHandedGoals"},
+        {name: "SOG", value: "shotsOnGoal"},
+        {name: "HIT", value: "hits"},
+        {name: "BLK", value: "blocked"},
+        {name: "+/-", value: "plusMinus"},
+    ]
+
+    const sortSkatersBy = (sortParam) => {
+        var newSkaters = [...skaters];
+        newSkaters.sort((a, b) => (a[sortParam] > b[sortParam]) ? -1 : 1);
+        setSkaters(newSkaters);
+        setSortingBy(sortParam);
+    }
+
+    const goalieSortParams = [
+        {name: "GS", value: "gamesStarted"},
+        {name: " W", value: "wins"},
+        {name: "GA", value: "goalsAgainst"},
+        {name: "GAA", value: "goalAgainstAverage"},
+        {name: "SV", value: "saves"},
+        {name: "SO", value: "shutouts"},
+        {name: "OTL", value: "ot"},
+        {name: "SV%", value: "savePercentage"},
+    ]
+
+    const sortGoaliesBy = (sortParam) => {
+        var newGoalies = [...goalies];
+        newGoalies.sort((a, b) => (a[sortParam] > b[sortParam]) ? -1 : 1);
+        setGoalies(newGoalies);
+        setSortingBy(sortParam);
+    }
 
     const onStartup = async() => {
         setSkaters(await getDataCache("SKATERS"));
         setGoalies(await getDataCache("GOALIES"));
         setPositions(await getDataCache("POSITIONS"));
         setNHLTeams(await getDataCache("NHLTEAMS"));
-        setLoaded(true);
     }
 
     useEffect(() => {
@@ -26,29 +64,52 @@ export default function PlayersScreen (props) {
     return (
         <>
             <div class="player-container">
-                {loaded ? 
+                <div class='position-toggle'>
+                    <div class={selectedPosition === "All" ? 'position-toggle-pressed' : 'position-toggle-button'} onClick={() => {setSelectedPosition("All"); setSortingBy("-1");}}>All Skaters</div>
+                    <div>|</div>
+                    <div class={selectedPosition === "Forward" ? 'position-toggle-pressed' : 'position-toggle-button'} onClick={() => {setSelectedPosition("Forward"); setSortingBy("-1");}}>F</div>
+                    <div>|</div>
+                    <div class={selectedPosition === "Defenseman" ? 'position-toggle-pressed' : 'position-toggle-button'} onClick={() => {setSelectedPosition("Defenseman"); setSortingBy("-1");}}>D</div>
+                    <div>|</div>
+                    <div class={selectedPosition === "Goalie" ? 'position-toggle-pressed' : 'position-toggle-button'} onClick={() => {setSelectedPosition("Goalie"); setSortingBy("-1");}}>G</div>
+                </div>
                 <div class="card" style={{flexDirection: 'row'}}>
                     <div class='card-header'>Player</div>
-                    <div class='card-body'>
-                        <div>GP</div>
-                        <div>G</div>
-                        <div>A</div>
-                        <div>PIM</div>
-                        <div>PPP</div>
-                        <div>SHG</div>
-                        <div>SOG</div>
-                        <div>HIT</div>
-                        <div>BLK</div>
-                        <div>+/-</div>
+                    <div class='card-body' style={{display: (selectedPosition === "Goalie" ? 'none' : 'flex')}}>
+                        {skaterSortParams.map((param, index) => {
+                            return (
+                                <div key={index} onClick={() => sortSkatersBy(param.value)} class={(param.value === sortingBy ? 'header-sort' : 'header')}>{param.name}</div>
+                            )
+                        })}
+                    </div>
+                    <div class='card-body' style={{display: (selectedPosition !== "Goalie" ? 'none' : 'flex')}}>
+                        {goalieSortParams.map((param, index) => {
+                            return (
+                                <div key={index} onClick={() => sortGoaliesBy(param.value)} class={(param.value === sortingBy ? 'header-sort' : 'header')}>{param.name}</div>
+                            )
+                        })}
                     </div>
                 </div>
-                 : 
-                 <div class="playerHeader">Loading...</div>}
+
                 {skaters.map((skater, index) => {
                     const position = positions.find(position => position.id === skater.primaryPosition);
                     const team = NHLTeams.find(team => team.id === skater.currentTeam);
+                    if (selectedPosition !== "All" && position.type !== selectedPosition) {
+                        return null;
+                    }
                     return (
                         <SkaterCard key={index} skater={skater} position={position} team={team}></SkaterCard>
+                    )
+                    })
+                }
+                {goalies.map((goalie, index) => {
+                    const position = positions.find(position => position.id === goalie.primaryPosition);
+                    const team = NHLTeams.find(team => team.id === goalie.currentTeam);
+                    if (selectedPosition !== "All" && position.type !== selectedPosition) {
+                        return null;
+                    }
+                    return (
+                        <GoalieCard key={index} goalie={goalie} position={position} team={team}></GoalieCard>
                     )
                     })
                 }
@@ -59,7 +120,6 @@ export default function PlayersScreen (props) {
 
 function SkaterCard(props) {
     const skater = props.skater;
-    console.log(props.team);
     return (
         <div class="card" style={{flexDirection: 'row'}}>
             <div class="card-header">
@@ -83,6 +143,34 @@ function SkaterCard(props) {
                 <div>{skater.hits}</div>
                 <div>{skater.blocked}</div>
                 <div>{skater.plusMinus}</div>
+            </div>
+        </div>
+    )
+}
+
+function GoalieCard(props) {
+    const goalie = props.goalie;
+    return (
+        <div class="card" style={{flexDirection: 'row'}}>
+            <div class="card-header">
+                <img src={goalie.avatar} alt="headshot" class="headshot"/>
+                <div>
+                    <div class="name">{goalie.firstName} {goalie.lastName}</div>
+                    <div class="card-header-bottom">
+                        <div class="team">{props.team.abbreviation}</div>
+                        <div class="position">{props.position.abbreviation}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div>{goalie.gamesStarted}</div>
+                <div>{goalie.wins}</div>
+                <div>{goalie.goalsAgainst}</div>
+                <div>{Math.round(goalie.goalAgainstAverage * 100) / 100}</div>
+                <div>{goalie.saves}</div>
+                <div>{goalie.shutouts}</div>
+                <div>{goalie.ot}</div>
+                <div>{Math.round(goalie.savePercentage * 1000) / 1000 }</div>
             </div>
         </div>
     )

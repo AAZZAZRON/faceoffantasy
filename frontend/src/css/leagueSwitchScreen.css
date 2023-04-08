@@ -1,0 +1,14 @@
+.league-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.top-bar {
+    align-self: stretch;
+
+    margin: 2%;
+}

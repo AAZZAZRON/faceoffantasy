@@ -7,7 +7,13 @@ import HomeScreen from "./screens/homeScreen";
 import PlayersScreen from "./screens/playersScreen";
 
 export default function Base (props) {
-    var selected = "Home";
+    const selections = {
+        "/lyonhacks3/league": "League", 
+        "/lyonhacks3": "Home", 
+        "/lyonhacks3/players": "Players", 
+        "/lyonhacks3/settings": "Settings", 
+        "/lyonhacks3/switch": "Switch"};
+    var selected = selections[window.location.pathname];
     const basePath = "/lyonhacks3";
     return (<>
         <div className="row h-100">

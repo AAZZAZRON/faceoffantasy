@@ -1,0 +1,30 @@
+.homeContainer{
+    padding: 20px;
+    background-color: lightblue;
+}
+
+.right{
+    display: flex;
+    flex-direction: column;
+    margin-left: 0;
+}
+
+.cur-team{
+    margin: 10px;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.watchlist{
+    background-color: white;
+    height: 50%;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.league{
+    background-color: white;
+    height: 40%;
+    margin: 10px;
+    border-radius: 10px;
+}

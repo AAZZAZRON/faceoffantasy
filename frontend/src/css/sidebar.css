@@ -1,11 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Mukta:wght@500&display=swap');
+
 .sectionButton{
     width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 2em;
+    margin-top: 1.5em;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    align-items: center;
 }
 
 .actions{
-    margin-left: 10px;
+    margin-left: 20px;
     margin-right: auto;
+}
+
+.actionLabel{
+    font-family: 'Mukta', sans-serif;
+    font-size: 1.5em;
+    color: grey;
+}
+
+.buttons{
+    margin-left: 20px;
+}
+
+#logo{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }

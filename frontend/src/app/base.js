@@ -3,7 +3,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import "../css/navbar.css";
 import Sidebar from "./components/sidebar";
 import Navbar from "./components/navbar";
+
 import HomeScreen from "./screens/homeScreen";
+import LeagueScreen from "./screens/leagueScreen";
 import PlayersScreen from "./screens/playersScreen";
 
 export default function Base (props) {
@@ -35,6 +37,7 @@ export default function Base (props) {
                     <BrowserRouter>
                         <Routes>
                             <Route path={basePath} element={<HomeScreen handleCallback={messageCallback}></HomeScreen>}></Route>
+                            <Route path={basePath + '/league'} element={<LeagueScreen handleCallback={messageCallback}></LeagueScreen>}></Route>
                             <Route path={basePath + '/players'} element={<PlayersScreen handleCallback={messageCallback}></PlayersScreen>}></Route>
                         </Routes>
                     </BrowserRouter>

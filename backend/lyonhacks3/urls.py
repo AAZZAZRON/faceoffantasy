@@ -9,6 +9,8 @@ from rest_framework_simplejwt.views import TokenRefreshView
 
 router = routers.DefaultRouter()
 router.register(r'players', views.PlayerView, 'players')
+router.register(r'nhlteams', views.NHLTeamView, 'nhlteams')
+router.register(r'positions', views.PositionView, 'positions')
 
 urlpatterns = [
     path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),

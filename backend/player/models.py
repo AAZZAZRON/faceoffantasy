@@ -17,8 +17,8 @@ class NHLTeam(models.Model):
 
 
 class Position(models.Model):
-    code = models.CharField(max_length=200)
     name = models.CharField(max_length=200)
+    code = models.CharField(max_length=200)
     type = models.CharField(max_length=200)
     abbreviation = models.CharField(max_length=200)
     def __str__(self):

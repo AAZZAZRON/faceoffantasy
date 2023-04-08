@@ -17,12 +17,11 @@ export default function Base (props) {
     const basePath = "/lyonhacks3";
     return (<>
         <div className="row h-100">
-        <span className="col-1"></span>
-        <div className="row h-100 col-lg-10">
-            <span className="col-4">
+        <div className="row h-100 col-12">
+            <span className="col-2 p-0">
                 <Sidebar selected={selected}></Sidebar>
             </span>
-            <span className="col-8 right">
+            <span className="col-10 right">
                 <Navbar message="Hello, user!"></Navbar>
                 <div className="homeContainer h-100 row">
                     <BrowserRouter>
@@ -34,7 +33,6 @@ export default function Base (props) {
                 </div>
             </span>
         </div>
-        <span className="col-1"></span>
         </div>
         </>
     );

@@ -19,7 +19,8 @@ export default function Base (props) {
         "/lyonhacks3": "Home", 
         "/lyonhacks3/players": "Players", 
         "/lyonhacks3/settings": "Settings", 
-        "/lyonhacks3/switch": "Switch"};
+        "/lyonhacks3/switch": "Switch"
+    };
     var selected = selections[window.location.pathname];
     const basePath = "/lyonhacks3";
     return (<>

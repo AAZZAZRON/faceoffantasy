@@ -4,16 +4,19 @@ import "../../css/sidebar.css";
 import {HomeRounded, EmojiEventsRounded, SportsHockeyRounded, SettingsRounded, SwapHorizRounded} from "@mui/icons-material";
 
 // the side button/links
-function Button(props){
+function Button(props) {
     const icon = props.icon;
     const text = props.text;
     const selected = props.selected;
     const to = selected ? "" : props.to;
-    return(
-        <div className={"sectionButton d-flex" + (selected ? " selected" : " link-change")}>
-            <div className="col-1 text-left"><span className="align-middle">{icon}</span></div>
-            <a className="buttonText" href={to}>{text}</a>
-        </div>
+
+    return (
+        <a href={to}>
+            <div className={"sectionButton d-flex" + (selected ? " selected" : " link-change")}>
+                <div className="col-1 text-left"><span className="align-middle">{icon}</span></div>
+                <div className="buttonText">{text}</div>
+            </div>
+        </a>
     )
 }
 

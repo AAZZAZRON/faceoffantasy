@@ -39,6 +39,7 @@
 }
 
 .actions{
+    margin-top: 40%;
     margin-left: 20px;
     margin-right: auto;
 }
@@ -46,11 +47,8 @@
 .actionLabel{
     font-family: 'Mukta', sans-serif;
     font-size: 1.5em;
-    color: grey;
-}
-
-.buttons{
-    margin-left: 20px;
+    margin-left:10%;
+    color: #808080;
 }
 
 .logo{
@@ -58,12 +56,7 @@
 }
 
 #logo{
-    width: 80%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 10px;
-    box-shadow: grey 2px 2px 3px;
-    border: solid black 2px;
+    width:160px;
 }
 
 .selected{

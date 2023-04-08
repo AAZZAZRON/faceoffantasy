@@ -3,14 +3,35 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import "../css/navbar.css";
 import Sidebar from "./components/sidebar";
 import Navbar from "./components/navbar";
-
+import { useEffect, useState } from 'react';
 import HomeScreen from "./screens/homeScreen";
 import LeagueScreen from "./screens/leagueScreen";
 import PlayersScreen from "./screens/playersScreen";
 import SignupScreen from './screens/signupScreen';
 import LeagueSwitchScreen from './screens/leageSwitchScreen';
+import { setDataCache, getDataCache } from './utils/api/caching';
+import routes from './utils/misc/routes';
+import { callAndStore } from './utils/api/callApi';
 
 export default function Base (props) {
+
+    async function fetchData(cacheName, url) {
+        if (!getDataCache(cacheName)) {
+            await callAndStore(cacheName, url);
+            console.log("cache set for " + cacheName);
+        }
+        else console.log("Cache found for " + cacheName);
+    }
+
+    // cache everything
+    useEffect(() => {
+        fetchData("SKATERS", routes.SKATERS);
+        fetchData("GOALIES", routes.GOALIES);
+        fetchData("NHLTEAMS", routes.NHLTEAMS);
+        fetchData("POSITIONS", routes.POSITIONS);
+        fetchData("LEAGUES", routes.LEAGUES);
+        fetchData("TEAMS", routes.TEAMS);
+    }, []);
 
     const [message, setMessage] = React.useState("Hello, <user>!");
 

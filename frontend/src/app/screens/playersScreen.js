@@ -1,22 +1,18 @@
 import "../../css/playersScreen.css";
-import { getGoalies, getSkaters } from "../../js/apiCalls";
 import { useState, useEffect } from "react";
+import { getDataCache } from "../utils/api/caching";
 
 export default function PlayersScreen (props) {
     props.setMessage("<team name>'s Roster");
 
     const [skaters, setSkaters] = useState([]);
+    const [goalies, setGoalies] = useState([]);
     const [loaded, setLoaded] = useState(false);
 
     const onStartup = async() => {
-        await fetch('https://lyonhacks3-production.up.railway.app/api/skaters/')
-        .then((response) => response.json())
-        .then((data) => {
-            console.log(data[0]);
-            setSkaters(data);
-            setLoaded(true);
-        })
-        .catch((error) => console.log(error.message));
+        setSkaters(await getDataCache("SKATERS"));
+        setGoalies(await getDataCache("GOALIES"));
+        setLoaded(true);
     }
 
     useEffect(() => {

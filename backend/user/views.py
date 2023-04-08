@@ -10,6 +10,7 @@ class UserView(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+@csrf_exempt
 def signup(request):
     message = {'message': '', 'success': False}
     if request.method == 'POST':

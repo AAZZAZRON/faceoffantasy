@@ -42,7 +42,7 @@ export default function SignupScreen(props) {
     fetch(`${Routes.POST.SIGNUP}/`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({
             email: email,
@@ -66,7 +66,10 @@ export default function SignupScreen(props) {
                         password: password,
                         }),
                     })
-                .then((response) => response.json())
+                .then((response) => { 
+                  console.log(response);
+                  return response.json();
+                })
               .then((json) => {
                 if(json.access && json.refresh) {
                   setToken(json.access);

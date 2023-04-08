@@ -16,7 +16,7 @@ from scripts.onLoadApi import initPositions, initTeams
 from scripts.dailyApiUpdate import updatePlayers
 
 router = routers.DefaultRouter()
-router.register(r'players', player_views.PlayerView, 'players')
+router.register(r'skaters', player_views.SkaterView, 'skaters')
 router.register(r'goalies', player_views.GoalieView, 'goalies')
 router.register(r'nhlteams', player_views.NHLTeamView, 'nhlteams')
 router.register(r'positions', player_views.PositionView, 'positions')

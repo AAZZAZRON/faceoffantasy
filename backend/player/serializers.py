@@ -1,9 +1,9 @@
 from rest_framework import serializers
 from .models import *
 
-class PlayerSerializer(serializers.ModelSerializer):
+class SkaterSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Player
+        model = Skater
         fields = '__all__'
 
 class GoalieSerializer(serializers.ModelSerializer):

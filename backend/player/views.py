@@ -4,9 +4,9 @@ from .models import *
 from .serializers import *
 # Create your views here.
 
-class PlayerView(viewsets.ModelViewSet):
-    serializer_class = PlayerSerializer
-    queryset = Player.objects.all()
+class SkaterView(viewsets.ModelViewSet):
+    serializer_class = SkaterSerializer
+    queryset = Skater.objects.all()
 
 class NHLTeamView(viewsets.ModelViewSet):
     serializer_class = NHLTeamSerializer

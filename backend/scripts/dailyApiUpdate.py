@@ -1,10 +1,10 @@
-from player.models import NHLTeam, Player, Goalie, Position
+from player.models import NHLTeam, Skater, Goalie, Position
 import requests
 from lyonhacks3 import config
 
 
 def updatePlayers():
-    Player.objects.all().delete()
+    Skater.objects.all().delete()
     Goalie.objects.all().delete()
     for team in NHLTeam.objects.all():
         response = requests.get(f"https://statsapi.web.nhl.com/api/v1/teams/{team.id}/roster")
@@ -106,7 +106,7 @@ def updatePlayers():
                         "points": 0,
                         "timeOnIcePerGame": "0:00",
                     }
-                Player.objects.create(
+                Skater.objects.create(
                     id=player_response["id"],
                     firstName=player_response["firstName"],
                     lastName=player_response["lastName"],

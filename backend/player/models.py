@@ -24,7 +24,7 @@ class Position(models.Model):
     def __str__(self):
         return self.type
 
-class Player(models.Model):
+class Skater(models.Model):
     # player info as per https://statsapi.web.nhl.com/api/v1/people/8477956/
     id = models.IntegerField(primary_key=True)
     firstName = models.CharField(max_length=200)

@@ -32,8 +32,10 @@ export default function Navbar(props){
 
     return(
         <div className="nav-height nav-container row d-flex">
-            <span className="col-7 text-center"><span className="nav-message align-middle">{message}</span></span>
-            <span className="col-5 d-flex"><Searchbar onSearch={onSearch} placeholder="Search Players"></Searchbar></span>
+            <span className="col-7 text-center d-flex justify-content-center">
+                <span className="d-flex align-items-end"><span className="nav-message">{message}</span></span>
+            </span>
+            <span className="col-5 d-flex align-items-center"><Searchbar onSearch={onSearch} placeholder="Search Players"></Searchbar></span>
         </div>
     )   
 }

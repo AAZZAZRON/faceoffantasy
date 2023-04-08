@@ -1,11 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Mukta:wght@500&display=swap');
 
 .sectionButton{
-    width: 80%;
-    margin-top: 1.5em;
-    padding-bottom: 5px;
-    padding-top: 5px;
+    width: 100%;
+    margin-top: 0.7em;
+    padding-bottom: 10px;
+    padding-top: 10px;
     align-items: center;
+    border-radius: 10px;
+    color: grey;
+}
+
+.buttonText{
+    font-size: 0.8em;
+    margin-left: 7px;
+    user-select: none;
+}
+
+.buttonText:hover{
+    text-decoration: none;
+}
+
+.buttonText:visited{
+    text-decoration: none;
+    color: inherit;
 }
 
 .actions{
@@ -27,4 +44,20 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 10px;
+    box-shadow: grey 2px 2px 3px;
+    border: solid black 2px;
+}
+
+.selected{
+    background-color: aquamarine;
+}
+
+.link-change{
+    transition-duration: 0.5s;
+    user-select: none;
+}
+
+.link-change:hover{
+    background-color: cyan;
 }

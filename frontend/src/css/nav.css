@@ -1,5 +1,5 @@
 .nav-height{
-    height: 50px;
+    height: 80px;
     padding: 5px;
 }
 
@@ -8,4 +8,6 @@
     background:"#F0F0F0";
     border:"none";
     padding:"0.5rem";
+    border-radius: 5px;
+    height: 1.5em;
 }

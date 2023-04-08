@@ -1,6 +1,8 @@
 .homeContainer{
     padding: 20px;
     background-color: lightblue;
+    border: solid grey;
+    border-width: 2px;
 }
 
 .right{
@@ -25,6 +27,7 @@
 .league{
     background-color: white;
     height: 40%;
-    margin: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
     border-radius: 10px;
 }

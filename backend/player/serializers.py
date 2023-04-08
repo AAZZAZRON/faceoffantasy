@@ -14,10 +14,10 @@ class GoalieSerializer(serializers.ModelSerializer):
 class PositionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Position
-        fields = ('name', 'code', 'type', 'abbreviation')
+        fields = '__all__'
 
 
 class NHLTeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = NHLTeam
-        fields = ('id', 'name', 'link', 'abbreviation', 'teamName', 'locationName', 'shortName', 'officialSiteUrl', 'division', 'conference')
+        fields = '__all__'

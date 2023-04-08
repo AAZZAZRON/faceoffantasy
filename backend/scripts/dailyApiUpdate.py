@@ -1,5 +1,6 @@
 from player.models import NHLTeam, Player, Goalie, Position
 import requests
+from lyonhacks3 import config
 
 
 def updatePlayers():
@@ -16,7 +17,7 @@ def updatePlayers():
                 print("Error: status code", response.status_code)
             player_response = player_response.json()["people"][0]
 
-            player_stats_response = requests.get(f"https://statsapi.web.nhl.com/api/v1/people/{player['person']['id']}/stats?stats=statsSingleSeason&season=20222023")
+            player_stats_response = requests.get(f"https://statsapi.web.nhl.com/api/v1/people/{player['person']['id']}/stats?stats={config.stats}&season={config.season}")
 
             if player_response["primaryPosition"]["code"] == "G":
                 try:

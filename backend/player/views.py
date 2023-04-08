@@ -15,3 +15,7 @@ class NHLTeamView(viewsets.ModelViewSet):
 class PositionView(viewsets.ModelViewSet):
     serializer_class = PositionSerializer
     queryset = Position.objects.all()
+
+class GoalieView(viewsets.ModelViewSet):
+    serializer_class = GoalieSerializer
+    queryset = Goalie.objects.all()

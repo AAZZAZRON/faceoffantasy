@@ -14,6 +14,7 @@ from scripts.dailyApiUpdate import updatePlayers
 
 router = routers.DefaultRouter()
 router.register(r'players', views.PlayerView, 'players')
+router.register(r'goalies', views.GoalieView, 'goalies')
 router.register(r'nhlteams', views.NHLTeamView, 'nhlteams')
 router.register(r'positions', views.PositionView, 'positions')
 

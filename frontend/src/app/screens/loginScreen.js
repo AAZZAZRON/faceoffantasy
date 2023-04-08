@@ -8,10 +8,11 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import bg from '../../images/signup.jpg';
+import bg from '../../images/login.jpg';
 import Routes from '../utils/misc/routes';
 import { setToken, setRefresh } from '../utils/AuthService';
 import {SessionProvider} from '../utils/session';
+import { collapseClasses } from '@mui/material';
 
 function Copyright(props) {
   return (
@@ -28,64 +29,42 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignupScreen(props) {
+export default function LoginScreen(props) {
 
-    let notify = "";
+  let notify = "";
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    let email = data.get('email');
     let username = data.get('username');
     let password = data.get('password');
-    let password2 = data.get('password2');
-    fetch(`${Routes.POST.SIGNUP}`, {
+    fetch(`${Routes.AUTH.LOGIN}/api/token/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            email: email,
-            username: username,
-            password: password,
-            password2: password2,
+          username: username,
+          password: password,
         }),
       })
       .then((response) => response.json())
       .then((json) => {
-        if(!json.success) {
-            notify = json.message;
-        } else {
-            fetch(`${Routes.AUTH.LOGIN}/api/token/`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        username: username,
-                        password: password,
-                        }),
-                    })
-                .then((response) => response.json())
+        if(json.access && json.refresh) {
+          setToken(json.access);
+          setRefresh(json.refresh);
+          fetch(`${Routes.USER}`)
+              .then((response) => response.json())
               .then((json) => {
-                if(json.access && json.refresh) {
-                  setToken(json.access);
-                  setRefresh(json.refresh);
-                  console.log(json.access);
-                  fetch(`${Routes.USER}`)
-                      .then((response) => response.json())
-                      .then((json) => {
-                            for(let i = 0; i < json.length; i++) {
-                                if(json[i].username === username) {
-                                    SessionProvider.setUser(json[i]);
-                                    break;
-                                }
-                            }
-                      });
-                } else {
-                    notify = "Error, please try again."
-                }
-            });
+                    for(let i = 0; i < json.length; i++) {
+                        if(json[i].username === username) {
+                            SessionProvider.setUser(json[i]);
+                            break;
+                        }
+                    }
+              });
+        } else {
+          notify = "Invalid username or password.";
         }
       });
   };
@@ -117,19 +96,9 @@ export default function SignupScreen(props) {
             }}
           >
             <Typography component="h1" variant="h5">
-              Join Faceoff Fantasy!
+              Welcome Back!
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-              />
               <TextField
                 margin="normal"
                 required
@@ -138,6 +107,7 @@ export default function SignupScreen(props) {
                 label="Username"
                 name="username"
                 autoComplete="username"
+                autoFocus
               />
               <TextField
                 margin="normal"
@@ -149,16 +119,6 @@ export default function SignupScreen(props) {
                 id="password"
                 autoComplete="current-password"
               />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password2"
-                label="Retype Password"
-                type="password"
-                id="password2"
-                autoComplete="current-password"
-              />
               <div style={{color: 'red'}}>{notify}</div>
               <Button
                 type="submit"
@@ -166,12 +126,12 @@ export default function SignupScreen(props) {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign Up
+                Sign In
               </Button>
               <Grid container>
                 <Grid item>
-                  <Link href="/lyonhacks3/login" variant="body2">
-                    {"Already have an account? Sign In"}
+                  <Link href="signup" variant="body2">
+                    {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>
               </Grid>

@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import "../../css/homeScreen.css";
-import {SessionContext} from "../utils/sessions";
+import {SessionContext} from "../utils/session";
+import { loggedIn } from "../utils/AuthService";
 
 const HomeLeague = ({session}) => {
     const [rank, setRank] = useState("");

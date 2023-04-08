@@ -1,5 +1,5 @@
 import "../../css/navbar.css";
-import logo from "../../images/logo.jpg";
+import logo from "../../images/logo.png";
 import "../../css/sidebar.css";
 import {HomeRounded, EmojiEventsRounded, SportsHockeyRounded, SettingsRounded, SwapHorizRounded} from "@mui/icons-material";
 

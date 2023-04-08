@@ -67,7 +67,7 @@
 }
 
 .selected{
-    background-color: aquamarine;
+    background-color: #e5ddfd;
 }
 
 .link-change{
@@ -76,7 +76,7 @@
 }
 
 .link-change:hover{
-    background-color: cyan;
+    background-color: #e0e0e0;
 }
 
 .leftBar{

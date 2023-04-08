@@ -3,19 +3,37 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import "../css/navbar.css";
 import Sidebar from "./components/sidebar";
 import Navbar from "./components/navbar";
-
+import { useEffect, useState } from 'react';
 import HomeScreen from "./screens/homeScreen";
 import LeagueScreen from "./screens/leagueScreen";
 import PlayersScreen from "./screens/playersScreen";
 import SignupScreen from './screens/signupScreen';
+import LeagueSwitchScreen from './screens/leageSwitchScreen';
+import { setDataCache, getDataCache } from './utils/api/caching';
+import routes from './utils/misc/routes';
+import { callAndStore } from './utils/api/callApi';
 
 export default function Base (props) {
 
-    const [message, setMessage] = React.useState("Hello, user!");
-    function messageCallback(title) {
-        console.log("Callback called with title: " + title);
-        setMessage(title);
+    async function fetchData(cacheName, url) {
+        if (!getDataCache(cacheName)) {
+            await callAndStore(cacheName, url);
+            console.log("cache set for " + cacheName);
+        }
+        else console.log("Cache found for " + cacheName);
     }
+
+    // cache everything
+    useEffect(() => {
+        fetchData("SKATERS", routes.SKATERS);
+        fetchData("GOALIES", routes.GOALIES);
+        fetchData("NHLTEAMS", routes.NHLTEAMS);
+        fetchData("POSITIONS", routes.POSITIONS);
+        fetchData("LEAGUES", routes.LEAGUES);
+        fetchData("TEAMS", routes.TEAMS);
+    }, []);
+
+    const [message, setMessage] = React.useState("Hello, <user>!");
 
     const selections = {
         "/lyonhacks3/league": "League", 
@@ -29,11 +47,11 @@ export default function Base (props) {
 
     var selected = selections[window.location.pathname];
     const basePath = "/lyonhacks3";
-    return (
+    return (<>
         <BrowserRouter>
             {/* routes that don't have the sidebar and navbar */}
             <Routes>
-                <Route path={basePath + '/signup'} element={<SignupScreen handleCallback={messageCallback}></SignupScreen>}></Route>
+                <Route path={basePath + '/signup'} element={<SignupScreen setMessage={setMessage}></SignupScreen>}></Route>
             </Routes>
 
             {/* routes that have the sidebar and navbar */}
@@ -45,15 +63,16 @@ export default function Base (props) {
                 <span className="col right">
                     <Navbar message={message}></Navbar>
                     <div className="homeContainer h-100 row">
-                            <Routes>
-                                <Route path={basePath} element={<HomeScreen handleCallback={messageCallback}></HomeScreen>}></Route>
-                                <Route path={basePath + '/league'} element={<LeagueScreen handleCallback={messageCallback}></LeagueScreen>}></Route>
-                                <Route path={basePath + '/players'} element={<PlayersScreen handleCallback={messageCallback}></PlayersScreen>}></Route>
-                            </Routes>
+                        <Routes>
+                            <Route path={basePath} element={<HomeScreen setMessage={setMessage}></HomeScreen>}></Route>
+                            <Route path={basePath + '/league'} element={<LeagueScreen setMessage={setMessage}></LeagueScreen>}></Route>
+                            <Route path={basePath + '/players'} element={<PlayersScreen setMessage={setMessage}></PlayersScreen>}></Route>
+                            <Route path={basePath + '/switch'} element={<LeagueSwitchScreen setMessage={setMessage}></LeagueSwitchScreen>}></Route>
+                        </Routes>
                     </div>
                 </span>
             </div>
             </div>
         </BrowserRouter>
-    );
+    </>);
 }

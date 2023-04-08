@@ -1,3 +1,5 @@
+import sys
+
 from django.contrib import admin
 from django.urls import path, include
 from player import views
@@ -22,6 +24,7 @@ urlpatterns = [
     path('api/', include(router.urls)), 
 ]
 
-initPositions()
-initTeams()
-updatePlayers()
+if not 'manage.py' in sys.argv:
+    initPositions()
+    initTeams()
+    updatePlayers()

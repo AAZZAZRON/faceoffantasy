@@ -1,8 +1,14 @@
 import "../../css/playersScreen.css";
 import { useState, useEffect } from "react";
 import { getDataCache } from "../utils/api/caching";
+import { loggedIn } from "../utils/AuthService";
 
 export default function PlayersScreen (props) {
+
+    if(!loggedIn()) {
+        window.location.href = "/lyonhacks3/login";
+    }
+
     props.setMessage("<team name>'s Roster");
 
     const [skaters, setSkaters] = useState([]);

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import "../../css/leagueScreen.css";
+import {loggedIn} from "../utils/AuthService";
 
 const colors = {
     1: "#FFD700",
@@ -10,6 +11,11 @@ const colors = {
 }
 
 export default function LeagueScreen (props) {
+
+    if(!loggedIn()) {
+        window.location.href = "/lyonhacks3/login";
+    }
+
     props.setMessage("Standings for <League Name>");
     return (
         <div className="league-container">

@@ -10,7 +10,7 @@ const Routes = {
   POST: {
     SIGNUP: `${BASEURL}/api/signup`,
   },
-  USER: `${BASEURL}/api/v3/obj/users`,
+  USER: `${BASEURL}/api/users`,
 
   // other
   SKATERS: `${BASEURL}/api/skaters/`,

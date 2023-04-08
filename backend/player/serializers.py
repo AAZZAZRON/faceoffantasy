@@ -4,7 +4,12 @@ from .models import *
 class PlayerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Player
-        fields = ('fullName', 'currentTeam', 'id')
+        fields = '__all__'
+
+class GoalieSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Goalie
+        fields = '__all__'
 
 class PositionSerializer(serializers.ModelSerializer):
     class Meta:

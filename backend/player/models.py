@@ -100,3 +100,6 @@ class Goalie(models.Model):
     goalsAgainst = models.IntegerField()
     timeOnIcePerGame = models.CharField(max_length=200)
 
+    def __str__(self):
+        return self.firstName + ' ' + self.lastName
+

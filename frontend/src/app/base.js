@@ -32,11 +32,7 @@ export default function Base (props) {
         fetchData("TEAMS", routes.TEAMS);
     }, []);
 
-    const [message, setMessage] = useState("Hello, user!");
-    function messageCallback(title) {
-        console.log("Callback called with title: " + title);
-        setMessage(title);
-    }
+    const [message, setMessage] = React.useState("Hello, <user>!");
 
     const selections = {
         "/lyonhacks3/league": "League", 
@@ -50,11 +46,11 @@ export default function Base (props) {
 
     var selected = selections[window.location.pathname];
     const basePath = "/lyonhacks3";
-    return (
+    return (<>
         <BrowserRouter>
             {/* routes that don't have the sidebar and navbar */}
             <Routes>
-                <Route path={basePath + '/signup'} element={<SignupScreen handleCallback={messageCallback}></SignupScreen>}></Route>
+                <Route path={basePath + '/signup'} element={<SignupScreen setMessage={setMessage}></SignupScreen>}></Route>
             </Routes>
 
             {/* routes that have the sidebar and navbar */}
@@ -66,15 +62,15 @@ export default function Base (props) {
                 <span className="col right">
                     <Navbar message={message}></Navbar>
                     <div className="homeContainer h-100 row">
-                            <Routes>
-                                <Route path={basePath} element={<HomeScreen handleCallback={messageCallback}></HomeScreen>}></Route>
-                                <Route path={basePath + '/league'} element={<LeagueScreen handleCallback={messageCallback}></LeagueScreen>}></Route>
-                                <Route path={basePath + '/players'} element={<PlayersScreen handleCallback={messageCallback}></PlayersScreen>}></Route>
-                            </Routes>
+                        <Routes>
+                            <Route path={basePath} element={<HomeScreen setMessage={setMessage}></HomeScreen>}></Route>
+                            <Route path={basePath + '/league'} element={<LeagueScreen setMessage={setMessage}></LeagueScreen>}></Route>
+                            <Route path={basePath + '/players'} element={<PlayersScreen setMessage={setMessage}></PlayersScreen>}></Route>
+                        </Routes>
                     </div>
                 </span>
             </div>
             </div>
         </BrowserRouter>
-    );
+    </>);
 }

@@ -32,4 +32,5 @@ def initTeams():
             division=team["division"]["name"],
             conference=team["conference"]["name"],
             shortName=team["shortName"],
+            officialSiteUrl=team["officialSiteUrl"],
         )

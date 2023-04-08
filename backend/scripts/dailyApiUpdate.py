@@ -46,6 +46,7 @@ def updatePlayers():
                         "powerPlaySavePercentage": 0,
                         "shortHandedSavePercentage": 0,
                         "evenStrengthSavePercentage": 0,
+                        "timeOnIcePerGame": "0:00",
                     }
                 Goalie.objects.create(
                     id=player_response["id"],
@@ -75,6 +76,7 @@ def updatePlayers():
                     gamesStarted=player_stats["gamesStarted"],
                     shotsAgainst=player_stats["shotsAgainst"],
                     goalsAgainst=player_stats["goalsAgainst"],
+                    timeOnIcePerGame=player_stats["timeOnIcePerGame"],
                 )
             else:
                 if player_stats_response.status_code != 200:

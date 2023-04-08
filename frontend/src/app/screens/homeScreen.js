@@ -1,8 +1,8 @@
-import "../../css/home.css";
+import "../../css/homeScreen.css";
 
 export default function HomeScreen (props) {
     return (
-        <div className="homeContainer h-100 row">
+        <>
             <div className="col-7 h-100">
                 <div className="cur-team h-100">
                     <span className="align-middle text-center">My Team</span>
@@ -16,6 +16,6 @@ export default function HomeScreen (props) {
                     My League
                 </div>
             </div>
-        </div>
+        </>
     );
 }

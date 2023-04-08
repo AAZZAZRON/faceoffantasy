@@ -4,9 +4,11 @@ import "../css/navbar.css";
 import Sidebar from "./components/sidebar";
 import Navbar from "./components/navbar";
 import HomeScreen from "./screens/homeScreen";
+import PlayersScreen from "./screens/playersScreen";
 
 export default function Base (props) {
     var selected = "Home";
+    const basePath = "/lyonhacks3";
     return (<>
         <div className="row h-100">
         <span className="col-1"></span>
@@ -16,11 +18,14 @@ export default function Base (props) {
             </span>
             <span className="col-8 right">
                 <Navbar message="Hello, user!"></Navbar>
-                <BrowserRouter>
-                    <Routes>
-                        <Route path="/lyonhacks3" element={<HomeScreen></HomeScreen>}></Route>
-                    </Routes>
-                </BrowserRouter>
+                <div className="homeContainer h-100 row">
+                    <BrowserRouter>
+                        <Routes>
+                            <Route path={basePath} element={<HomeScreen></HomeScreen>}></Route>
+                            <Route path={basePath + '/players'} element={<PlayersScreen></PlayersScreen>}></Route>
+                        </Routes>
+                    </BrowserRouter>
+                </div>
             </span>
         </div>
         <span className="col-1"></span>

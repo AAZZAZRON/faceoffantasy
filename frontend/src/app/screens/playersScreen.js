@@ -9,10 +9,10 @@ export default function PlayersScreen (props) {
     const [skaters, setSkaters] = useState([]);
 
     const onStartup = async() => {
-        await fetch('https://lyonhacks3-production.up.railway.app/api/skaters/')
+        await fetch('http://127.0.0.1:8000/api/skaters/')
         .then((response) => response.json())
         .then((data) => {
-            console.log("HI");
+            console.log(data);
             setSkaters(data);
         })
         .catch((error) => console.log(error.message));

@@ -6,25 +6,21 @@ def updatePlayers():
     Player.objects.all().delete()
     Goalie.objects.all().delete()
     for team in NHLTeam.objects.all():
-        response = requests.get(
-            f"https://statsapi.web.nhl.com/api/v1/teams/{team.id}/roster")
+        response = requests.get(f"https://statsapi.web.nhl.com/api/v1/teams/{team.id}/roster")
         if response.status_code != 200:
             print("Error: status code", response.status_code)
 
         for player in response.json()["roster"]:
-            player_response = requests.get(
-                f"https://statsapi.web.nhl.com/api/v1/people/{player['person']['id']}")
+            player_response = requests.get(f"https://statsapi.web.nhl.com/api/v1/people/{player['person']['id']}")
             if player_response.status_code != 200:
                 print("Error: status code", response.status_code)
             player_response = player_response.json()["people"][0]
 
-            player_stats_response = requests.get(
-                f"https://statsapi.web.nhl.com/api/v1/people/{player['person']['id']}/stats?stats=statsSingleSeason&season=20222023")
+            player_stats_response = requests.get(f"https://statsapi.web.nhl.com/api/v1/people/{player['person']['id']}/stats?stats=statsSingleSeason&season=20222023")
 
             if player_response["primaryPosition"]["code"] == "G":
                 try:
-                    player_stats = player_stats_response.json(
-                    )["stats"][0]["splits"][0]["stat"]
+                    player_stats = player_stats_response.json()["stats"][0]["splits"][0]["stat"]
                 except:
                     player_stats = {
                         "timeOnIce": "0:00",
@@ -83,8 +79,7 @@ def updatePlayers():
                 if player_stats_response.status_code != 200:
                     print("Error: status code", response.status_code)
                 try:
-                    player_stats = player_stats_response.json(
-                    )["stats"][0]["splits"][0]["stat"]
+                    player_stats = player_stats_response.json()["stats"][0]["splits"][0]["stat"]
                 except:
                     player_stats = {
                         "timeOnIce": "0:00",

@@ -2,6 +2,7 @@ import json
 from rest_framework import viewsets
 from .serializers import *
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -9,6 +10,7 @@ class UserView(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+@csrf_exempt
 def signup(request):
     message = {'message': '', 'success': False}
     if request.method == 'POST':

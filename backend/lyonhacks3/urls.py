@@ -1,5 +1,3 @@
-import sys
-
 from django.contrib import admin
 from django.urls import path, include
 from player import views as player_views
@@ -7,6 +5,9 @@ from league import views as league_views
 from team import views as team_views
 from user import views as user_views
 from rest_framework import routers
+
+from django.conf import settings
+from django.conf.urls.static import static
 
 from .views import MyTokenObtainPairView
 
@@ -29,4 +30,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)), 
     path('loadplayers/', initialLoad, name='loadPlayers'),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

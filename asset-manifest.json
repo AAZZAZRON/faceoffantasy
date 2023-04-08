@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/lyonhacks3/static/css/main.aee5ce42.css",
-    "main.js": "/lyonhacks3/static/js/main.75571de7.js",
+    "main.css": "/lyonhacks3/static/css/main.0e526b69.css",
+    "main.js": "/lyonhacks3/static/js/main.04e98eaf.js",
     "static/js/496.2e7f66eb.chunk.js": "/lyonhacks3/static/js/496.2e7f66eb.chunk.js",
     "static/media/logo.jpg": "/lyonhacks3/static/media/logo.0f22500b50521f1e4ab4.jpg",
     "index.html": "/lyonhacks3/index.html",
-    "main.aee5ce42.css.map": "/lyonhacks3/static/css/main.aee5ce42.css.map",
-    "main.75571de7.js.map": "/lyonhacks3/static/js/main.75571de7.js.map",
+    "main.0e526b69.css.map": "/lyonhacks3/static/css/main.0e526b69.css.map",
+    "main.04e98eaf.js.map": "/lyonhacks3/static/js/main.04e98eaf.js.map",
     "496.2e7f66eb.chunk.js.map": "/lyonhacks3/static/js/496.2e7f66eb.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.aee5ce42.css",
-    "static/js/main.75571de7.js"
+    "static/css/main.0e526b69.css",
+    "static/js/main.04e98eaf.js"
   ]
 }

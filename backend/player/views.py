@@ -1,7 +1,7 @@
-from django.shortcuts import render
 from rest_framework import viewsets
 from .models import *
 from .serializers import *
+from django.http import JsonResponse
 # Create your views here.
 
 class SkaterView(viewsets.ModelViewSet):
@@ -19,3 +19,8 @@ class PositionView(viewsets.ModelViewSet):
 class GoalieView(viewsets.ModelViewSet):
     serializer_class = GoalieSerializer
     queryset = Goalie.objects.all()
+
+def countPlayers(request):
+    skaterCount = Skater.objects.count()
+    goalieCount = Goalie.objects.count()
+    return JsonResponse({'skaterCount': skaterCount, 'goalieCount': goalieCount})

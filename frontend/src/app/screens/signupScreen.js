@@ -39,7 +39,7 @@ export default function SignupScreen(props) {
     let username = data.get('username');
     let password = data.get('password');
     let password2 = data.get('password2');
-    fetch(`${Routes.POST.SIGNUP}`, {
+    fetch(`${Routes.POST.SIGNUP}/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -56,7 +56,7 @@ export default function SignupScreen(props) {
         if(!json.success) {
             notify = json.message;
         } else {
-            fetch(`${Routes.AUTH.LOGIN}/api/token/`, {
+            fetch(`${Routes.AUTH.LOGIN}/`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

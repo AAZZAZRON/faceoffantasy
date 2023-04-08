@@ -26,6 +26,7 @@ router.register(r'teams', team_views.TeamView, 'teams')
 
 urlpatterns = [
     path('api/signup/', user_views.signup, name='signup'),
+    path('api/countplayers/', player_views.countPlayers, name='countPlayers'),
     path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('admin/', admin.site.urls),

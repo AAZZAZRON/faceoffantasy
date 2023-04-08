@@ -7,8 +7,39 @@
     background-color: white;
 }
 
-.elongated {
-    min-width: 350px;
+.position-toggle {
+    align-self: stretch;
+    display: flex;
+    justify-content: left;
+    flex-direction: row;
+}
+
+.position-toggle > * {
+    margin-left: 1%;
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+}
+
+.position-toggle-pressed {
+    color: black;
+    font-weight: bold;
+}
+
+.position-toggle-button {
+    color: #0066CC;
+}
+
+.position-toggle-button:hover {
+    cursor: pointer;
+}
+
+.header:hover {
+    cursor: pointer;
+}
+
+.header-sort {
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .card {
@@ -60,4 +91,5 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    white-space: pre;
 }

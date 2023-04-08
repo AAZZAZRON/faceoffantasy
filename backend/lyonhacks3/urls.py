@@ -22,6 +22,6 @@ urlpatterns = [
     path('api/', include(router.urls)), 
 ]
 
-#initPositions()
-#initTeams()
-#updatePlayers()
+initPositions()
+initTeams()
+updatePlayers()

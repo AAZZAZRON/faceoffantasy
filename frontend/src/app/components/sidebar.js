@@ -1,6 +1,6 @@
-import "../css/nav.css";
-import logo from "../images/logo.jpg";
-import "../css/sidebar.css";
+import "../../css/navbar.css";
+import logo from "../../images/logo.jpg";
+import "../../css/sidebar.css";
 import {HomeRounded, EmojiEventsRounded, SportsHockeyRounded, SettingsRounded, SwapHorizRounded} from "@mui/icons-material";
 
 // the side button/links

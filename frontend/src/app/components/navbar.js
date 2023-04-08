@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../css/nav.css";
+import "../../css/navbar.css";
 
 // the search bar {onSearch(text) called when enter is pressed, placeholder string}
 const Searchbar = ({onSearch, placeholder}) => {

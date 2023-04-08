@@ -12,8 +12,7 @@ from .views import MyTokenObtainPairView
 
 from rest_framework_simplejwt.views import TokenRefreshView
 
-from scripts.onLoadApi import initPositions, initTeams
-from scripts.dailyApiUpdate import updatePlayers
+from scripts.onLoadApi import initialLoad
 
 router = routers.DefaultRouter()
 router.register(r'skaters', player_views.SkaterView, 'skaters')
@@ -29,9 +28,5 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)), 
+    path('loadplayers/', initialLoad, name='loadPlayers'),
 ]
-
-if 'manage.py' in sys.argv:
-    initPositions()
-    initTeams()
-    updatePlayers()

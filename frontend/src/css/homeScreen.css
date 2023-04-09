@@ -29,3 +29,14 @@
     margin-right: 10px;
     border-radius: 10px;
 }
+
+.right{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.homeContainer{
+    flex-shrink: 1;
+    min-height: 0;
+}

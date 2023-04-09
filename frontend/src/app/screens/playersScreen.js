@@ -135,29 +135,30 @@ export default function PlayersScreen (props) {
                         })}
                     </div>
                 </div>
-
-                {skaters.map((skater, index) => {
-                    const position = positions.find(position => position.id === skater.primaryPosition);
-                    const team = NHLTeams.find(team => team.id === skater.currentTeam);
-                    if (selectedPosition !== "All" && position.type !== selectedPosition) {
-                        return null;
+                <div class='list-container'>
+                    {skaters.map((skater, index) => {
+                        const position = positions.find(position => position.id === skater.primaryPosition);
+                        const team = NHLTeams.find(team => team.id === skater.currentTeam);
+                        if (selectedPosition !== "All" && position.type !== selectedPosition) {
+                            return null;
+                        }
+                        return (
+                            <SkaterCard key={index} skater={skater} position={position} team={team} setModal={setModal}></SkaterCard>
+                        )
+                        })
                     }
-                    return (
-                        <SkaterCard key={index} skater={skater} position={position} team={team} setModal={setModal}></SkaterCard>
-                    )
-                    })
-                }
-                {goalies.map((goalie, index) => {
-                    const position = positions.find(position => position.id === goalie.primaryPosition);
-                    const team = NHLTeams.find(team => team.id === goalie.currentTeam);
-                    if (selectedPosition !== "Goalie" && position.type !== selectedPosition) {
-                        return null;
+                    {goalies.map((goalie, index) => {
+                        const position = positions.find(position => position.id === goalie.primaryPosition);
+                        const team = NHLTeams.find(team => team.id === goalie.currentTeam);
+                        if (selectedPosition !== "Goalie" && position.type !== selectedPosition) {
+                            return null;
+                        }
+                        return (
+                            <GoalieCard key={index} goalie={goalie} position={position} team={team} setModal={setModal}></GoalieCard>
+                        )
+                        })
                     }
-                    return (
-                        <GoalieCard key={index} goalie={goalie} position={position} team={team} setModal={setModal}></GoalieCard>
-                    )
-                    })
-                }
+                </div>
             </div>
             <PlayerModal showModal={showModal} player={modalPlayer} position={modalPosition} team={modalTeam} setShowModal={setShowModal}></PlayerModal>
         </>

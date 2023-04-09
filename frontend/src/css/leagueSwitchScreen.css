@@ -20,7 +20,6 @@
 .enter-league-buttons {
     display: "flex";
     flex-direction: "row";
-    align-content: "end";
     background-color: antiquewhite;
     margin-right: 2%;
 }

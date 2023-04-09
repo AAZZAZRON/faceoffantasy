@@ -27,7 +27,7 @@
 
 .enter-league-button {
 
-    margin-right: 5%;
+    margin-left: 5%;
 
     padding-top: 2%;
     padding-bottom: 2%;
@@ -56,6 +56,9 @@
     margin-right: 2%;
 
     border-radius: 10px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #d8d8d8;
     box-shadow: 5px 5px 3px #818181;
 }
 

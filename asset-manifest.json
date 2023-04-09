@@ -1,12 +1,13 @@
 {
   "files": {
-    "main.css": "/faceoffantasy/static/css/main.d145cb65.css",
-    "main.js": "/faceoffantasy/static/js/main.0ed80d13.js",
+    "main.css": "/faceoffantasy/static/css/main.b392d0e4.css",
+    "main.js": "/faceoffantasy/static/js/main.2e06845b.js",
     "static/js/496.25abac0d.chunk.js": "/faceoffantasy/static/js/496.25abac0d.chunk.js",
     "static/media/kessler.jpeg": "/faceoffantasy/static/media/kessler.45236837cc2e7d8924f4.jpeg",
     "static/media/malkin.jpeg": "/faceoffantasy/static/media/malkin.2c654fd64e798bc58b09.jpeg",
     "static/media/mcdavid-matthews.jpeg": "/faceoffantasy/static/media/mcdavid-matthews.283e2de3a209c3b64c98.jpeg",
     "static/media/tampa-avs.jpg": "/faceoffantasy/static/media/tampa-avs.93bd4976b78ba9e5db15.jpg",
+    "static/media/bruins-avs.jpg": "/faceoffantasy/static/media/bruins-avs.fb44b8557e674b1d7537.jpg",
     "static/media/rangers.webp": "/faceoffantasy/static/media/rangers.f92af3d172f67fea2495.webp",
     "static/media/karlsson.jpeg": "/faceoffantasy/static/media/karlsson.8391e3de3df3a6b70788.jpeg",
     "static/media/mcdavid-crosby.jpeg": "/faceoffantasy/static/media/mcdavid-crosby.1b32407aff74ea70a5aa.jpeg",
@@ -15,17 +16,16 @@
     "static/media/mcdavid.jpeg": "/faceoffantasy/static/media/mcdavid.334a94f6630e66024525.jpeg",
     "static/media/rangers-flyers.webp": "/faceoffantasy/static/media/rangers-flyers.753e02fd43a4e8c16233.webp",
     "static/media/avs-preds.jpg": "/faceoffantasy/static/media/avs-preds.4a7d69ac44436844e557.jpg",
-    "static/media/bruins-avs.avif": "/faceoffantasy/static/media/bruins-avs.736bac2bdb2921af55b8.avif",
     "static/media/wild-panthers.jpg": "/faceoffantasy/static/media/wild-panthers.d86f059eae5f91c9636d.jpg",
     "static/media/marchand.jpeg": "/faceoffantasy/static/media/marchand.3a26f6f60871c1da2de8.jpeg",
     "static/media/logo.png": "/faceoffantasy/static/media/logo.dc5a79ffea7fe086d292.png",
     "index.html": "/faceoffantasy/index.html",
-    "main.d145cb65.css.map": "/faceoffantasy/static/css/main.d145cb65.css.map",
-    "main.0ed80d13.js.map": "/faceoffantasy/static/js/main.0ed80d13.js.map",
+    "main.b392d0e4.css.map": "/faceoffantasy/static/css/main.b392d0e4.css.map",
+    "main.2e06845b.js.map": "/faceoffantasy/static/js/main.2e06845b.js.map",
     "496.25abac0d.chunk.js.map": "/faceoffantasy/static/js/496.25abac0d.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.d145cb65.css",
-    "static/js/main.0ed80d13.js"
+    "static/css/main.b392d0e4.css",
+    "static/js/main.2e06845b.js"
   ]
 }

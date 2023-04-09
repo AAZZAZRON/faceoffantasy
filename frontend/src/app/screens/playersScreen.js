@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { getDataCache } from "../utils/api/caching";
 import { Searchbar } from "../components/searchbar";
 import { PlayerModal } from "../components/playerModal";
+import ReactPaginate from 'react-paginate';
 
 export default function PlayersScreen (props) {
     props.setMessage("All Players");
@@ -17,6 +18,11 @@ export default function PlayersScreen (props) {
     const [sortingBy, setSortingBy] = useState("-1");
     const [sortingOrder, setSortingOrder] = useState(-1); 
     const [isLoading, setIsLoading] = useState(true);
+
+    // for pagination
+    const itemsPerPage = 20;
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageCount, setPageCount] = useState(-1);
 
     // for modal
     const [showModal, setShowModal] = useState(false);
@@ -56,6 +62,7 @@ export default function PlayersScreen (props) {
             setSkaters(newSkaters);
             setSortingBy(sortParam);
         }
+        setCurrentPage(1);
     }
 
     const goalieSortParams = [
@@ -85,6 +92,7 @@ export default function PlayersScreen (props) {
             setGoalies(newGoalies);
             setSortingBy(sortParam);
         }
+        setCurrentPage(1);
     }
 
     const changeSelectedPosition = (position) => {
@@ -96,6 +104,18 @@ export default function PlayersScreen (props) {
         if (position === "Goalie") {
             setSortingBy("-1");
             setSkaters(allSkaters);
+        }
+
+        if (position === "All") { // change page count for pagination
+            setPageCount(Math.ceil((skaters.length) / itemsPerPage));
+        } else if (position === "Goalie") {
+            setPageCount(Math.ceil((goalies.length) / itemsPerPage));
+        } else {
+            var tmp = skaters.filter((skater) => {
+                const tmpPosition = positions.find(position => position.id === skater.primaryPosition);
+                return position === "All" || tmpPosition.type === position;
+            });
+            setPageCount(Math.ceil((tmp.length) / itemsPerPage));
         }
         setSelectedPosition(position); 
     }
@@ -128,6 +148,7 @@ export default function PlayersScreen (props) {
     useEffect(() => {
         onStartup();
     }, []);
+
 
     return (
         <>
@@ -162,8 +183,12 @@ export default function PlayersScreen (props) {
                         })}
                     </div>
                 </div>
-                <div class='list-container'>
-                    {skaters.map((skater, index) => {
+                <div class='list-container' id='list-container'>
+                    {skaters.filter((skater) => {
+                        const position = positions.find(position => position.id === skater.primaryPosition);
+                        return selectedPosition === "All" || position.type === selectedPosition;
+                    })
+                    .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((skater, index) => {
                         const position = positions.find(position => position.id === skater.primaryPosition);
                         const team = NHLTeams.find(team => team.id === skater.currentTeam);
                         if (selectedPosition !== "All" && position.type !== selectedPosition) {
@@ -174,7 +199,7 @@ export default function PlayersScreen (props) {
                         )
                         })
                     }
-                    {goalies.map((goalie, index) => {
+                    {goalies.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((goalie, index) => {
                         const position = positions.find(position => position.id === goalie.primaryPosition);
                         const team = NHLTeams.find(team => team.id === goalie.currentTeam);
                         if (selectedPosition !== "Goalie" && position.type !== selectedPosition) {
@@ -185,6 +210,27 @@ export default function PlayersScreen (props) {
                         )
                         })
                     }
+                </div>
+                <div class='paginate'>
+                <ReactPaginate
+                    activeClassName={'item active '}
+                    breakClassName={'item break-me '}
+                    breakLabel={'...'}
+                    containerClassName={'pagination'}
+                    disabledClassName={'disabled-page'}
+                    marginPagesDisplayed={2}
+                    nextClassName={"item next "}
+                    nextLabel={">"}
+                    onPageChange={(e) => {
+                        setCurrentPage(e.selected + 1);
+                        document.getElementById('list-container').scrollTo(0, 0);
+                    }}
+                    pageCount={pageCount !== -1 ? pageCount : Math.ceil(skaters.length / itemsPerPage)}
+                    pageClassName={'item pagination-page '}
+                    pageRangeDisplayed={2}
+                    previousClassName={"item previous"}
+                    previousLabel={"<"}
+                />
                 </div>
             </div>
             <PlayerModal showModal={showModal} player={modalPlayer} position={modalPosition} team={modalTeam} setShowModal={setShowModal}></PlayerModal>

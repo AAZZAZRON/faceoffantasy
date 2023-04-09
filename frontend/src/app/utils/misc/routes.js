@@ -11,6 +11,7 @@ const Routes = {
   POST: {
     SIGNUP: `${BASEURL}/api/signup`,
     CREATELEAGUE: `${BASEURL}/api/createleague`,
+    JOINLEAGUE: `${BASEURL}/api/joinleague`,
   },
   USER: `${BASEURL}/api/users`,
 

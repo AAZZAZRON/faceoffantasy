@@ -8,19 +8,23 @@ import TextField from '@mui/material/TextField';
 import "../../css/leagueSwitchScreen.css";
 import Routes from '../utils/misc/routes';
 import { getDataCache } from '../utils/api/caching';
+import { callAndStore } from '../utils/api/callApi';
+import routes from '../utils/misc/routes';
 
 export default function LeagueSwitchScreen(props) {
     
     const [showLeagueCreationModal, setShowLeagueCreationModal] = React.useState(false);
+    const [showLeagueJoinModal, setShowLeagueJoinModal] = React.useState(false);
 
     props.setMessage("My leagues");
     return (<>
         <LeagueCreationModal showLeagueCreationModal={showLeagueCreationModal} setShowLeagueCreationModal={setShowLeagueCreationModal}></LeagueCreationModal>
+        <LeagueJoinModal showLeagueJoinModal={showLeagueJoinModal} setShowLeagueJoinModal={setShowLeagueJoinModal}></LeagueJoinModal>
         <div className={"league-container"}>
             <div className={"top-bar"}>
                 <h2>Select a League</h2>
                 <div className={"enter-league-buttons"}>
-                    <button className={"enter-league-button"} style={{fontWeight: "bold"}}>Join League</button>
+                    <button className={"enter-league-button"} style={{fontWeight: "bold"}} onClick={() => setShowLeagueJoinModal(true)}>Join League</button>
                     <button className={"enter-league-button"} style={{fontWeight: "bold", backgroundColor: "#add8e6"}} onClick={() => setShowLeagueCreationModal(true)}>Create League</button>
                 </div>
             </div>
@@ -143,6 +147,7 @@ function LeagueCreationModal(props) {
         .then((response) => response.json())
         .then((data) => {
             console.log('Success:', data);
+            callAndStore("LEAGUES", `${routes.LEAGUES}/`);
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -198,6 +203,99 @@ function LeagueCreationModal(props) {
                         sx={{ mt: 3, mb: 2 }}
                     >
                         create
+                    </Button>
+                    </div>
+                </Box>
+            </Modal>
+        </div>
+    )
+}
+
+function LeagueJoinModal(props) {
+    const [modalIsOpen , setModalIsOpen] = React.useState(false);
+
+    useEffect(() => {
+        if (props.showLeagueJoinModal) setModalIsOpen(true);
+        else setModalIsOpen(false);
+    }, [props.showLeagueJoinModal]);
+
+    function closeModal() {
+        setModalIsOpen(false);
+        props.setShowLeagueJoinModal(false);
+    }
+    
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+
+        // post to api
+        const code = data.get('Code');
+        console.log(code);
+
+        const ownerId = getDataCache("user").id;
+
+        fetch(`${Routes.POST.JOINLEAGUE}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "league-id": code,
+                'user': ownerId,
+        }),
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log('Success:', data);
+            callAndStore("LEAGUES", `${routes.LEAGUES}/`);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+
+        // close modal
+        closeModal();
+    }
+
+    return (
+        <div>
+            <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={Styles}>
+                <div style={{borderBottom: "solid", borderColor: "lightgray", marginBottom: "3%"}}><h2>Join League</h2></div>
+                <Box component="form"
+                sx={{
+                    my: 1,
+                    mx: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-start',
+                    alignItems: 'flex-start',
+                }}
+                onSubmit={handleSubmit}
+                autoComplete="off"
+                >
+                    <div className='league-form-container'>
+                        <h5>League Code</h5>
+                        <TextField
+                        required
+                        fullWidth
+                        id="Code"
+                        label="Code"
+                        name="Code"
+                        sx = {{ mb: 3, width: '100%' }}
+                        InputProps={{
+                            inputMode: "numeric",
+                            pattern: "^[a-zA-Z0-9]*$",
+                            minLength: 3,
+                            maxLength: 30,
+                          }}
+                        />
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                    >
+                        join
                     </Button>
                     </div>
                 </Box>

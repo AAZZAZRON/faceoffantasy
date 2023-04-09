@@ -12,6 +12,15 @@ export const getDataCache = (cacheName) => {
     return cache;
 }
 
+export const deleteDataCache = (cacheName) => {
+    try {
+        localStorage.removeItem(cacheName);
+    }
+    catch (e) {
+        console.log(e);
+    }
+}
+
 // this doesnt work i combined it with callAPI
 export const setDataCache = async (cacheName, data) => {
     console.log(data);

@@ -30,6 +30,7 @@ urlpatterns = [
     path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/createleague/', league_views.create_league, name='create_league'),
+    path('api/joinleague/', league_views.join_league, name='join_league'),
     path('api/createteam/', team_views.create_team, name='create_team'),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),

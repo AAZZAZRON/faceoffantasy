@@ -31,3 +31,27 @@ def create_league(request):
         message['message'] = 'League created successfully'
         message['success'] = True
     return JsonResponse(message)
+
+@csrf_exempt
+def join_league(request):
+    message = {'message': '', 'success': False}
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        league_id = data['league-id']
+        user = User.objects.get(id=data['user'])
+        print(data)
+        if (not league_id):
+            message['message'] = 'Code is required'
+            return JsonResponse(message)
+        if not League.objects.filter(id=league_id):
+            message['message'] = 'Invalid Code'
+            return JsonResponse(message)
+        league = League.objects.get(id=league_id)
+        if league.users.filter(id=user.id):
+            message['message'] = 'You are already in this league'
+            return JsonResponse(message)
+        league.users.add(data['user'])
+        league.save()
+        message['message'] = 'League joined successfully'
+        message['success'] = True
+    return JsonResponse(message)

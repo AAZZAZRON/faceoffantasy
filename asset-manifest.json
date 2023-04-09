@@ -1,16 +1,18 @@
 {
   "files": {
-    "main.css": "/lyonhacks3/static/css/main.0e526b69.css",
-    "main.js": "/lyonhacks3/static/js/main.04e98eaf.js",
+    "main.css": "/lyonhacks3/static/css/main.b3db6a09.css",
+    "main.js": "/lyonhacks3/static/js/main.b894d19a.js",
     "static/js/496.2e7f66eb.chunk.js": "/lyonhacks3/static/js/496.2e7f66eb.chunk.js",
-    "static/media/logo.jpg": "/lyonhacks3/static/media/logo.0f22500b50521f1e4ab4.jpg",
+    "static/media/login.jpg": "/lyonhacks3/static/media/login.283e2de3a209c3b64c98.jpg",
+    "static/media/signup.jpg": "/lyonhacks3/static/media/signup.5ed0b27429090b9a09e6.jpg",
+    "static/media/logo.png": "/lyonhacks3/static/media/logo.dc5a79ffea7fe086d292.png",
     "index.html": "/lyonhacks3/index.html",
-    "main.0e526b69.css.map": "/lyonhacks3/static/css/main.0e526b69.css.map",
-    "main.04e98eaf.js.map": "/lyonhacks3/static/js/main.04e98eaf.js.map",
+    "main.b3db6a09.css.map": "/lyonhacks3/static/css/main.b3db6a09.css.map",
+    "main.b894d19a.js.map": "/lyonhacks3/static/js/main.b894d19a.js.map",
     "496.2e7f66eb.chunk.js.map": "/lyonhacks3/static/js/496.2e7f66eb.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.0e526b69.css",
-    "static/js/main.04e98eaf.js"
+    "static/css/main.b3db6a09.css",
+    "static/js/main.b894d19a.js"
   ]
 }

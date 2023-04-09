@@ -1,2 +1,2 @@
-release: python manage.py migrate --run-syncdb
+release: python manage.py migrate --run-syncdb && python manage.py shell --command="from scripts.onLoadApi import initialLoad; initialLoad();"
 web: gunicorn lyonhacks3.wsgi --log-file -

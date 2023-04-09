@@ -171,24 +171,29 @@ const rosterStatus = (player) => {
     return 'Unknown';
 }
 
+export function HeadShot({player, setModal, position, team, avatar}) {
+    return (
+    <div className="card-header" onClick={() => {
+        setModal(player, position, team);
+    }}>
+        <img src={player.avatar} alt="headshot" className="headshot"/>
+        <div>
+            <div className="name">{player.firstName} {player.lastName}</div>
+            <div className="card-header-bottom">
+                <div className="team">{team.abbreviation}</div>
+                <div className="position">{position.abbreviation}</div>
+            </div>
+        </div>
+    </div>
+    );
+}
+
 function SkaterCard(props) {
     const skater = props.skater;
     return (
-        <div class="card" style={{flexDirection: 'row'}}>
-            <div class="card-header" onClick={() => {
-                props.setModal(skater, props.position, props.team);
-            }}>
-                <img src={skater.avatar} alt="headshot" class="headshot"/>
-                <div>
-                    <div class="name">{skater.firstName} {skater.lastName}</div>
-                    <div class="card-header-bottom">
-                        <div class="team">{props.team.abbreviation}</div>
-                        <div class="position">{props.position.abbreviation}</div>
-                        <div class='roster-status'>{rosterStatus(skater)}</div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
+        <div className="card" style={{flexDirection: 'row'}}>
+            <HeadShot setModal={props.setModal} player={skater} position={props.position} team={props.team}></HeadShot>
+            <div className="card-body">
                 <div>{skater.games}</div>
                 <div>{skater.goals}</div>
                 <div>{skater.assists}</div>
@@ -208,19 +213,7 @@ function GoalieCard(props) {
     const goalie = props.goalie;
     return (
         <div class="card" style={{flexDirection: 'row'}}>
-            <div class="card-header" onClick={() => {
-                props.setModal(goalie, props.position, props.team);
-                }}>
-                <img src={goalie.avatar} alt="headshot" class="headshot"/>
-                <div>
-                    <div class="name">{goalie.firstName} {goalie.lastName}</div>
-                    <div class="card-header-bottom">
-                        <div class="team">{props.team.abbreviation}</div>
-                        <div class="position">{props.position.abbreviation}</div>
-                        <div class='roster-status'>{rosterStatus(goalie)}</div>
-                    </div>
-                </div>
-            </div>
+            <HeadShot setModal={props.setModal} position={props.position} team={props.team} player={goalie}></HeadShot>
             <div class="card-body">
                 <div>{goalie.gamesStarted}</div>
                 <div>{goalie.wins}</div>

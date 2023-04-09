@@ -3,7 +3,7 @@ from player.models import Position, NHLTeam, Skater
 from scripts.dailyApiUpdate import updatePlayers
 from django.http import HttpResponse
 
-def initialLoad(request):
+def initialLoad():
     if not Skater.objects.all():
         initPositions()
         initTeams()

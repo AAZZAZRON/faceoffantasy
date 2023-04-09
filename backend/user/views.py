@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
-class UserView(viewsets.ModelViewSet):
+class UserView(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 

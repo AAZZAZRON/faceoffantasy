@@ -1,8 +1,14 @@
 import React, {useEffect, useState} from "react";
 import "../../css/homeScreen.css";
-import {SessionContext} from "../utils/sessions";
+import {SessionContext} from "../utils/session";
+import { loggedIn } from "../utils/AuthService";
 
 const HomeLeague = ({session}) => {
+
+    if(!loggedIn()) {
+        window.location.href = "/lyonhacks3/login";
+    }
+
     const [rank, setRank] = useState("");
     const [score, setScore] = useState("");
 

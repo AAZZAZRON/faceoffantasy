@@ -1,5 +1,3 @@
-// @ts-ignore
-// const BASEURL = import.meta.env.DEV ? "https://auth.jimmyliu.dev" : "https://maclyonsden.com";
 const BASEURL = "https://lyonhacks3-production.up.railway.app";
 
 const Routes = {
@@ -10,9 +8,9 @@ const Routes = {
     REFRESH: `${BASEURL}/api/token/refresh`,
   },
   POST: {
-    USER: `${BASEURL}/api/users`,
+    SIGNUP: `${BASEURL}/api/signup`,
   },
-  USER: `${BASEURL}/api/v3/obj/users`,
+  USER: `${BASEURL}/api/users`,
 
   // other
   SKATERS: `${BASEURL}/api/skaters/`,

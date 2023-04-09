@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import HomeScreen from "./screens/homeScreen";
 import LeagueScreen from "./screens/leagueScreen";
 import PlayersScreen from "./screens/playersScreen";
+import LoginScreen from './screens/loginScreen';
 import SignupScreen from './screens/signupScreen';
 import LeagueSwitchScreen from './screens/leageSwitchScreen';
 import { setDataCache, getDataCache } from './utils/api/caching';
@@ -43,7 +44,7 @@ export default function Base (props) {
         "/lyonhacks3/switch": "Switch"
     };
 
-    const noSideNavBar = ["/lyonhacks3/signup"];
+    const noSideNavBar = ["/lyonhacks3/signup", "/lyonhacks3/login"];
 
     var selected = selections[window.location.pathname];
     const basePath = "/lyonhacks3";
@@ -51,7 +52,8 @@ export default function Base (props) {
         <BrowserRouter>
             {/* routes that don't have the sidebar and navbar */}
             <Routes>
-                <Route path={basePath + '/signup'} element={<SignupScreen setMessage={setMessage}></SignupScreen>}></Route>
+                <Route path={basePath + '/login'} element={<LoginScreen handleCallback={setMessage}></LoginScreen>}></Route>
+                <Route path={basePath + '/signup'} element={<SignupScreen handleCallback={setMessage}></SignupScreen>}></Route>
             </Routes>
 
             {/* routes that have the sidebar and navbar */}

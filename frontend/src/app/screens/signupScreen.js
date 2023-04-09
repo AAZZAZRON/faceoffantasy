@@ -89,7 +89,7 @@ export default function SignupScreen(props) {
                             for(let i = 0; i < json.length; i++) {
                                 if(json[i].username === username) {
                                     setUser(json[i]);
-                                    window.location.href = "/lyonhacks3/";
+                                    window.location.href = "/faceoffantasy/";
                                     break;
                                 }
                             }
@@ -184,7 +184,7 @@ export default function SignupScreen(props) {
               </Button>
               <Grid container>
                 <Grid item>
-                  <Link href="/lyonhacks3/login" variant="body2">
+                  <Link href="/faceoffantasy/login" variant="body2">
                     {"Already have an account? Sign In"}
                   </Link>
                 </Grid>

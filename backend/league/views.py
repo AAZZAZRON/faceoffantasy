@@ -15,14 +15,13 @@ def create_league(request):
     message = {'message': '', 'success': False}
     if request.method == 'POST':
         data = json.loads(request.body)
-        name = data['name']
-        if (not name):
+        if (not data['name']):
             message['message'] = 'League name is required'
             return JsonResponse(message)
-        if League.objects.filter(name=name):
+        if League.objects.filter(name=data['name']):
             message['message'] = 'A league with this name already exists'
             return JsonResponse(message)
-        league = League.objects.create(name=name)
+        league = League.objects.create(**data)
         league.save()
         message['message'] = 'League created successfully'
         message['success'] = True

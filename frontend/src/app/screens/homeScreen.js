@@ -93,7 +93,7 @@ const HomeTeam = ({team, skaters, goalies, positions}) => {
 export default function HomeScreen (props) {
     const user = getUser()
     if(user === null) console.log("logged in but no user...");
-    props.setMessage("Hello, " + user["username"] + "!");
+    else props.setMessage("Hello, " + user["username"] + "!");
     const [team, setTeam] = useState(undefined);
     const [allSkaters, setAllSkaters] = useState([]); // for searching
     const [allGoalies, setAllGoalies] = useState([]); // for searching

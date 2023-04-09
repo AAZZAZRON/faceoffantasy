@@ -66,7 +66,7 @@ export default function Base (props) {
             </Routes>
 
             {/* routes that have the sidebar and navbar */}
-            <div className="row h-100" style={{display: ((noSideNavBar.includes(window.location.pathname) || (checkLoggedIn && !loggedIn())) ? 'none' : 'inline')}}>
+            <div className="row h-100" style={{display: ((noSideNavBar.includes(window.location.pathname) || (checkLoggedIn && !loggedIn())) ? 'none' : 'auto')}}>
             <div className="row h-100 col-12">
                 <span className="col-lg-2 col-md-3 col-sm-4 p-0">
                     <Sidebar selected={selected}></Sidebar>

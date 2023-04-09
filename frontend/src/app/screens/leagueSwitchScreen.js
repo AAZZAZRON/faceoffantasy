@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import Modal from 'react-modal';
 
+import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
 import "../../css/leagueSwitchScreen.css";
+import Routes from '../utils/misc/routes';
 
 export default function LeagueSwitchScreen(props) {
     
@@ -45,7 +47,6 @@ function LeagueCreationModal(props) {
     const [modalIsOpen , setModalIsOpen] = React.useState(false);
 
     useEffect(() => {
-        console.log(props.showLeagueCreationModal);
         if (props.showLeagueCreationModal) setModalIsOpen(true);
         else setModalIsOpen(false);
     }, [props.showLeagueCreationModal]);
@@ -55,171 +56,145 @@ function LeagueCreationModal(props) {
         props.setShowLeagueCreationModal(false);
     }
 
+    const rosterSettings = {"Forwards Allowed" : 6, "Defensemen Allowed": 4, "Goalies Allowed": 2};
+    const pointsSettings = {"Goals" : 3, "Assists" : 2, "Penalty Minutes" : 0.5, "Shots" : 0.1, "Hits" : 0.5, "Power Play Points" : 1, "Short Handed Points" : 2, "Blocks" : 0.5, "Wins" : 3, "Losses" : 0, "Overtime Losses" : 1, "Saves" : 0.2, "Shutouts" : 3, "Goals Against" : -1};
 
+    function RosterSettingsForms() {
+        return (
+            <div>
+                {Object.keys(rosterSettings).map((setting, index) => (
+                    <div key={index}>
+                        <TextField
+                        id={setting}
+                        label={setting}
+                        name={setting}
+                        type="number"
+                        required
+                        inputProps={{ min: 0, max: 10, step: 1 }}
+                        defaultValue={rosterSettings[setting]}
+                        sx={{ my: 1, width: '30%' }}
+                        />
+                        </div>
+                ))}
+            </div>
+        )
+    }
+
+    function PointsSettingsForms() {
+        return (
+            <div>
+                {Object.keys(pointsSettings).map((setting, index) => (
+                    <div key={index}>
+                        <TextField
+                        id={setting}
+                        label={setting}
+                        name={setting}
+                        type="number"
+                        required
+                        inputProps={{ min: -10, max: 10, step: 0.1 }}
+                        defaultValue={pointsSettings[setting]}
+                        sx={{ my: 1, width: '30%' }}
+                        />
+                        </div>
+                ))}
+            </div>
+        )
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+
+        // post to api
+        const leagueName = data.get('Name');
+        const rosterSettings = {"Forwards Allowed" : data.get('Forwards Allowed'), "Defensemen Allowed": data.get('Defensemen Allowed'), "Goalies Allowed": data.get('Goalies Allowed')};
+        const pointsSettings = {"Goals" : data.get('Goals'), "Assists" : data.get('Assists'), "Penalty Minutes" : data.get('Penalty Minutes'), "Shots" : data.get('Shots'), "Hits" : data.get('Hits'), "Power Play Points" : data.get('Power Play Points'), "Short Handed Points" : data.get('Short Handed Points'), "Blocks" : data.get('Blocks'), "Wins" : data.get('Wins'), "Losses" : data.get('Losses'), "Overtime Losses" : data.get('Overtime Losses'), "Saves" : data.get('Saves'), "Shutouts" : data.get('Shutouts'), "Goals Against" : data.get('Goals Against')};
+        fetch(`${Routes.POST.CREATELEAGUE}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "Name": leagueName,
+                "NumForwards": rosterSettings["Forwards Allowed"],
+                "NumDefensemen": rosterSettings["Defensemen Allowed"],
+                "NumGoalies": rosterSettings["Goalies Allowed"],
+                "Goals": pointsSettings["Goals"],
+                "Assists": pointsSettings["Assists"],
+                "Pim": pointsSettings["Penalty Minutes"],
+                "Shots": pointsSettings["Shots"],
+                "Hits": pointsSettings["Hits"],
+                "PowerPlayPoints": pointsSettings["Power Play Points"],
+                "ShortHandedPoints": pointsSettings["Short Handed Points"],
+                "Blocked": pointsSettings["Blocks"],
+                "Wins": pointsSettings["Wins"],
+                "Losses": pointsSettings["Losses"],
+                "Ot": pointsSettings["Overtime Losses"],
+                "Saves": pointsSettings["Saves"],
+                "Shutouts": pointsSettings["Shutouts"],
+                "GoalsAgainst": pointsSettings["Goals Against"]
+        }),
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+
+        // close modal
+        closeModal();
+    }
 
     return (
         <div>
             <Modal isOpen={modalIsOpen} onRequestClose={closeModal} style={Styles}>
-                <h2>Create League</h2>
-                <Box
-                component="form"
+                <div style={{borderBottom: "solid", borderColor: "lightgray", marginBottom: "3%"}}><h2>Create League</h2></div>
+                <Box component="form"
                 sx={{
-                    '& .MuiTextField-root': { m: 1, width: '25ch' },
+                    my: 1,
+                    mx: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-start',
+                    alignItems: 'flex-start',
                 }}
-                noValidate
+                onSubmit={handleSubmit}
                 autoComplete="off"
                 >
-                <div>
-                    <TextField
-                    required
-                    id="outlined-required"
-                    label="Required"
-                    defaultValue="Hello World"
-                    />
-                    <TextField
-                    disabled
-                    id="outlined-disabled"
-                    label="Disabled"
-                    defaultValue="Hello World"
-                    />
-                    <TextField
-                    id="outlined-password-input"
-                    label="Password"
-                    type="password"
-                    autoComplete="current-password"
-                    />
-                    <TextField
-                    id="outlined-read-only-input"
-                    label="Read Only"
-                    defaultValue="Hello World"
-                    InputProps={{
-                        readOnly: true,
-                    }}
-                    />
-                    <TextField
-                    id="outlined-number"
-                    label="Number"
-                    type="number"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    />
-                    <TextField id="outlined-search" label="Search field" type="search" />
-                    <TextField
-                    id="outlined-helperText"
-                    label="Helper text"
-                    defaultValue="Default Value"
-                    helperText="Some important text"
-                    />
-                </div>
-                <div>
-                    <TextField
-                    required
-                    id="filled-required"
-                    label="Required"
-                    defaultValue="Hello World"
-                    variant="filled"
-                    />
-                    <TextField
-                    disabled
-                    id="filled-disabled"
-                    label="Disabled"
-                    defaultValue="Hello World"
-                    variant="filled"
-                    />
-                    <TextField
-                    id="filled-password-input"
-                    label="Password"
-                    type="password"
-                    autoComplete="current-password"
-                    variant="filled"
-                    />
-                    <TextField
-                    id="filled-read-only-input"
-                    label="Read Only"
-                    defaultValue="Hello World"
-                    InputProps={{
-                        readOnly: true,
-                    }}
-                    variant="filled"
-                    />
-                    <TextField
-                    id="filled-number"
-                    label="Number"
-                    type="number"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    variant="filled"
-                    />
-                    <TextField
-                    id="filled-search"
-                    label="Search field"
-                    type="search"
-                    variant="filled"
-                    />
-                    <TextField
-                    id="filled-helperText"
-                    label="Helper text"
-                    defaultValue="Default Value"
-                    helperText="Some important text"
-                    variant="filled"
-                    />
-                </div>
-                <div>
-                    <TextField
-                    required
-                    id="standard-required"
-                    label="Required"
-                    defaultValue="Hello World"
-                    variant="standard"
-                    />
-                    <TextField
-                    disabled
-                    id="standard-disabled"
-                    label="Disabled"
-                    defaultValue="Hello World"
-                    variant="standard"
-                    />
-                    <TextField
-                    id="standard-password-input"
-                    label="Password"
-                    type="password"
-                    autoComplete="current-password"
-                    variant="standard"
-                    />
-                    <TextField
-                    id="standard-read-only-input"
-                    label="Read Only"
-                    defaultValue="Hello World"
-                    InputProps={{
-                        readOnly: true,
-                    }}
-                    variant="standard"
-                    />
-                    <TextField
-                    id="standard-number"
-                    label="Number"
-                    type="number"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    variant="standard"
-                    />
-                    <TextField
-                    id="standard-search"
-                    label="Search field"
-                    type="search"
-                    variant="standard"
-                    />
-                    <TextField
-                    id="standard-helperText"
-                    label="Helper text"
-                    defaultValue="Default Value"
-                    helperText="Some important text"
-                    variant="standard"
-                    />
-                </div>
+                    <div className='league-form-container'>
+                        <h5>League Name</h5>
+
+                        <TextField
+                        required
+                        fullWidth
+                        id="Name"
+                        label="Name"
+                        name="Name"
+                        sx = {{ mb: 3, width: '100%' }}
+                        InputProps={{
+                            inputMode: "numeric",
+                            pattern: "^[a-zA-Z0-9]*$",
+                            minLength: 3,
+                            maxLength: 30,
+                          }}
+                        />
+
+                        <h5>Roster Settings</h5>
+                        <RosterSettingsForms />
+
+                        <h5>Points Settings</h5>
+                        <PointsSettingsForms />
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                    >
+                        create
+                    </Button>
+                    </div>
                 </Box>
             </Modal>
         </div>
@@ -229,7 +204,7 @@ function LeagueCreationModal(props) {
 const Styles = {
     content: {
         
-        width: '50%',
+        width: '40%',
         height: '70%',
         top: '50%',
         left: '50%',

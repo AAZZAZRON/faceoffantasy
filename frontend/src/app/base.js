@@ -16,7 +16,7 @@ import { callAndStore } from './utils/api/callApi';
 import { loggedIn } from './utils/AuthService';
 
 export default function Base (props) {
-    const checkLoggedIn = true;
+    const checkLoggedIn = false;
 
     // sent to login if not logged in
     useEffect(() => {

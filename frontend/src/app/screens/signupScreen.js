@@ -10,8 +10,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import bg from '../../images/signup.jpg';
 import Routes from '../utils/misc/routes';
-import { setToken, setRefresh } from '../utils/AuthService';
-import {SessionContext} from '../utils/session';
+import { setToken, setRefresh, setUser } from '../utils/AuthService';
 
 function Copyright(props) {
   return (
@@ -31,15 +30,14 @@ const theme = createTheme();
 export default function SignupScreen(props) {
 
   const [notify, setNotify] = React.useState("");
-  const session = React.useContext(SessionContext);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    let email = data.get('email');
-    let username = data.get('username');
-    let password = data.get('password');
-    let password2 = data.get('password2');
+    let email = data.get('email')+"";
+    let username = data.get('username')+"";
+    let password = data.get('password')+"";
+    let password2 = data.get('password2')+"";
     fetch(`${Routes.POST.SIGNUP}/`, {
         method: "POST",
         headers: {
@@ -67,9 +65,7 @@ export default function SignupScreen(props) {
                         password: password,
                         }),
                     })
-                .then((response) => {
-                  return response.json();
-                })
+                .then((response) => response.json())
               .then((json) => {
                 if(json.access && json.refresh) {
                   setToken(json.access);
@@ -79,8 +75,7 @@ export default function SignupScreen(props) {
                       .then((json) => {
                             for(let i = 0; i < json.length; i++) {
                                 if(json[i].username === username) {
-                                    session.setUser(json[i]);
-                                    session.updateToken(json.access);
+                                    setUser(json[i]);
                                     window.location.href = "/lyonhacks3/";
                                     break;
                                 }

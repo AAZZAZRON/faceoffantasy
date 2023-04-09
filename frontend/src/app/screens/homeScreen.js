@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from "react";
 import "../../css/homeScreen.css";
-import {SessionContext} from "../utils/session";
 import { loggedIn } from "../utils/AuthService";
 
-const HomeLeague = ({session}) => {
+const HomeLeague = () => {
 
     if(!loggedIn()) {
         window.location.href = "/lyonhacks3/login";
@@ -50,8 +49,6 @@ const HomeLeague = ({session}) => {
 export default function HomeScreen (props) {
 
     props.setMessage("Hello, <user>!");
-    const session = React.useContext(SessionContext);
-    console.log(session);
 
     return (
         <>
@@ -65,7 +62,7 @@ export default function HomeScreen (props) {
                     Watchlist
                 </div>
                 <div className="league align-bottom">
-                    <HomeLeague session={session}></HomeLeague>
+                    <HomeLeague></HomeLeague>
                 </div>
             </div>
         </>

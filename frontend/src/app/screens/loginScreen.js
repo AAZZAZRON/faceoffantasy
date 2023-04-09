@@ -10,9 +10,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import bg from '../../images/login.jpg';
 import Routes from '../utils/misc/routes';
-import { setToken, setRefresh } from '../utils/AuthService';
-import {SessionContext} from '../utils/session';
-import { collapseClasses } from '@mui/material';
+import { setToken, setRefresh, setUser } from '../utils/AuthService';
 
 function Copyright(props) {
   return (
@@ -32,13 +30,12 @@ const theme = createTheme();
 export default function LoginScreen(props) {
 
   const [notify, setNotify] = React.useState("");
-  const session = React.useContext(SessionContext);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    let username = data.get('username');
-    let password = data.get('password');
+    let username = data.get('username')+"";
+    let password = data.get('password')+"";
     fetch(`${Routes.AUTH.LOGIN}/`, {
         method: "POST",
         headers: {
@@ -59,8 +56,8 @@ export default function LoginScreen(props) {
               .then((json) => {
                     for(let i = 0; i < json.length; i++) {
                         if(json[i].username === username) {
-                            session.setUser(json[i]);
-                            session.updateToken(json.access);
+                            setUser(json[i]);
+                            window.location.href = "/lyonhacks3/";
                             break;
                         }
                     }

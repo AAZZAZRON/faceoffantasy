@@ -218,11 +218,11 @@ function GoalieCard(props) {
                 <div>{goalie.gamesStarted}</div>
                 <div>{goalie.wins}</div>
                 <div>{goalie.goalsAgainst}</div>
-                <div>{Math.round(goalie.goalAgainstAverage * 100) / 100}</div>
+                <div>{(Math.round(goalie.goalAgainstAverage * 100) / 100).toFixed(2)}</div>
                 <div>{goalie.saves}</div>
                 <div>{goalie.shutouts}</div>
                 <div>{goalie.ot}</div>
-                <div>{Math.round(goalie.savePercentage * 1000) / 1000 }</div>
+                <div>{(Math.round(goalie.savePercentage * 1000) / 1000).toFixed(3)}</div>
             </div>
         </div>
     )

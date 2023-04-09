@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
-class LeagueView(viewsets.ModelViewSet):
+class LeagueView(viewsets.ReadOnlyModelViewSet):
     queryset = League.objects.all()
     serializer_class = LeagueSerializer
 

@@ -8,9 +8,9 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import bg from '../../images/login.jpg';
 import Routes from '../utils/misc/routes';
 import { setToken, setRefresh, setUser } from '../utils/AuthService';
+import { getRandomImage } from '../utils/imageRandomizer';
 
 function Copyright(props) {
   return (
@@ -67,6 +67,8 @@ export default function LoginScreen(props) {
         }
       });
   };
+
+  const bg = getRandomImage();
 
   return (
     <ThemeProvider theme={theme}>

@@ -3,6 +3,8 @@ from .serializers import *
 import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+import sys
+sys.path.append("..")
 from ..league.models import League
 
 # Create your views here.

@@ -7,9 +7,9 @@ import { PlayerModal } from "../components/playerModal";
 
 export default function PlayersScreen (props) {
 
-    if(!loggedIn()) {
-        window.location.href = "/lyonhacks3/login";
-    }
+    // if(!loggedIn()) {
+    //     window.location.href = "/lyonhacks3/login";
+    // }
 
     props.setMessage("<team name>'s Roster");
 

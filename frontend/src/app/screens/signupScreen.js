@@ -11,7 +11,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import bg from '../../images/signup.jpg';
 import Routes from '../utils/misc/routes';
 import { setToken, setRefresh } from '../utils/AuthService';
-import {SessionProvider} from '../utils/session';
+import {SessionContext} from '../utils/session';
 
 function Copyright(props) {
   return (
@@ -30,7 +30,8 @@ const theme = createTheme();
 
 export default function SignupScreen(props) {
 
-    let notify = "";
+  const [notify, setNotify] = React.useState("");
+  const session = React.useContext(SessionContext);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -54,7 +55,7 @@ export default function SignupScreen(props) {
       .then((response) => response.json())
       .then((json) => {
         if(!json.success) {
-            notify = json.message;
+            setNotify(json.message);
         } else {
             fetch(`${Routes.AUTH.LOGIN}/`, {
                 method: "POST",
@@ -66,28 +67,27 @@ export default function SignupScreen(props) {
                         password: password,
                         }),
                     })
-                .then((response) => { 
-                  console.log(response);
+                .then((response) => {
                   return response.json();
                 })
               .then((json) => {
                 if(json.access && json.refresh) {
                   setToken(json.access);
                   setRefresh(json.refresh);
-                  console.log(json.access);
-                  fetch(`${Routes.USER}`)
+                  fetch(`${Routes.USER}/`)
                       .then((response) => response.json())
                       .then((json) => {
                             for(let i = 0; i < json.length; i++) {
                                 if(json[i].username === username) {
-                                    SessionProvider.setUser(json[i]);
+                                    session.setUser(json[i]);
+                                    session.updateToken(json.access);
                                     window.location.href = "/lyonhacks3/";
                                     break;
                                 }
                             }
                       });
                 } else {
-                    notify = "Error, please try again."
+                    setNotify("Error, please try again.");
                 }
             });
         }

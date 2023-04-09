@@ -8,5 +8,6 @@ class Manager(UserManager):
             raise ValueError('Users must have a username')
         user = self.model(username=username, email=self.normalize_email(email))
         user.set_password(password)
+        user.teams = []
         user.save(using=self._db)
         return user

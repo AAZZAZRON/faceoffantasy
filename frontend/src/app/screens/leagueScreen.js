@@ -12,14 +12,14 @@ const colors = {
 
 export default function LeagueScreen (props) {
 
-    // if(!loggedIn()) {
-    //     window.location.href = "/lyonhacks3/login";
-    // }
+    if(!loggedIn()) {
+        window.location.href = "/lyonhacks3/login";
+    }
 
     props.setMessage("Standings for <League Name>");
     return (
         <div className="league-container">
-            <div>Standings as of date</div>
+            <h3>{"<League Name>: Standings as of <Date>"}</h3>
             <TeamCard place={1} name={"Boston Bruins"} points={120.45}></TeamCard>
             <TeamCard place={2} name={"Toronto Maple Leafs"} points={101.99} self={true}></TeamCard>
             <TeamCard place={3} name={"Edmonton Oilers"} points={97.3}></TeamCard>

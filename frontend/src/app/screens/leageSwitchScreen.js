@@ -5,9 +5,19 @@ import {loggedIn} from "../utils/AuthService";
 
 export default function LeagueSwitchScreen(props) {
 
-    // if(!loggedIn()) {
-    //     window.location.href = "/lyonhacks3/login";
-    // }
+    if(!loggedIn()) {
+        window.location.href = "/lyonhacks3/login";
+    }
+
+    function createLeague() {
+        // create a modal
+        // have a form in the modal
+        // have a button in the modal that submits the form
+        // have a button in the modal that closes the modal
+        // have a button in the modal that redirects to the league page
+
+        console.log("create league");
+    }
 
     props.setMessage("My leagues");
     return (
@@ -16,7 +26,7 @@ export default function LeagueSwitchScreen(props) {
                 <h2>Select a League</h2>
                 <div className={"enter-league-buttons"}>
                     <button className={"enter-league-button"} style={{fontWeight: "bold"}}>Join League</button>
-                    <button className={"enter-league-button"} style={{fontWeight: "bold", backgroundColor: "#add8e6"}}>Create League</button>
+                    <button className={"enter-league-button"} style={{fontWeight: "bold", backgroundColor: "#add8e6"}} onClick={createLeague}>Create League</button>
                 </div>
             </div>
             <hr style={{width: "95%"}}/>

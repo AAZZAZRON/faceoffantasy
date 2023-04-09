@@ -47,8 +47,8 @@ const HomeLeague = () => {
 }
 
 export default function HomeScreen (props) {
-
-    props.setMessage("Hello, <user>!");
+    const user = JSON.parse(localStorage.getItem("user"));
+    props.setMessage("Hello, " + user["username"] + "!");
 
     return (
         <>

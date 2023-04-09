@@ -40,6 +40,7 @@ export default function Sidebar(props){
                         selected={selected === "Switch"} to="/lyonhacks3/switch"></Button>
                 </div>
             </div>
+            {/* <button onClick={logout()}>logout</button> */}
         </div>
     )
 }

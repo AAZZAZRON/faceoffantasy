@@ -30,7 +30,7 @@ const getUser = () => {
 
 const refreshUser = () => {
     if (loggedIn()) {
-        fetch(`${Routes.USER}/${getUser()["id"]}/`).then((res) => res.json()). then((res) => {
+        fetch(`${Routes.USER}/${getUser()["id"]}/`).then((res) => res.json()).then((res) => {
             setUser(res);
         }).catch((err) => {
             console.log(err);

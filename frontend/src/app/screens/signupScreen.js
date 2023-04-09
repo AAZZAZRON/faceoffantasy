@@ -48,7 +48,7 @@ export default function SignupScreen(props) {
         return;
     }
     if(password.length < 5) {
-        setNotify("Please enter a password of at minimum length 5.");
+        setNotify("Please enter a password of minimum length 5.");
         return;
     }
     fetch(`${Routes.POST.SIGNUP}/`, {

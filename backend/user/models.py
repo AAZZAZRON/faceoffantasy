@@ -9,7 +9,7 @@ class User(AbstractUser):
     # email, username, and password are already defined in AbstractUser
     REQUIRED_FIELDS = []
     
-    teams = models.ForeignKey('team.Team', on_delete=models.CASCADE, null=False, blank=True)
+    teams = models.ForeignKey('team.Team', on_delete=models.CASCADE, null=True, blank=True, default=[])
 
     objects = Manager()
     

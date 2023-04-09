@@ -14,6 +14,8 @@ export default function PlayersScreen (props) {
 
     const [skaters, setSkaters] = useState([]);
     const [goalies, setGoalies] = useState([]);
+    const [allSkaters, setAllSkaters] = useState([]); // for searching
+    const [allGoalies, setAllGoalies] = useState([]); // for searching
     const [positions, setPositions] = useState([]);
     const [NHLTeams, setNHLTeams] = useState([]);
     const [selectedPosition, setSelectedPosition] = useState("All");
@@ -59,20 +61,17 @@ export default function PlayersScreen (props) {
 
     // search's players by name
     const onSearch = async (text) => {
-        setSkaters(await getDataCache("SKATERS"));
-        setGoalies(await getDataCache("GOALIES"));
-
         if (text === "" || text === null) {
             return;
         }
 
-        var newSkaters = [...skaters];
+        var newSkaters = [...allSkaters];
         newSkaters = newSkaters.filter((skater) => {
             return skater.firstName.toLowerCase().includes(text.toLowerCase()) || skater.lastName.toLowerCase().includes(text.toLowerCase());
         });
         setSkaters(newSkaters);
 
-        var newGoalies = [...goalies];
+        var newGoalies = [...allGoalies];
         newGoalies = newGoalies.filter((goalie) => {
             return goalie.firstName.toLowerCase().includes(text.toLowerCase()) || goalie.lastName.toLowerCase().includes(text.toLowerCase());
         });
@@ -84,6 +83,8 @@ export default function PlayersScreen (props) {
         setGoalies(await getDataCache("GOALIES"));
         setPositions(await getDataCache("POSITIONS"));
         setNHLTeams(await getDataCache("NHLTEAMS"));
+        setAllSkaters(await getDataCache("SKATERS"));
+        setAllGoalies(await getDataCache("GOALIES"));
     }
 
     useEffect(() => {

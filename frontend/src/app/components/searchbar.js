@@ -14,7 +14,9 @@ export const Searchbar = ({onSearch, placeholder}) => {
             type="text"
             value={curText}
             placeholder={placeholder}
-            onChange = {(e) => setText(e.target.value)}
+            onChange = {(e) => {
+                setText(e.target.value);
+            }}
         ></input>
     )
 }

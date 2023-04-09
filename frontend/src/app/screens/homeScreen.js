@@ -1,13 +1,7 @@
 import React, {useEffect, useState} from "react";
 import "../../css/homeScreen.css";
-import { loggedIn } from "../utils/AuthService";
 
 const HomeLeague = () => {
-
-    if(!loggedIn()) {
-        window.location.href = "/lyonhacks3/login";
-    }
-
     const [rank, setRank] = useState("");
     const [score, setScore] = useState("");
 

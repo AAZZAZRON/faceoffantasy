@@ -6,11 +6,6 @@ import { Searchbar } from "../components/searchbar";
 import { PlayerModal } from "../components/playerModal";
 
 export default function PlayersScreen (props) {
-
-    if(!loggedIn()) {
-        window.location.href = "/lyonhacks3/login";
-    }
-
     props.setMessage("All Players");
 
     const [skaters, setSkaters] = useState([]);

@@ -79,6 +79,10 @@
     min-width: 350px;
 }
 
+.card-header:hover {
+    cursor: pointer;
+}
+
 .card-header-bottom {
     font-size: 15px;
     display: flex;

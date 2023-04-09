@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { getDataCache } from "../utils/api/caching";
 import { loggedIn } from "../utils/AuthService";
 import { Searchbar } from "../components/searchbar";
+import { PlayerModal } from "../components/playerModal";
 
 export default function PlayersScreen (props) {
 
@@ -20,6 +21,20 @@ export default function PlayersScreen (props) {
     const [NHLTeams, setNHLTeams] = useState([]);
     const [selectedPosition, setSelectedPosition] = useState("All");
     const [sortingBy, setSortingBy] = useState("-1");
+
+    // for modal
+    const [showModal, setShowModal] = useState(false);
+    const [modalPlayer, setModalPlayer] = useState([]);
+    const [modalTeam, setModalTeam] = useState([]);
+    const [modalPosition, setModalPosition] = useState([]);
+
+    const setModal = (player, team, position) => {
+        setModalPlayer(player);
+        setModalTeam(team);
+        setModalPosition(position);
+        setShowModal(true);
+        console.log("set modal");
+    }
 
     const skaterSortParams = [
         {name: " GP", value: "games"},
@@ -125,7 +140,7 @@ export default function PlayersScreen (props) {
                         return null;
                     }
                     return (
-                        <SkaterCard key={index} skater={skater} position={position} team={team}></SkaterCard>
+                        <SkaterCard key={index} skater={skater} position={position} team={team} setModal={setModal}></SkaterCard>
                     )
                     })
                 }
@@ -136,11 +151,12 @@ export default function PlayersScreen (props) {
                         return null;
                     }
                     return (
-                        <GoalieCard key={index} goalie={goalie} position={position} team={team}></GoalieCard>
+                        <GoalieCard key={index} goalie={goalie} position={position} team={team} setModal={setModal}></GoalieCard>
                     )
                     })
                 }
             </div>
+            <PlayerModal showModal={showModal} player={modalPlayer} position={modalPosition} team={modalTeam} setShowModal={setShowModal}></PlayerModal>
         </>
     );
 }
@@ -149,7 +165,9 @@ function SkaterCard(props) {
     const skater = props.skater;
     return (
         <div class="card" style={{flexDirection: 'row'}}>
-            <div class="card-header">
+            <div class="card-header" onClick={() => {
+                props.setModal(skater, props.position, props.team);
+            }}>
                 <img src={skater.avatar} alt="headshot" class="headshot"/>
                 <div>
                     <div class="name">{skater.firstName} {skater.lastName}</div>
@@ -179,7 +197,9 @@ function GoalieCard(props) {
     const goalie = props.goalie;
     return (
         <div class="card" style={{flexDirection: 'row'}}>
-            <div class="card-header">
+            <div class="card-header" onClick={() => {
+                props.setModal(goalie, props.position, props.team);
+                }}>
                 <img src={goalie.avatar} alt="headshot" class="headshot"/>
                 <div>
                     <div class="name">{goalie.firstName} {goalie.lastName}</div>

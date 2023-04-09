@@ -35,12 +35,12 @@ export default function Base (props) {
 
     // cache everything
     useEffect(() => {
-        fetchData("SKATERS", routes.SKATERS);
-        fetchData("GOALIES", routes.GOALIES);
-        fetchData("NHLTEAMS", routes.NHLTEAMS);
-        fetchData("POSITIONS", routes.POSITIONS);
-        fetchData("LEAGUES", routes.LEAGUES);
-        fetchData("TEAMS", routes.TEAMS);
+        fetchData("SKATERS", `${routes.SKATERS}/`);
+        fetchData("GOALIES", `${routes.GOALIES}/`);
+        fetchData("POSITIONS", `${routes.POSITIONS}/`);
+        fetchData("NHLTEAMS", `${routes.NHLTEAMS}/`);
+        fetchData("LEAGUES", `${routes.LEAGUES}/`);
+        fetchData("TEAMS", `${routes.TEAMS}/`);
     }, []);
 
     const [message, setMessage] = React.useState("Hello, <user>!");

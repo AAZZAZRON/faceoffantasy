@@ -1,7 +1,6 @@
 import "../../css/playersScreen.css";
 import { useState, useEffect } from "react";
 import { getDataCache } from "../utils/api/caching";
-import { loggedIn } from "../utils/AuthService";
 import { Searchbar } from "../components/searchbar";
 import { PlayerModal } from "../components/playerModal";
 
@@ -16,6 +15,7 @@ export default function PlayersScreen (props) {
     const [NHLTeams, setNHLTeams] = useState([]);
     const [selectedPosition, setSelectedPosition] = useState("All");
     const [sortingBy, setSortingBy] = useState("-1");
+    const [isLoading, setIsLoading] = useState(true);
 
     // for modal
     const [showModal, setShowModal] = useState(false);
@@ -23,10 +23,10 @@ export default function PlayersScreen (props) {
     const [modalTeam, setModalTeam] = useState([]);
     const [modalPosition, setModalPosition] = useState([]);
 
-    const setModal = (player, team, position) => {
+    const setModal = (player, position, team) => {
         setModalPlayer(player);
-        setModalTeam(team);
         setModalPosition(position);
+        setModalTeam(team);
         setShowModal(true);
         console.log("set modal");
     }
@@ -69,6 +69,18 @@ export default function PlayersScreen (props) {
         setSortingBy(sortParam);
     }
 
+    const changeSelectedPosition = (position) => {
+        setSelectedPosition(position); 
+    }
+
+    // roster status
+    const rosterStatus = (player) => {
+        if (player.rosterStatus === 'Y') return 'Healthy';
+        if (player.rosterStatus === 'I') return 'Injured';
+        console.log(player.firstName, player.lastName, player.rosterStatus);
+        return 'Unknown';
+    }
+
     // search's players by name
     const onSearch = async (text) => {
         var newSkaters = [...allSkaters];
@@ -91,6 +103,7 @@ export default function PlayersScreen (props) {
         setNHLTeams(await getDataCache("NHLTEAMS"));
         setAllSkaters(await getDataCache("SKATERS"));
         setAllGoalies(await getDataCache("GOALIES"));
+        setIsLoading(false);
     }
 
     useEffect(() => {
@@ -99,15 +112,18 @@ export default function PlayersScreen (props) {
 
     return (
         <>
-            <div class="player-container">
+            <div class="player-container" style={{display: (isLoading ? 'flex' : 'none')}}>
+                Loading...
+            </div>
+            <div class="player-container" style={{display: (!isLoading ? 'flex' : 'none')}}>
                 <div class='position-toggle'>
-                    <div class={selectedPosition === "All" ? 'position-toggle-pressed' : 'position-toggle-button'} onClick={() => {setSelectedPosition("All"); setSortingBy("-1");}}>All Skaters</div>
+                    <div class={selectedPosition === "All" ? 'position-toggle-pressed' : 'position-toggle-button'} onClick={() => changeSelectedPosition("All")}>All Skaters</div>
                     <div>|</div>
-                    <div class={selectedPosition === "Forward" ? 'position-toggle-pressed' : 'position-toggle-button'} onClick={() => {setSelectedPosition("Forward"); setSortingBy("-1");}}>F</div>
+                    <div class={selectedPosition === "Forward" ? 'position-toggle-pressed' : 'position-toggle-button'} onClick={() => changeSelectedPosition("Forward")}>F</div>
                     <div>|</div>
-                    <div class={selectedPosition === "Defenseman" ? 'position-toggle-pressed' : 'position-toggle-button'} onClick={() => {setSelectedPosition("Defenseman"); setSortingBy("-1");}}>D</div>
+                    <div class={selectedPosition === "Defenseman" ? 'position-toggle-pressed' : 'position-toggle-button'} onClick={() => changeSelectedPosition("Defenseman")}>D</div>
                     <div>|</div>
-                    <div class={selectedPosition === "Goalie" ? 'position-toggle-pressed' : 'position-toggle-button'} onClick={() => {setSelectedPosition("Goalie"); setSortingBy("-1");}}>G</div>
+                    <div class={selectedPosition === "Goalie" ? 'position-toggle-pressed' : 'position-toggle-button'} onClick={() => changeSelectedPosition("Goalie")}>G</div>
                     <span className="col-5 d-flex align-items-center"><Searchbar onSearch={onSearch} placeholder="Search Players"></Searchbar></span>
                 </div>
                 <div class="card" style={{flexDirection: 'row'}}>
@@ -142,7 +158,7 @@ export default function PlayersScreen (props) {
                 {goalies.map((goalie, index) => {
                     const position = positions.find(position => position.id === goalie.primaryPosition);
                     const team = NHLTeams.find(team => team.id === goalie.currentTeam);
-                    if (selectedPosition !== "All" && position.type !== selectedPosition) {
+                    if (selectedPosition !== "Goalie" && position.type !== selectedPosition) {
                         return null;
                     }
                     return (

@@ -153,3 +153,4 @@ def updatePlayers():
                     print("Error: skater", player_response["firstName"], player_response["lastName"], player_response["id"], "could not be created")
 
         print(team.name, "roster updated")
+    print("DONE")

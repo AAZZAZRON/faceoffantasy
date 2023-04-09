@@ -1,0 +1,56 @@
+.modal-head {
+    align-self: stretch;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.modal-headshot {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.modal-head-player-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.first-name {
+    font-size: 22px;
+    line-height: 20px;
+}
+
+.last-name {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.team-name {
+    font-size: 15px;
+    color: #797979;
+}
+
+.stat-table {
+    display: table;
+    margin-top: 12px;
+    font-size: 13px;
+}
+
+.stat {
+    width: auto;
+    height: 20px;
+    align-self: stretch;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.stat-name {
+    color: #797979;
+}
+
+.stat-value {
+    padding-left: 8px;
+}

@@ -1,7 +1,11 @@
 import React, {useEffect, useState} from "react";
 import "../../css/homeScreen.css";
+import { getUser } from "../utils/AuthService";
+import Routes from "../utils/misc/routes";
+import {HeadShot} from "./playersScreen";
+import { getDataCache } from "../utils/api/caching";
 
-const HomeLeague = () => {
+const HomeLeague = ({user}) => {
     const [rank, setRank] = useState("");
     const [score, setScore] = useState("");
 
@@ -40,15 +44,90 @@ const HomeLeague = () => {
     </>
 }
 
+const HomeTeam = ({team, skaters, goalies, positions}) => {
+    console.log(team)
+    console.log(skaters)
+
+    const cardGroupStyle = {
+        display: "flex", 
+        flexDirection: "column", 
+        marginLeft: "1em",
+        marginRight: "1em"
+    };
+
+    const headShotStyle = {
+        marginBottom: "1em", 
+        borderRadius: "10px", 
+        boxShadow: "grey 2px 2px 5px"
+    };
+
+    function mapToHeadshot(player){
+        return (
+        <div style={headShotStyle}>
+            <HeadShot key={player.id} player={player} team={team} 
+                position={positions.find(position => position.id === player.primaryPosition)} 
+                setModal={() => {}}>
+            </HeadShot>
+        </div>);
+    }
+
+    return (
+        <div style={{padding: "5px", textAlign: "left", overflowY: "auto", height: "100%"}}>
+            <span style={{textAlign: "center"}}><h5>{team ? team.teamName : "No Team"}</h5></span>
+            <p>Forwards</p>
+            <div className="card-group" style={cardGroupStyle}>
+                {team && skaters.filter(player => team.forwards.some(id => id === player.id)).map(mapToHeadshot)}
+            </div>
+            <p>Defensemen</p>
+            <div className="card-group" style={cardGroupStyle}>
+                {team && skaters.filter(player => team.defensemen.some(id => id === player.id)).map(mapToHeadshot)}
+            </div>
+            <p>Goalies</p>
+            <div className="card-group" style={cardGroupStyle}>
+                {team && goalies.filter(player => team.goalies.some(id => id === player.id)).map(mapToHeadshot)}
+            </div>
+        </div>
+    )
+}
+
 export default function HomeScreen (props) {
-    const user = JSON.parse(localStorage.getItem("user"));
+    const user = getUser()
+    if(user === null) console.log("logged in but no user...");
     props.setMessage("Hello, " + user["username"] + "!");
+    const [team, setTeam] = useState(undefined);
+    const [allSkaters, setAllSkaters] = useState([]); // for searching
+    const [allGoalies, setAllGoalies] = useState([]); // for searching
+    const [positions, setPositions] = useState([]);
+    const [NHLTeams, setNHLTeams] = useState([]);
+
+    useEffect(() => {
+        if(user.teams.length > 0){
+            fetch(`${Routes.TEAMS}/${user.teams[0]}/`).then(res => res.json().then(team => {
+                setTeam(team);
+            }));
+        }
+    }, []);
+
+    const onStartup = async() => {
+        setPositions(await getDataCache("POSITIONS"));
+        setNHLTeams(await getDataCache("NHLTEAMS"));
+        setAllSkaters(await getDataCache("SKATERS"));
+        console.log("thing: ");
+        console.log(await getDataCache("SKATERS"));
+        setAllGoalies(await getDataCache("GOALIES"));
+    }
+
+    useEffect(() => {
+        onStartup()
+    }, []);
 
     return (
         <>
             <div className="col-7 h-100">
                 <div className="cur-team h-100">
-                    <span className="align-middle text-center">My Team</span>
+                    <span className="align-middle text-center">
+                        <HomeTeam team={team} skaters={allSkaters} goalies={allGoalies} positions={positions}></HomeTeam>
+                    </span>
                 </div>
             </div>
             <div className="col-5 h-100 d-flex flex-column justify-content-between">
@@ -56,7 +135,7 @@ export default function HomeScreen (props) {
                     Watchlist
                 </div>
                 <div className="league align-bottom">
-                    <HomeLeague></HomeLeague>
+                    <HomeLeague user={user}></HomeLeague>
                 </div>
             </div>
         </>

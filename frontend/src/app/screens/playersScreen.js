@@ -182,6 +182,7 @@ export function HeadShot({player, setModal, position, team, avatar}) {
             <div className="card-header-bottom">
                 <div className="team">{team.abbreviation}</div>
                 <div className="position">{position.abbreviation}</div>
+                <div className="roster-status">{rosterStatus(player)}</div>
             </div>
         </div>
     </div>

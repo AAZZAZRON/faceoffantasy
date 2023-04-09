@@ -3,7 +3,7 @@ import pic2 from '../../images/randomize/kessler.jpeg';
 import pic3 from '../../images/randomize/sens-leafs.jpeg';
 import pic4 from '../../images/randomize/marchand.jpeg';
 import pic5 from '../../images/randomize/crosby.jpg';
-import pic6 from '../../images/randomize/bruins-avs.avif';
+import pic6 from '../../images/randomize/bruins-avs.jpg';
 import pic7 from '../../images/randomize/malkin.jpeg';
 import pic8 from '../../images/randomize/mcdavid-crosby.jpeg';
 import pic9 from '../../images/randomize/mcdavid-matthews.jpeg';

@@ -19,7 +19,7 @@ export const getRandomImage = () => {
         pic1, pic2, pic3, pic4, pic5, pic6, pic7, pic8, pic9, pic10, pic11, pic12, pic13, pic14, pic15
     ]
 
-    var ind = Math.floor(Math.random() * images.length);
+    var ind = Math.floor(Math.random() * images.length) + 1; // add one to make it easier to test images manually
 
-    return images[ind];
+    return images[ind - 1];
 }

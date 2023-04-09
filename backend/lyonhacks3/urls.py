@@ -30,6 +30,7 @@ urlpatterns = [
     path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/createleague/', league_views.create_league, name='create_league'),
+    path('api/createteam/', team_views.create_team, name='create_team'),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

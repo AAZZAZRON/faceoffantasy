@@ -5,8 +5,18 @@
     align-items: center;
     border-radius: 10px;
     background-color: white;
-    overflow-y: auto;
-    height: 90%;
+    height: 95%;
+}
+
+.list-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    background-color: white;
+    width: 100%;
+    overflow-y: overlay;
 }
 
 .position-toggle {

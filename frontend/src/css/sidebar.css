@@ -77,3 +77,22 @@
     height: 100%;
     margin-right: 20px;
 }
+
+#logout{
+    position: relative;
+    top:100px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width:80%;
+    align-items: center;
+    border-radius: 10px;
+    border-color: transparent;
+    color: red;
+    text-align: center;
+    left: 30px;
+}
+
+#logout:hover{
+    background-color: #e0e0e0;
+    text-decoration: none;
+}

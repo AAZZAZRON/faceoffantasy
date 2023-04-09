@@ -16,9 +16,11 @@ import { callAndStore } from './utils/api/callApi';
 import { loggedIn } from './utils/AuthService';
 
 export default function Base (props) {
+    const checkLoggedIn = false;
+
     // sent to login if not logged in
     useEffect(() => {
-        if(!loggedIn() && window.location.pathname !== "/lyonhacks3/signup" && window.location.pathname !== "/lyonhacks3/login") {
+        if(checkLoggedIn && !loggedIn() && window.location.pathname !== "/lyonhacks3/signup" && window.location.pathname !== "/lyonhacks3/login") {
             window.location.href = "/lyonhacks3/login";
         }
     }, []);
@@ -64,7 +66,7 @@ export default function Base (props) {
             </Routes>
 
             {/* routes that have the sidebar and navbar */}
-            <div className="row h-100" style={{display: ((noSideNavBar.includes(window.location.pathname) || !loggedIn()) ? 'none' : 'inline')}}>
+            <div className="row h-100" style={{display: ((noSideNavBar.includes(window.location.pathname) || (checkLoggedIn && !loggedIn())) ? 'none' : 'inline')}}>
             <div className="row h-100 col-12">
                 <span className="col-lg-2 col-md-3 col-sm-4 p-0">
                     <Sidebar selected={selected}></Sidebar>

@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 
 import "../../css/leagueSwitchScreen.css";
 import Routes from '../utils/misc/routes';
+import { getDataCache } from '../utils/api/caching';
 
 export default function LeagueSwitchScreen(props) {
     
@@ -109,30 +110,34 @@ function LeagueCreationModal(props) {
         const leagueName = data.get('Name');
         const rosterSettings = {"Forwards Allowed" : data.get('Forwards Allowed'), "Defensemen Allowed": data.get('Defensemen Allowed'), "Goalies Allowed": data.get('Goalies Allowed')};
         const pointsSettings = {"Goals" : data.get('Goals'), "Assists" : data.get('Assists'), "Penalty Minutes" : data.get('Penalty Minutes'), "Shots" : data.get('Shots'), "Hits" : data.get('Hits'), "Power Play Points" : data.get('Power Play Points'), "Short Handed Points" : data.get('Short Handed Points'), "Blocks" : data.get('Blocks'), "Wins" : data.get('Wins'), "Losses" : data.get('Losses'), "Overtime Losses" : data.get('Overtime Losses'), "Saves" : data.get('Saves'), "Shutouts" : data.get('Shutouts'), "Goals Against" : data.get('Goals Against')};
+
+        const ownerId = getDataCache("user").id;
+
         fetch(`${Routes.POST.CREATELEAGUE}/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "Name": leagueName,
-                "NumForwards": rosterSettings["Forwards Allowed"],
-                "NumDefensemen": rosterSettings["Defensemen Allowed"],
-                "NumGoalies": rosterSettings["Goalies Allowed"],
-                "Goals": pointsSettings["Goals"],
-                "Assists": pointsSettings["Assists"],
-                "Pim": pointsSettings["Penalty Minutes"],
-                "Shots": pointsSettings["Shots"],
-                "Hits": pointsSettings["Hits"],
-                "PowerPlayPoints": pointsSettings["Power Play Points"],
-                "ShortHandedPoints": pointsSettings["Short Handed Points"],
-                "Blocked": pointsSettings["Blocks"],
-                "Wins": pointsSettings["Wins"],
-                "Losses": pointsSettings["Losses"],
-                "Ot": pointsSettings["Overtime Losses"],
-                "Saves": pointsSettings["Saves"],
-                "Shutouts": pointsSettings["Shutouts"],
-                "GoalsAgainst": pointsSettings["Goals Against"]
+                "name": leagueName,
+                'owner': ownerId,
+                "numForwards": rosterSettings["Forwards Allowed"],
+                "numDefensemen": rosterSettings["Defensemen Allowed"],
+                "numGoalies": rosterSettings["Goalies Allowed"],
+                "goals": pointsSettings["Goals"],
+                "assists": pointsSettings["Assists"],
+                "pim": pointsSettings["Penalty Minutes"],
+                "shots": pointsSettings["Shots"],
+                "hits": pointsSettings["Hits"],
+                "powerPlayPoints": pointsSettings["Power Play Points"],
+                "shortHandedPoints": pointsSettings["Short Handed Points"],
+                "blocked": pointsSettings["Blocks"],
+                "wins": pointsSettings["Wins"],
+                "losses": pointsSettings["Losses"],
+                "ot": pointsSettings["Overtime Losses"],
+                "saves": pointsSettings["Saves"],
+                "shutouts": pointsSettings["Shutouts"],
+                "goalsAgainst": pointsSettings["Goals Against"]
         }),
         })
         .then((response) => response.json())

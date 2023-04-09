@@ -7,6 +7,7 @@ class League(models.Model):
     users = models.ManyToManyField('user.User', related_name='users')
     owner = models.ForeignKey('user.User', on_delete=models.CASCADE, related_name='owner')
     teams = models.ManyToManyField('team.Team', related_name='teams', blank=True)
+    isDrafted = models.BooleanField(default=False)
 
     # number per team
     numForwards = models.IntegerField()

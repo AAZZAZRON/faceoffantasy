@@ -9,7 +9,7 @@ import LeagueScreen from "./screens/leagueScreen";
 import PlayersScreen from "./screens/playersScreen";
 import LoginScreen from './screens/loginScreen';
 import SignupScreen from './screens/signupScreen';
-import LeagueSwitchScreen from './screens/leageSwitchScreen';
+import LeagueSwitchScreen from './screens/leagueSwitchScreen';
 import { setDataCache, getDataCache } from './utils/api/caching';
 import routes from './utils/misc/routes';
 import { callAndStore } from './utils/api/callApi';

@@ -11,6 +11,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Routes from '../utils/misc/routes';
 import { setToken, setRefresh, setUser } from '../utils/AuthService';
 import { getRandomImage } from '../utils/imageRandomizer';
+import validator from "validator";
 
 function Copyright(props) {
   return (
@@ -38,6 +39,18 @@ export default function SignupScreen(props) {
     let username = data.get('username')+"";
     let password = data.get('password')+"";
     let password2 = data.get('password2')+"";
+    if(!validator.isEmail(email)) {
+        setNotify("Please enter a valid email.");
+        return;
+    }
+    if(username.length < 1) {
+        setNotify("Please enter a username.");
+        return;
+    }
+    if(password.length < 5) {
+        setNotify("Please enter a password of minimum length 5.");
+        return;
+    }
     fetch(`${Routes.POST.SIGNUP}/`, {
         method: "POST",
         headers: {

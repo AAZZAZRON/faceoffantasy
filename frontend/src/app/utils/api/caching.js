@@ -21,7 +21,7 @@ export const deleteDataCache = (cacheName) => {
     }
 }
 
-// this doesnt work i combined it with callAPI
+// this doesn't work i combined it with callAPI
 export const setDataCache = async (cacheName, data) => {
     console.log(data);
     try {

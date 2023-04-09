@@ -5,6 +5,8 @@
     align-items: center;
     border-radius: 10px;
     background-color: white;
+    overflow-y: auto;
+    height: 90%;
 }
 
 .position-toggle {

@@ -32,7 +32,7 @@ export default function PlayersScreen (props) {
     }
 
     const skaterSortParams = [
-        {name: " GP", value: "games"},
+        {name: "GP", value: "games"},
         {name: "   G", value: "goals"},
         {name: "   A", value: "assists"},
         {name: "PIM", value: "penaltyMinutes"},

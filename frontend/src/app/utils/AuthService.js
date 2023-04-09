@@ -55,7 +55,7 @@ const logout = () => {
     setUser({});
     localStorage.removeItem("token");
     localStorage.removeItem("refresh");
-    window.location.href = "/lyonhacks3/login";
+    window.location.href = "/faceoffantasy/login";
 }
 
 export { getToken, setToken, getRefresh, setRefresh, loggedIn, logout, setUser, updateToken, refreshUser, getUser };

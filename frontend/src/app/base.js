@@ -20,8 +20,8 @@ export default function Base (props) {
 
     // sent to login if not logged in
     useEffect(() => {
-        if(checkLoggedIn && !loggedIn() && window.location.pathname !== "/lyonhacks3/signup" && window.location.pathname !== "/lyonhacks3/login") {
-            window.location.href = "/lyonhacks3/login";
+        if(checkLoggedIn && !loggedIn() && window.location.pathname !== "/faceoffantasy/signup" && window.location.pathname !== "/faceoffantasy/login") {
+            window.location.href = "/faceoffantasy/login";
         }
     }, []);
 
@@ -46,17 +46,17 @@ export default function Base (props) {
     const [message, setMessage] = React.useState("Hello, <user>!");
 
     const selections = {
-        "/lyonhacks3/league": "League", 
-        "/lyonhacks3": "Home", 
-        "/lyonhacks3/players": "Players", 
-        "/lyonhacks3/settings": "Settings", 
-        "/lyonhacks3/switch": "Switch"
+        "/faceoffantasy/league": "League", 
+        "/faceoffantasy": "Home", 
+        "/faceoffantasy/players": "Players", 
+        "/faceoffantasy/settings": "Settings", 
+        "/faceoffantasy/switch": "Switch"
     };
 
-    const noSideNavBar = ["/lyonhacks3/signup", "/lyonhacks3/login"];
+    const noSideNavBar = ["/faceoffantasy/signup", "/faceoffantasy/login"];
 
     var selected = selections[window.location.pathname];
-    const basePath = "/lyonhacks3";
+    const basePath = "/faceoffantasy";
     return (<>
         <BrowserRouter>
             {/* routes that don't have the sidebar and navbar */}

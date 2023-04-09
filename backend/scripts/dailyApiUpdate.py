@@ -1,6 +1,6 @@
 from player.models import NHLTeam, Skater, Goalie, Position
 import requests
-from lyonhacks3 import config
+from faceoffantasy import config
 
 
 def updatePlayers():

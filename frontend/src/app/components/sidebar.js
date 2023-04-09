@@ -29,15 +29,15 @@ export default function Sidebar(props){
             <div className="actions">
                 <p className="actionLabel">Actions</p>
                 <div className="buttons">
-                <Button icon={<HomeRounded color="action" fontSize="small"></HomeRounded>} text="Home" selected={selected === "Home"} to="/lyonhacks3"></Button>
+                <Button icon={<HomeRounded color="action" fontSize="small"></HomeRounded>} text="Home" selected={selected === "Home"} to="/faceoffantasy"></Button>
                 <Button icon={<EmojiEventsRounded color="action" fontSize="small"></EmojiEventsRounded>} text="League Standings" 
-                        selected={selected === "League"} to="/lyonhacks3/league"></Button>
+                        selected={selected === "League"} to="/faceoffantasy/league"></Button>
                 <Button icon={<SportsHockeyRounded color="action" fontSize="small"></SportsHockeyRounded>} text="Players" 
-                        selected={selected === "Players"} to="/lyonhacks3/players"></Button>
+                        selected={selected === "Players"} to="/faceoffantasy/players"></Button>
                 <Button icon={<SettingsRounded color="action" fontSize="small"></SettingsRounded>} text="League Owner Only League Settings" 
-                        selected={selected === "Settings"} to="/lyonhacks3/settings"></Button>
+                        selected={selected === "Settings"} to="/faceoffantasy/settings"></Button>
                 <Button icon={<SwapHorizRounded color="action" fontSize="small"></SwapHorizRounded>} text="Switch Leagues" 
-                        selected={selected === "Switch"} to="/lyonhacks3/switch"></Button>
+                        selected={selected === "Switch"} to="/faceoffantasy/switch"></Button>
                 </div>
             </div>
             {/* <button onClick={logout()}>logout</button> */}

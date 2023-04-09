@@ -57,7 +57,7 @@ export default function LoginScreen(props) {
                     for(let i = 0; i < json.length; i++) {
                         if(json[i].username === username) {
                             setUser(json[i]);
-                            window.location.href = "/lyonhacks3/";
+                            window.location.href = "/faceoffantasy/";
                             break;
                         }
                     }

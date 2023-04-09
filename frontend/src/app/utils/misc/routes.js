@@ -5,21 +5,21 @@ const Routes = {
   // auth
   BASEURL: BASEURL,
   AUTH: {
-    LOGIN: `${BASEURL}/api/token`,
-    REFRESH: `${BASEURL}/api/token/refresh`,
+    LOGIN: `${BASEURL}/api/token/`,
+    REFRESH: `${BASEURL}/api/token/refresh/`,
   },
   POST: {
-    SIGNUP: `${BASEURL}/api/signup`,
+    SIGNUP: `${BASEURL}/api/signup/`,
   },
-  USER: `${BASEURL}/api/users`,
+  USER: `${BASEURL}/api/users/`,
 
   // other
-  SKATERS: `${BASEURL}/api/skaters`,
-  GOALIES: `${BASEURL}/api/goalies`,
-  NHLTEAMS: `${BASEURL}/api/nhlteams`,
-  POSITIONS: `${BASEURL}/api/positions`,
-  LEAGUES: `${BASEURL}/api/leagues`,
-  TEAMS: `${BASEURL}/api/teams`,  
+  SKATERS: `${BASEURL}/api/skaters/`,
+  GOALIES: `${BASEURL}/api/goalies/`,
+  NHLTEAMS: `${BASEURL}/api/nhlteams/`,
+  POSITIONS: `${BASEURL}/api/positions/`,
+  LEAGUES: `${BASEURL}/api/leagues/`,
+  TEAMS: `${BASEURL}/api/teams/`,  
 };
 
 export default Routes;

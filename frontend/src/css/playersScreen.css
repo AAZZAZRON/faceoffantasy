@@ -5,7 +5,7 @@
     align-items: center;
     border-radius: 10px;
     background-color: white;
-    height: 90%;
+    height: 95%;
 }
 
 .list-container {
@@ -16,12 +16,8 @@
     border-radius: 10px;
     background-color: white;
     width: 100%;
-    overflow-y: auto;
+    overflow-y: overlay;
 }
-
-.list-container::-webkit-scrollbar {
-    display: none;
-  }
 
 .position-toggle {
     align-self: stretch;

@@ -15,6 +15,7 @@ export default function PlayersScreen (props) {
     const [NHLTeams, setNHLTeams] = useState([]);
     const [selectedPosition, setSelectedPosition] = useState("All");
     const [sortingBy, setSortingBy] = useState("-1");
+    const [sortingOrder, setSortingOrder] = useState(-1); 
     const [isLoading, setIsLoading] = useState(true);
 
     // for modal
@@ -45,10 +46,16 @@ export default function PlayersScreen (props) {
     ]
 
     const sortSkatersBy = (sortParam) => {
-        var newSkaters = [...skaters];
-        newSkaters.sort((a, b) => (a[sortParam] > b[sortParam]) ? -1 : 1);
-        setSkaters(newSkaters);
-        setSortingBy(sortParam);
+        if (sortParam === sortingBy) {
+            setSortingOrder(sortingOrder * -1);
+            setSkaters(skaters.reverse());
+        } else {
+            var newSkaters = [...skaters];
+            newSkaters.sort((a, b) => (a[sortParam] > b[sortParam]) ? -1 : 1);
+            setSortingOrder(-1);
+            setSkaters(newSkaters);
+            setSortingBy(sortParam);
+        }
     }
 
     const goalieSortParams = [
@@ -63,13 +70,33 @@ export default function PlayersScreen (props) {
     ]
 
     const sortGoaliesBy = (sortParam) => {
-        var newGoalies = [...goalies];
-        newGoalies.sort((a, b) => (a[sortParam] > b[sortParam]) ? -1 : 1);
-        setGoalies(newGoalies);
-        setSortingBy(sortParam);
+        if (sortParam === sortingBy) {
+            setSortingOrder(sortingOrder * -1);
+            setGoalies(goalies.reverse());
+        } else {
+            var newGoalies = [...goalies];
+            newGoalies.sort((a, b) => (a[sortParam] > b[sortParam]) ? -1 : 1);
+            setSortingOrder(-1);
+            console.log(sortParam);
+            if (["goalsAgainst", "goalAgainstAverage", "ot"].includes(sortParam)) {
+                newGoalies.reverse();
+                setSortingOrder(1);
+            }
+            setGoalies(newGoalies);
+            setSortingBy(sortParam);
+        }
     }
 
     const changeSelectedPosition = (position) => {
+        if (position === selectedPosition) return;
+        if (selectedPosition === "Goalie") { // reset sorting when changing between skaters/goalies
+            setSortingBy("-1");
+            setGoalies(allGoalies);
+        }
+        if (position === "Goalie") {
+            setSortingBy("-1");
+            setSkaters(allSkaters);
+        }
         setSelectedPosition(position); 
     }
 

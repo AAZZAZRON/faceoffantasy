@@ -12,9 +12,16 @@
     margin-right: 5px;
 }
 
-.modal-head-player-info {
+.modal-head-player-info-1 {
     display: flex;
     flex-direction: column;
+    min-width: 200px;
+}
+
+.modal-head-player-info-2 {
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
 }
 
 .first-name {
@@ -53,4 +60,26 @@
 
 .stat-value {
     padding-left: 8px;
+}
+
+.player-stat-name {
+    color: #797979;
+    font-size: 14px;
+    line-height: 15px;
+}
+
+.player-stat-value {
+    font-size: 20px;
+    font-weight: bold;
+    padding-bottom: 7px;
+}
+
+.healthy {
+    font-weight: bold;
+    color: #009944;
+}
+
+.injured {
+    font-weight: bold;
+    color: #CC0000;
 }

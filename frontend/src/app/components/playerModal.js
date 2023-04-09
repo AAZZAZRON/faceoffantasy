@@ -23,6 +23,18 @@ export const PlayerModal = (props) => {
     const player = props.player;
     const position = props.position;
     const team = props.team;
+    const totalPoints = 69420;
+    var averagePoints;
+    if (player.games === 0) averagePoints = (0).toFixed(1);
+    else if (position.code === "G") averagePoints =( Math.round(totalPoints / player.gamesStarted * 10) / 10).toFixed(1);
+    else averagePoints = (Math.round(totalPoints / player.games * 10) / 10).toFixed(1);
+
+    const rosterStatus = (player) => {
+        if (player.rosterStatus === 'Y') return 'Healthy';
+        if (player.rosterStatus === 'I') return 'Injured';
+        console.log(player.firstName, player.lastName, player.rosterStatus);
+        return 'Unknown';
+    }
 
     return (
         <>
@@ -34,7 +46,7 @@ export const PlayerModal = (props) => {
             >
                 <div class="modal-head">
                     <img src={player.avatar} alt="headshot" class="modal-headshot"/>
-                    <div class="modal-head-player-info">
+                    <div class="modal-head-player-info-1">
                         <div class="first-name">{player.firstName}</div>
                         <div class="last-name">{player.lastName}</div>
                         <div class='team-name'>{team.name}</div>
@@ -45,13 +57,21 @@ export const PlayerModal = (props) => {
                             </div>
                             <div class='stat'>
                                 <div class='stat-name'>MANAGER</div>
-                                <div class='stat-value'>{position.code}</div>
+                                <div class='stat-value'>need to fill this out!</div>
                             </div>
                             <div class='stat'>
                                 <div class='stat-name'>STATUS</div>
-                                <div class='stat-value'>{position.code}</div>
+                                <div class={rosterStatus(player) === "Injured" ? 'stat-value injured' : 'stat-value healthy'}>{rosterStatus(player)}</div>
                             </div>
                         </div>
+                    </div>
+                    <div class='modal-head-player-info-2'>
+                        <div class='player-stat-name'>JERSEY NUMBER</div>
+                        <div class='player-stat-value'>{player.primaryNumber}</div>
+                        <div class='player-stat-name'>AVERAGE POINTS</div>
+                        <div class='player-stat-value'>{totalPoints}</div>
+                        <div class='player-stat-name'>TOTAL POINTS</div>
+                        <div class='player-stat-value'>{averagePoints}</div>
                     </div>
                 </div>
                 <button onClick={closeModal}>close</button>
@@ -69,7 +89,7 @@ const modalStyles = {
         left: '50%',
         right: 'auto',
         bottom: 'auto',
-        width: '800px',
+        width: '700px',
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
         borderRadius: '10px',

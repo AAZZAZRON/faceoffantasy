@@ -73,14 +73,6 @@ export default function PlayersScreen (props) {
         setSelectedPosition(position); 
     }
 
-    // roster status
-    const rosterStatus = (player) => {
-        if (player.rosterStatus === 'Y') return 'Healthy';
-        if (player.rosterStatus === 'I') return 'Injured';
-        console.log(player.firstName, player.lastName, player.rosterStatus);
-        return 'Unknown';
-    }
-
     // search's players by name
     const onSearch = async (text) => {
         var newSkaters = [...allSkaters];
@@ -172,6 +164,13 @@ export default function PlayersScreen (props) {
     );
 }
 
+const rosterStatus = (player) => {
+    if (player.rosterStatus === 'Y') return '';
+    if (player.rosterStatus === 'I') return 'IR';
+    console.log(player.firstName, player.lastName, player.rosterStatus);
+    return 'Unknown';
+}
+
 function SkaterCard(props) {
     const skater = props.skater;
     return (
@@ -185,6 +184,7 @@ function SkaterCard(props) {
                     <div class="card-header-bottom">
                         <div class="team">{props.team.abbreviation}</div>
                         <div class="position">{props.position.abbreviation}</div>
+                        <div class='roster-status'>{rosterStatus(skater)}</div>
                     </div>
                 </div>
             </div>
@@ -217,6 +217,7 @@ function GoalieCard(props) {
                     <div class="card-header-bottom">
                         <div class="team">{props.team.abbreviation}</div>
                         <div class="position">{props.position.abbreviation}</div>
+                        <div class='roster-status'>{rosterStatus(goalie)}</div>
                     </div>
                 </div>
             </div>

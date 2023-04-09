@@ -90,6 +90,11 @@
     align-items: left;
 }
 
+.roster-status {
+    font-weight: bold;
+    color: #CC0000;
+}
+
 .card-header-bottom > * {
     margin-right: 10px;
 }

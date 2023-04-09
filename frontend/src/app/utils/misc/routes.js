@@ -1,4 +1,4 @@
-const BASEURL = "https://lyonhacks3-production.up.railway.app";
+const BASEURL = "https://faceoffantasy.up.railway.app";
 // const BASEURL = "http://127.0.0.1:8000";
 
 const Routes = {

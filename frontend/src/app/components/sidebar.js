@@ -2,6 +2,7 @@ import "../../css/navbar.css";
 import logo from "../../images/logo.png";
 import "../../css/sidebar.css";
 import {HomeRounded, EmojiEventsRounded, SportsHockeyRounded, SettingsRounded, SwapHorizRounded} from "@mui/icons-material";
+import {logout} from "../utils/AuthService";
 
 // the side button/links
 function Button(props) {
@@ -40,7 +41,7 @@ export default function Sidebar(props){
                         selected={selected === "Switch"} to="/faceoffantasy/switch"></Button>
                 </div>
             </div>
-            {/* <button onClick={logout()}>logout</button> */}
+            <button id='logout' onClick={logout}>logout</button>
         </div>
     )
 }

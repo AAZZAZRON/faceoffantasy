@@ -14,12 +14,12 @@ const Routes = {
   USER: `${BASEURL}/api/users`,
 
   // other
-  SKATERS: `${BASEURL}/api/skaters/`,
-  GOALIES: `${BASEURL}/api/goalies/`,
-  NHLTEAMS: `${BASEURL}/api/nhlteams/`,
-  POSITIONS: `${BASEURL}/api/positions/`,
-  LEAGUES: `${BASEURL}/api/leagues/`,
-  TEAMS: `${BASEURL}/api/teams/`,  
+  SKATERS: `${BASEURL}/api/skaters`,
+  GOALIES: `${BASEURL}/api/goalies`,
+  NHLTEAMS: `${BASEURL}/api/nhlteams`,
+  POSITIONS: `${BASEURL}/api/positions`,
+  LEAGUES: `${BASEURL}/api/leagues`,
+  TEAMS: `${BASEURL}/api/teams`,  
 };
 
 export default Routes;

@@ -2,6 +2,7 @@ import "../../css/playersScreen.css";
 import { useState, useEffect } from "react";
 import { getDataCache } from "../utils/api/caching";
 import { loggedIn } from "../utils/AuthService";
+import { Searchbar } from "../components/searchbar";
 
 export default function PlayersScreen (props) {
 
@@ -56,6 +57,28 @@ export default function PlayersScreen (props) {
         setSortingBy(sortParam);
     }
 
+    // search's players by name
+    const onSearch = async (text) => {
+        setSkaters(await getDataCache("SKATERS"));
+        setGoalies(await getDataCache("GOALIES"));
+
+        if (text === "" || text === null) {
+            return;
+        }
+
+        var newSkaters = [...skaters];
+        newSkaters = newSkaters.filter((skater) => {
+            return skater.firstName.toLowerCase().includes(text.toLowerCase()) || skater.lastName.toLowerCase().includes(text.toLowerCase());
+        });
+        setSkaters(newSkaters);
+
+        var newGoalies = [...goalies];
+        newGoalies = newGoalies.filter((goalie) => {
+            return goalie.firstName.toLowerCase().includes(text.toLowerCase()) || goalie.lastName.toLowerCase().includes(text.toLowerCase());
+        });
+        setGoalies(newGoalies);
+    }
+
     const onStartup = async() => {
         setSkaters(await getDataCache("SKATERS"));
         setGoalies(await getDataCache("GOALIES"));
@@ -78,6 +101,7 @@ export default function PlayersScreen (props) {
                     <div class={selectedPosition === "Defenseman" ? 'position-toggle-pressed' : 'position-toggle-button'} onClick={() => {setSelectedPosition("Defenseman"); setSortingBy("-1");}}>D</div>
                     <div>|</div>
                     <div class={selectedPosition === "Goalie" ? 'position-toggle-pressed' : 'position-toggle-button'} onClick={() => {setSelectedPosition("Goalie"); setSortingBy("-1");}}>G</div>
+                    <span className="col-5 d-flex align-items-center"><Searchbar onSearch={onSearch} placeholder="Search Players"></Searchbar></span>
                 </div>
                 <div class="card" style={{flexDirection: 'row'}}>
                     <div class='card-header'>Player</div>

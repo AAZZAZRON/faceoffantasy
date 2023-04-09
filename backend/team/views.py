@@ -9,7 +9,7 @@ from league.models import League
 
 # Create your views here.
 
-class TeamView(viewsets.ModelViewSet):
+class TeamView(viewsets.ReadOnlyModelViewSet):
     queryset = Team.objects.all()
     serializer_class = TeamSerializer
 

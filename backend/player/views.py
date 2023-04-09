@@ -4,19 +4,19 @@ from .serializers import *
 from django.http import JsonResponse
 # Create your views here.
 
-class SkaterView(viewsets.ModelViewSet):
+class SkaterView(viewsets.ReadOnlyModelViewSet):
     serializer_class = SkaterSerializer
     queryset = Skater.objects.all()
 
-class NHLTeamView(viewsets.ModelViewSet):
+class NHLTeamView(viewsets.ReadOnlyModelViewSet):
     serializer_class = NHLTeamSerializer
     queryset = NHLTeam.objects.all()
 
-class PositionView(viewsets.ModelViewSet):
+class PositionView(viewsets.ReadOnlyModelViewSet):
     serializer_class = PositionSerializer
     queryset = Position.objects.all()
 
-class GoalieView(viewsets.ModelViewSet):
+class GoalieView(viewsets.ReadOnlyModelViewSet):
     serializer_class = GoalieSerializer
     queryset = Goalie.objects.all()
 

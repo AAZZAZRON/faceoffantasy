@@ -9,7 +9,7 @@ class User(AbstractUser):
     # email, username, and password are already defined in AbstractUser
     REQUIRED_FIELDS = []
     
-    teams = models.JSONField(models.ForeignKey('team.Team', on_delete=models.CASCADE), default=list)
+    teams = models.ManyToManyField('team.Team', related_name="teams_owned", blank=True)
 
     objects = Manager()
     

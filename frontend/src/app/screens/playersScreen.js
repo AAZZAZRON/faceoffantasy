@@ -61,10 +61,6 @@ export default function PlayersScreen (props) {
 
     // search's players by name
     const onSearch = async (text) => {
-        if (text === "" || text === null) {
-            return;
-        }
-
         var newSkaters = [...allSkaters];
         newSkaters = newSkaters.filter((skater) => {
             return skater.firstName.toLowerCase().includes(text.toLowerCase()) || skater.lastName.toLowerCase().includes(text.toLowerCase());

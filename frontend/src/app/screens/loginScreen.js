@@ -11,7 +11,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import bg from '../../images/login.jpg';
 import Routes from '../utils/misc/routes';
 import { setToken, setRefresh } from '../utils/AuthService';
-import {SessionProvider} from '../utils/session';
+import {SessionContext} from '../utils/session';
 import { collapseClasses } from '@mui/material';
 
 function Copyright(props) {
@@ -31,14 +31,15 @@ const theme = createTheme();
 
 export default function LoginScreen(props) {
 
-  let notify = "";
+  const [notify, setNotify] = React.useState("");
+  const session = React.useContext(SessionContext);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     let username = data.get('username');
     let password = data.get('password');
-    fetch(`${Routes.AUTH.LOGIN}/api/token/`, {
+    fetch(`${Routes.AUTH.LOGIN}/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,18 +54,19 @@ export default function LoginScreen(props) {
         if(json.access && json.refresh) {
           setToken(json.access);
           setRefresh(json.refresh);
-          fetch(`${Routes.USER}`)
+          fetch(`${Routes.USER}/`)
               .then((response) => response.json())
               .then((json) => {
                     for(let i = 0; i < json.length; i++) {
                         if(json[i].username === username) {
-                            SessionProvider.setUser(json[i]);
+                            session.setUser(json[i]);
+                            session.updateToken(json.access);
                             break;
                         }
                     }
               });
         } else {
-          notify = "Invalid username or password.";
+          setNotify("Invalid username or password.");
         }
       });
   };

@@ -72,6 +72,7 @@ export const SessionProvider = (props) => {
         setUser({});
         localStorage.removeItem("token");
         localStorage.removeItem("refresh");
+        window.location.href = "/lyonhacks3/login";
     }
 
     return (

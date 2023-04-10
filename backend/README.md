@@ -13,6 +13,11 @@ python manage.py shell --command="from scripts.onLoadApi import initialLoad; ini
 ```
 This will take a bit of time. Wait for the terminal to display `DONE`. 
 
+Make sure to install the dependencies using
+```
+pip install -r requirements.txt
+```
+
 # Documentation
 `/api/skaters/` - returns player information for all active NHL forwards and defensemen
 

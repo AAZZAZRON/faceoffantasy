@@ -14,6 +14,9 @@ import { getDataCache } from './utils/api/caching';
 import routes from './utils/misc/routes';
 import { callAndStore } from './utils/api/callApi';
 import { loggedIn } from './utils/AuthService';
+import Copyright from './components/copyright';
+import Link from '@mui/material/Link';
+import Typography from '@mui/material/Typography';
 
 export default function Base (props) {
     const checkLoggedIn = false;
@@ -82,6 +85,18 @@ export default function Base (props) {
                     </div>
                 </span>
             </div>
+                <div style={{borderTop: "solid", borderColor: "lightgray", width: "100%", height: "5%", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+                        {'Visit our '}
+                        <Link color="inherit" href="https://github.com/AAZZAZRON/faceoffantasy">
+                        Github
+                        </Link>
+                        {' |'}
+                    </Typography>
+                    &nbsp;
+                    <Copyright />
+                    
+                </div>
             </div>
         </BrowserRouter>
     </>);

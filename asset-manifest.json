@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/faceoffantasy/static/css/main.b392d0e4.css",
-    "main.js": "/faceoffantasy/static/js/main.8e16257c.js",
+    "main.js": "/faceoffantasy/static/js/main.5f03b54d.js",
     "static/js/496.25abac0d.chunk.js": "/faceoffantasy/static/js/496.25abac0d.chunk.js",
     "static/media/kessler.jpeg": "/faceoffantasy/static/media/kessler.45236837cc2e7d8924f4.jpeg",
     "static/media/malkin.jpeg": "/faceoffantasy/static/media/malkin.2c654fd64e798bc58b09.jpeg",
@@ -21,11 +21,11 @@
     "static/media/logo.png": "/faceoffantasy/static/media/logo.dc5a79ffea7fe086d292.png",
     "index.html": "/faceoffantasy/index.html",
     "main.b392d0e4.css.map": "/faceoffantasy/static/css/main.b392d0e4.css.map",
-    "main.8e16257c.js.map": "/faceoffantasy/static/js/main.8e16257c.js.map",
+    "main.5f03b54d.js.map": "/faceoffantasy/static/js/main.5f03b54d.js.map",
     "496.25abac0d.chunk.js.map": "/faceoffantasy/static/js/496.25abac0d.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b392d0e4.css",
-    "static/js/main.8e16257c.js"
+    "static/js/main.5f03b54d.js"
   ]
 }

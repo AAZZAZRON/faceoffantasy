@@ -17,6 +17,7 @@ export default function PlayersScreen (props) {
     const [selectedPosition, setSelectedPosition] = useState("All");
     const [sortingBy, setSortingBy] = useState("-1");
     const [sortingOrder, setSortingOrder] = useState(-1); 
+    const [searchFor, setSearchFor] = useState("");
     const [isLoading, setIsLoading] = useState(true);
 
     // for pagination
@@ -52,6 +53,7 @@ export default function PlayersScreen (props) {
     ]
 
     const sortSkatersBy = (sortParam) => {
+        console.log(sortParam);
         if (sortParam === sortingBy) {
             setSortingOrder(sortingOrder * -1);
             setSkaters(skaters.reverse());
@@ -84,7 +86,6 @@ export default function PlayersScreen (props) {
             var newGoalies = [...goalies];
             newGoalies.sort((a, b) => (a[sortParam] > b[sortParam]) ? -1 : 1);
             setSortingOrder(-1);
-            console.log(sortParam);
             if (["goalsAgainst", "goalAgainstAverage", "ot"].includes(sortParam)) {
                 newGoalies.reverse();
                 setSortingOrder(1);
@@ -122,17 +123,7 @@ export default function PlayersScreen (props) {
 
     // search's players by name
     const onSearch = async (text) => {
-        var newSkaters = [...allSkaters];
-        newSkaters = newSkaters.filter((skater) => {
-            return skater.firstName.toLowerCase().includes(text.toLowerCase()) || skater.lastName.toLowerCase().includes(text.toLowerCase());
-        });
-        setSkaters(newSkaters);
-
-        var newGoalies = [...allGoalies];
-        newGoalies = newGoalies.filter((goalie) => {
-            return goalie.firstName.toLowerCase().includes(text.toLowerCase()) || goalie.lastName.toLowerCase().includes(text.toLowerCase());
-        });
-        setGoalies(newGoalies);
+        setSearchFor(text);
     }
 
     const onStartup = async() => {
@@ -187,8 +178,9 @@ export default function PlayersScreen (props) {
                     {skaters.filter((skater) => {
                         const position = positions.find(position => position.id === skater.primaryPosition);
                         return selectedPosition === "All" || position.type === selectedPosition;
-                    })
-                    .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((skater, index) => {
+                    }).filter((skater) => {
+                        return skater.firstName.toLowerCase().includes(searchFor.toLowerCase()) || skater.lastName.toLowerCase().includes(searchFor.toLowerCase());
+                    }).slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((skater, index) => {
                         const position = positions.find(position => position.id === skater.primaryPosition);
                         const team = NHLTeams.find(team => team.id === skater.currentTeam);
                         if (selectedPosition !== "All" && position.type !== selectedPosition) {
@@ -199,7 +191,9 @@ export default function PlayersScreen (props) {
                         )
                         })
                     }
-                    {goalies.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((goalie, index) => {
+                    {goalies.filter((goalie) => {
+                        return goalie.firstName.toLowerCase().includes(searchFor.toLowerCase()) || goalie.lastName.toLowerCase().includes(searchFor.toLowerCase());
+                    }).slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((goalie, index) => {
                         const position = positions.find(position => position.id === goalie.primaryPosition);
                         const team = NHLTeams.find(team => team.id === goalie.currentTeam);
                         if (selectedPosition !== "Goalie" && position.type !== selectedPosition) {

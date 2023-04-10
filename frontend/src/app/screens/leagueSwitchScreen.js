@@ -10,11 +10,14 @@ import Routes from '../utils/misc/routes';
 import { getDataCache } from '../utils/api/caching';
 import { callAndStore } from '../utils/api/callApi';
 import routes from '../utils/misc/routes';
+import {logout} from "../utils/AuthService";
 
 export default function LeagueSwitchScreen(props) {
     
     const [showLeagueCreationModal, setShowLeagueCreationModal] = React.useState(false);
     const [showLeagueJoinModal, setShowLeagueJoinModal] = React.useState(false);
+
+    const user = getDataCache("user").username;
 
     props.setMessage("My leagues");
     return (<>
@@ -22,7 +25,7 @@ export default function LeagueSwitchScreen(props) {
         <LeagueJoinModal showLeagueJoinModal={showLeagueJoinModal} setShowLeagueJoinModal={setShowLeagueJoinModal}></LeagueJoinModal>
         <div className={"league-container"}>
             <div className={"top-bar"}>
-                <h2>Select a League</h2>
+                <h2>{props.force ? 'Hello, ' + user + '! Please Select a League to Continue.' : 'Select a League'}</h2>
                 <div className={"enter-league-buttons"}>
                     <button className={"enter-league-button"} style={{fontWeight: "bold"}} onClick={() => setShowLeagueJoinModal(true)}>Join League</button>
                     <button className={"enter-league-button"} style={{fontWeight: "bold", backgroundColor: "#add8e6"}} onClick={() => setShowLeagueCreationModal(true)}>Create League</button>
@@ -32,7 +35,8 @@ export default function LeagueSwitchScreen(props) {
             <LeagueCard name={"National Hockey League"} playercount={4} active={true}></LeagueCard>
             <LeagueCard name={"Sam's Fantasy League"} playercount={6}></LeagueCard>
             <LeagueCard name={":D"} playercount={8}></LeagueCard>
-        </div>
+        </div> 
+        <div style={{width: "10%"}}><button id='logout' onClick={logout}>logout</button></div>
     </>);
 }
 

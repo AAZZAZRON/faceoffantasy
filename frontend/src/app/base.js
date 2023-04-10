@@ -19,7 +19,6 @@ export default function Base (props) {
     const checkLoggedIn = false;
     // sent to login if not logged in
     useEffect(() => {
-        alert(window.location.pathname);
         if(checkLoggedIn && !loggedIn() && window.location.pathname !== "/faceoffantasy/signup" && window.location.pathname !== "/faceoffantasy/login") {
             window.location.href = "/faceoffantasy/login";
         }

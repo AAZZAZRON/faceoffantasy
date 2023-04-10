@@ -11,3 +11,5 @@ Run server with
 ```
 npm start
 ```
+
+If you are running the frontend connected to a local backend, go to `frontend/src/app/utils/misc/routes.js` and change `BASEURL` to the localhost url. 

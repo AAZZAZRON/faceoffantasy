@@ -12,19 +12,7 @@ import Routes from '../utils/misc/routes';
 import { setToken, setRefresh, setUser } from '../utils/AuthService';
 import { getRandomImage } from '../utils/imageRandomizer';
 import validator from "validator";
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="">
-        Faceoff Fantasy
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import Copyright from '../components/copyright';
 
 const theme = createTheme();
 

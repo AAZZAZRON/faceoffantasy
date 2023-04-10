@@ -3,11 +3,8 @@
     padding: 5px;
 }
 
-.searchbar{
-    width:"20rem";
-    background:"#F0F0F0";
-    border:"none";
-    padding:"0.5rem";
-    border-radius: 5px;
-    height: 1.5em;
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

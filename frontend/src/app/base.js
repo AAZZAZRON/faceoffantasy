@@ -55,7 +55,7 @@ export default function Base (props) {
         "/faceoffantasy/switch": "Switch"
     };
 
-    const noSideNavBar = ["/faceoffantasy/signup", "/faceoffantasy/login"];
+    const noSideNavBar = ["/faceoffantasy/signup", "/faceoffantasy/login", "/faceoffantasy/switchforce"];
 
     var selected = selections[window.location.pathname];
     const basePath = "/faceoffantasy";
@@ -65,6 +65,7 @@ export default function Base (props) {
             <Routes>
                 <Route path={basePath + '/login'} element={<LoginScreen handleCallback={setMessage}></LoginScreen>}></Route>
                 <Route path={basePath + '/signup'} element={<SignupScreen handleCallback={setMessage}></SignupScreen>}></Route>
+                <Route path={basePath + '/switchforce'} element={<LeagueSwitchScreen setMessage={setMessage} force={true}></LeagueSwitchScreen>}></Route>
             </Routes>
 
             {/* routes that have the sidebar and navbar */}

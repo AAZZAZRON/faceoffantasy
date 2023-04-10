@@ -130,7 +130,7 @@
 
 .item {
     align-items: center;
-    color: #FFF;
+    color: #000000;
     cursor: pointer;
     display: flex;
     font-size: 14px;
@@ -140,37 +140,31 @@
   }
   
   .disabled-page {
-    color: #808e9b;
+    color: #585858;
   }
   
   .active {
-    border: solid 1px #808e9b;
+    border: solid 2px #a5a5a5;
     border-radius: 40px;
-    color: #808e9b;
+    color: #a5a5a5;
+    font-weight: bold;
+    font-size: 15px;
   }
   
   .break-me {
   }
   
-  .next {
-    border-left: solid 1px #808e9b;
-    font-size: 4px;
-    height: 60px;
-    position: absolute;
-    right: 0;
-    width: 150px;
-  }
-  
   .pagination {
     align-items: center;
-    background-color: #0fbcf9;
+    background-color: white;
     display: flex;
     flex-direction: row;
+    padding-top: 20px;
     height: 60px;
     justify-content: center;
     list-style-type: none;
     position: relative;
-    width: 1000px;
+    width: 600px;
   }
   
   .pagination-page {
@@ -178,10 +172,18 @@
   }
   
   .previous {
-    border-right: solid 1px #808e9b;
-    font-size: 4px;
+    border-right: solid 1px rgb(155, 155, 155);
+    font-size: 25px;
     height: 60px;
     left: 0;
     position: absolute;
-    width: 150px;
+    width: 100px;
+  }
+  .next {
+    border-left: solid 1px rgb(155, 155, 155);
+    font-size: 25px;
+    height: 60px;
+    position: absolute;
+    right: 0;
+    width: 100px;
   }

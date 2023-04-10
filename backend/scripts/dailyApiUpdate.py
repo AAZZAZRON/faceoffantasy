@@ -116,7 +116,7 @@ def updatePlayers():
                         avatar=f"https://cms.nhl.bamgrid.com/images/headshots/current/168x168/{player_response['id']}.jpg",
                         firstName=player_response["firstName"],
                         lastName=player_response["lastName"],
-                        primaryNumber=player_response["primaryNumber"],
+                        primaryNumber=(0 if not "primaryNumber" in player_response else player_response["primaryNumber"]),
                         currentAge=player_response["currentAge"],
                         nationality=player_response["nationality"],
                         height=player_response["height"],

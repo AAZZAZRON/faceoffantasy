@@ -61,13 +61,13 @@ function LeagueCreationModal(props) {
         props.setShowLeagueCreationModal(false);
     }
 
-    const rosterSettings = {"Forwards Allowed" : 6, "Defensemen Allowed": 4, "Goalies Allowed": 2};
-    const pointsSettings = {"Goals" : 3, "Assists" : 2, "Penalty Minutes" : 0.5, "Shots" : 0.1, "Hits" : 0.5, "Power Play Points" : 1, "Short Handed Points" : 2, "Blocks" : 0.5, "Wins" : 3, "Losses" : 0, "Overtime Losses" : 1, "Saves" : 0.2, "Shutouts" : 3, "Goals Against" : -1};
+    const defaultRosterSettings = {"Forwards Allowed" : 6, "Defensemen Allowed": 4, "Goalies Allowed": 2};
+    const defaultPointsSettings = {"Goals" : 3, "Assists" : 2, "Penalty Minutes" : 0.5, "Shots" : 0.1, "Hits" : 0.5, "Power Play Points" : 1, "Short Handed Points" : 2, "Blocks" : 0.5, "Wins" : 3, "Losses" : 0, "Overtime Losses" : 1, "Saves" : 0.2, "Shutouts" : 3, "Goals Against" : -1};
 
     function RosterSettingsForms() {
         return (
             <div>
-                {Object.keys(rosterSettings).map((setting, index) => (
+                {Object.keys(defaultRosterSettings).map((setting, index) => (
                     <div key={index}>
                         <TextField
                         id={setting}
@@ -76,7 +76,7 @@ function LeagueCreationModal(props) {
                         type="number"
                         required
                         inputProps={{ min: 0, max: 10, step: 1 }}
-                        defaultValue={rosterSettings[setting]}
+                        defaultValue={defaultRosterSettings[setting]}
                         sx={{ my: 1, width: '30%' }}
                         />
                         </div>
@@ -88,7 +88,7 @@ function LeagueCreationModal(props) {
     function PointsSettingsForms() {
         return (
             <div>
-                {Object.keys(pointsSettings).map((setting, index) => (
+                {Object.keys(defaultPointsSettings).map((setting, index) => (
                     <div key={index}>
                         <TextField
                         id={setting}
@@ -97,7 +97,7 @@ function LeagueCreationModal(props) {
                         type="number"
                         required
                         inputProps={{ min: -10, max: 10, step: 0.1 }}
-                        defaultValue={pointsSettings[setting]}
+                        defaultValue={defaultPointsSettings[setting]}
                         sx={{ my: 1, width: '30%' }}
                         />
                         </div>
@@ -112,8 +112,6 @@ function LeagueCreationModal(props) {
 
         // post to api
         const leagueName = data.get('Name');
-        const rosterSettings = {"Forwards Allowed" : data.get('Forwards Allowed'), "Defensemen Allowed": data.get('Defensemen Allowed'), "Goalies Allowed": data.get('Goalies Allowed')};
-        const pointsSettings = {"Goals" : data.get('Goals'), "Assists" : data.get('Assists'), "Penalty Minutes" : data.get('Penalty Minutes'), "Shots" : data.get('Shots'), "Hits" : data.get('Hits'), "Power Play Points" : data.get('Power Play Points'), "Short Handed Points" : data.get('Short Handed Points'), "Blocks" : data.get('Blocks'), "Wins" : data.get('Wins'), "Losses" : data.get('Losses'), "Overtime Losses" : data.get('Overtime Losses'), "Saves" : data.get('Saves'), "Shutouts" : data.get('Shutouts'), "Goals Against" : data.get('Goals Against')};
 
         const ownerId = getDataCache("user").id;
 
@@ -125,28 +123,28 @@ function LeagueCreationModal(props) {
             body: JSON.stringify({
                 "name": leagueName,
                 'owner': ownerId,
-                "numForwards": rosterSettings["Forwards Allowed"],
-                "numDefensemen": rosterSettings["Defensemen Allowed"],
-                "numGoalies": rosterSettings["Goalies Allowed"],
-                "goals": pointsSettings["Goals"],
-                "assists": pointsSettings["Assists"],
-                "pim": pointsSettings["Penalty Minutes"],
-                "shots": pointsSettings["Shots"],
-                "hits": pointsSettings["Hits"],
-                "powerPlayPoints": pointsSettings["Power Play Points"],
-                "shortHandedPoints": pointsSettings["Short Handed Points"],
-                "blocked": pointsSettings["Blocks"],
-                "wins": pointsSettings["Wins"],
-                "losses": pointsSettings["Losses"],
-                "ot": pointsSettings["Overtime Losses"],
-                "saves": pointsSettings["Saves"],
-                "shutouts": pointsSettings["Shutouts"],
-                "goalsAgainst": pointsSettings["Goals Against"]
+                "numForwards": data.get('Forwards Allowed'),
+                "numDefensemen": data.get('Defensemen Allowed'),
+                "numGoalies": data.get('Goalies Allowed'),
+                "goals": data.get('Goals'),
+                "assists": data.get('Assists'),
+                "pim": data.get('Penalty Minutes'),
+                "shots": data.get('Shots'),
+                "hits": data.get('Hits'),
+                "powerPlayPoints": data.get('Power Play Points'),
+                "shortHandedPoints": data.get('Short Handed Points'),
+                "blocked": data.get('Blocks'),
+                "wins": data.get('Wins'),
+                "losses": data.get('Losses'),
+                "ot": data.get('Overtime Losses'),
+                "saves": data.get('Saves'),
+                "shutouts": data.get('Shutouts'),
+                "goalsAgainst": data.get('Goals Against'),
         }),
         })
         .then((response) => response.json())
         .then((data) => {
-            console.log('Success:', data);
+            console.log('POST request success:', data);
             callAndStore("LEAGUES", `${routes.LEAGUES}/`);
         })
         .catch((error) => {

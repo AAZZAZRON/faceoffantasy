@@ -7,10 +7,15 @@ python manage.py migrate --run-syncdb
 python manage.py runserver
 ```
 
-To add all teams, skaters, and goalies, visit
-
+To add all teams, skaters, and goalies, run
 ```
-<host>/loadplayers/
+python manage.py shell --command="from scripts.onLoadApi import initialLoad; initialLoad();"
+```
+This will take a bit of time. Wait for the terminal to display `DONE`. 
+
+Make sure to install the dependencies using
+```
+pip install -r requirements.txt
 ```
 
 # Documentation

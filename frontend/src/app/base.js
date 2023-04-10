@@ -19,7 +19,7 @@ import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 
 export default function Base (props) {
-    const checkLoggedIn = false;
+    const checkLoggedIn = true;
     // sent to login if not logged in
     useEffect(() => {
         if(checkLoggedIn && !loggedIn() && window.location.pathname !== "/faceoffantasy/signup" && window.location.pathname !== "/faceoffantasy/login") {

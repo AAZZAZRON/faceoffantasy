@@ -67,6 +67,9 @@ const logout = () => {
     setUser({});
     localStorage.removeItem("token");
     localStorage.removeItem("refresh");
+    localStorage.removeItem("activeTeam");
+    localStorage.removeItem("LEAGUES");
+    localStorage.removeItem("TEAMS");
     window.location.href = "/faceoffantasy/login";
 }
 

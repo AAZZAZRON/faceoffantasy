@@ -53,15 +53,17 @@ export default function LeagueSwitchScreen(props) {
             </div>
             <hr style={{width: "95%"}}/>
 
-            {userTeams.map((team, index) => ( 
-                <LeagueCard
-                key={index}
-                league={userLeagues.find((league) => league.id === team.league)}
-                force={props.force}
-                selected={selectedLeagueID === team.league}
-                handleClick={() => {handleClick(team)}}
-                ></LeagueCard>
-            ))}
+            <div className={"league-cards-container"}>
+                {userTeams.map((team, index) => ( 
+                    <LeagueCard
+                    key={index}
+                    league={userLeagues.find((league) => league.id === team.league)}
+                    force={props.force}
+                    selected={selectedLeagueID === team.league}
+                    handleClick={() => {handleClick(team)}}
+                    ></LeagueCard>
+                ))}
+            </div>
 
         </div> 
         {props.force && <div style={{width: "10%"}}><button id='logout' onClick={logout}>logout</button></div>}

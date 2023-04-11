@@ -36,6 +36,14 @@ export const PlayerModal = (props) => {
         return 'Unknown';
     }
 
+    const addPlayerToTeam = () => {
+        
+    }
+    
+    const togglePlayerOnWatchList = () => {
+        
+    }
+
     return (
         <>
             <Modal

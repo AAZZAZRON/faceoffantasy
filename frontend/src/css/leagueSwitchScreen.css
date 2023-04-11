@@ -66,6 +66,10 @@
     box-shadow: 5px 5px 3px #818181;
 }
 
+.league-card:hover {
+    background-image: linear-gradient(rgb(0 0 0/8%) 0 0);   
+}
+
 .league-place-info {
     flex: 0.5;
     display: flex;

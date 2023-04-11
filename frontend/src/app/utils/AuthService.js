@@ -28,6 +28,18 @@ const getUser = () => {
     return JSON.parse(localStorage.getItem("user"));
 }
 
+const setActiveTeam = (team) => {
+    localStorage.setItem("activeTeam", JSON.stringify(team));
+}
+
+const getActiveTeam = () => {
+    return JSON.parse(localStorage.getItem("activeTeam"));
+}
+
+export const hasActiveTeam = () => {
+    return !(!localStorage.getItem("activeTeam"));
+}
+
 const refreshUser = () => {
     if (loggedIn()) {
         fetch(`${Routes.USER}/${getUser()["id"]}/`).then((res) => res.json()).then((res) => {

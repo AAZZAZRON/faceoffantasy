@@ -16,10 +16,21 @@ export default function LeagueSwitchScreen(props) {
     
     const [showLeagueCreationModal, setShowLeagueCreationModal] = React.useState(false);
     const [showLeagueJoinModal, setShowLeagueJoinModal] = React.useState(false);
+    const [userTeams, setUserTeams] = React.useState([]);
+    const [userLeagues, setUserLeagues] = React.useState([]);
 
     const user = getDataCache("user").username;
-
     props.setMessage("My leagues");
+
+    const onStartup = async () => {
+        await setUserTeams(await getDataCache("TEAMS"));
+        await setUserLeagues(await getDataCache("LEAGUES"));
+    }
+
+    useEffect(() => {
+        onStartup();
+    }, []);
+
     return (<>
         <LeagueCreationModal showLeagueCreationModal={showLeagueCreationModal} setShowLeagueCreationModal={setShowLeagueCreationModal}></LeagueCreationModal>
         <LeagueJoinModal showLeagueJoinModal={showLeagueJoinModal} setShowLeagueJoinModal={setShowLeagueJoinModal}></LeagueJoinModal>
@@ -32,9 +43,16 @@ export default function LeagueSwitchScreen(props) {
                 </div>
             </div>
             <hr style={{width: "95%"}}/>
-            <LeagueCard name={"National Hockey League"} playercount={4} active={true}></LeagueCard>
-            <LeagueCard name={"Sam's Fantasy League"} playercount={6}></LeagueCard>
-            <LeagueCard name={":D"} playercount={8}></LeagueCard>
+
+            {userTeams.map((team, index) => ( 
+                <LeagueCard
+                key={index}
+                name={userLeagues.find((league) => league.id === team.league).name}
+                playercount={userLeagues.find((league) => league.id === team.league).users.length}
+                active={false}
+                ></LeagueCard>
+            ))}
+
         </div> 
         {props.force && <div style={{width: "10%"}}><button id='logout' onClick={logout}>logout</button></div>}
     </>);
@@ -43,7 +61,7 @@ export default function LeagueSwitchScreen(props) {
 function LeagueCard(props) {
     return (
         <div className={"league-card"} style={{backgroundColor: props.active ? "#e5ddfd" : "#f1f1f1"}}>
-            <div className={"league-place-info"}>
+            <div className={"league-place-info"}>   
                 <div style={{fontSize: "1.5em", marginLeft: "3%"}}>{props.name}</div>
 
             </div>
@@ -176,9 +194,6 @@ function LeagueCreationModal(props) {
             console.error('Error:', error);
         });
         
-
-
-
         // close modal
         closeModal();
     }

@@ -13,13 +13,14 @@ import LeagueSwitchScreen from './screens/leagueSwitchScreen';
 import { getDataCache } from './utils/api/caching';
 import routes from './utils/misc/routes';
 import { callAndStore } from './utils/api/callApi';
-import { loggedIn } from './utils/AuthService';
+import { loggedIn, hasActiveTeam } from './utils/AuthService';
 import Copyright from './components/copyright';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 
 export default function Base (props) {
     const checkLoggedIn = true;
+    const checkHasLeague = true;
     // sent to login if not logged in, sent to forceswitch if not in a league, sent to home if logged in and in a league
     useEffect(() => {
         if(checkLoggedIn && !loggedIn() && window.location.pathname !== "/faceoffantasy/signup" && window.location.pathname !== "/faceoffantasy/login") {
@@ -27,6 +28,9 @@ export default function Base (props) {
         }
         if (checkLoggedIn && loggedIn() && (window.location.pathname === "/faceoffantasy/login" || window.location.pathname === "/faceoffantasy/signup")) {
             window.location.href = "/faceoffantasy";
+        }
+        if (checkHasLeague && loggedIn() && !hasActiveTeam() && window.location.pathname !== "/faceoffantasy/switchforce") {
+            window.location.href = "/faceoffantasy/switchforce";
         }
     }, []);
 

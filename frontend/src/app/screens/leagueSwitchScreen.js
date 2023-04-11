@@ -10,8 +10,7 @@ import Routes from '../utils/misc/routes';
 import { getDataCache } from '../utils/api/caching';
 import { callAndStore } from '../utils/api/callApi';
 import routes from '../utils/misc/routes';
-import {logout} from "../utils/AuthService";
-import { setActiveLeague } from '../utils/AuthService';
+import { setActiveTeam, getActiveTeam, logout, hasActiveTeam } from '../utils/AuthService';
 
 export default function LeagueSwitchScreen(props) {
     
@@ -19,19 +18,27 @@ export default function LeagueSwitchScreen(props) {
     const [showLeagueJoinModal, setShowLeagueJoinModal] = React.useState(false);
     const [userTeams, setUserTeams] = React.useState([]);
     const [userLeagues, setUserLeagues] = React.useState([]);
+    const [selectedLeagueID, setSelectedLeagueID] = React.useState(null);
 
     const user = getDataCache("user").username;
     props.setMessage("My leagues");
 
     const cacheTeamsAndLeagues = async () => {
-        console.log(getDataCache("TEAMS").length);
         await setUserTeams(await getDataCache("TEAMS"));
         await setUserLeagues(await getDataCache("LEAGUES"));
     }
 
+    function handleClick(handleclickprops) {
+        const league = userLeagues.find((league) => league.id === handleclickprops.league);
+        setSelectedLeagueID(league.id);
+        setActiveTeam(handleclickprops);
+        if (props.force) window.location.href = "/faceoffantasy/";
+    }
+
     useEffect(() => {
         cacheTeamsAndLeagues();
-    }, [showLeagueCreationModal, showLeagueJoinModal, setShowLeagueCreationModal, setShowLeagueJoinModal]);
+        if (hasActiveTeam()) setSelectedLeagueID(getActiveTeam().league);
+    }, []);
 
     return (<>
         <LeagueCreationModal showLeagueCreationModal={showLeagueCreationModal} setShowLeagueCreationModal={setShowLeagueCreationModal}></LeagueCreationModal>
@@ -50,8 +57,9 @@ export default function LeagueSwitchScreen(props) {
                 <LeagueCard
                 key={index}
                 league={userLeagues.find((league) => league.id === team.league)}
-                active={false}
                 force={props.force}
+                selected={selectedLeagueID === team.league}
+                handleClick={() => {handleClick(team)}}
                 ></LeagueCard>
             ))}
 
@@ -61,15 +69,8 @@ export default function LeagueSwitchScreen(props) {
 }
 
 function LeagueCard(props) {
-
-    function handleClick() {
-        setActiveLeague(props.league.id);
-        console.log("switched league to " + props.league.id);
-        if (props.force) window.location.href = "/faceoffantasy/";
-    }
-
     return (
-        <div className={"league-card"} style={{backgroundColor: props.active ? "#e5ddfd" : "#f1f1f1"}} onClick={handleClick}>
+        <div className={"league-card"} style={{backgroundColor: (props.selected) ? "#e5ddfd" : "#f1f1f1"}} onClick={props.handleClick}>
             <div className={"league-place-info"}>   
                 <div style={{fontSize: "1.5em", marginLeft: "3%"}}>{props.league.name}</div>
 

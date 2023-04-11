@@ -3,11 +3,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-radius: 10px;
+    
     background-color: white;
 }
 
-.top-bar {
+.create-join-league-top-bar {
     align-self: stretch;
     display: flex;
     flex-direction: row;

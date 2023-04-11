@@ -10,7 +10,7 @@ import Routes from '../utils/misc/routes';
 import { getDataCache } from '../utils/api/caching';
 import { callAndStore } from '../utils/api/callApi';
 import routes from '../utils/misc/routes';
-import { setActiveTeam, getActiveTeam, logout, hasActiveTeam } from '../utils/AuthService';
+import { setActiveTeam, getActiveTeam, logout, hasActiveTeam, loggedIn } from '../utils/AuthService';
 
 export default function LeagueSwitchScreen(props) {
     
@@ -19,8 +19,7 @@ export default function LeagueSwitchScreen(props) {
     const [userTeams, setUserTeams] = React.useState([]);
     const [userLeagues, setUserLeagues] = React.useState([]);
     const [selectedLeagueID, setSelectedLeagueID] = React.useState(null);
-
-    const user = getDataCache("user").username;
+    const [user, setUser] = React.useState(null);
     props.setMessage("My leagues");
 
     const cacheTeamsAndLeagues = async () => {
@@ -36,6 +35,7 @@ export default function LeagueSwitchScreen(props) {
     }
 
     useEffect(() => {
+        if (loggedIn()) setUser(getDataCache("user").username);
         cacheTeamsAndLeagues();
         if (hasActiveTeam()) setSelectedLeagueID(getActiveTeam().league);
     }, []);
@@ -44,7 +44,7 @@ export default function LeagueSwitchScreen(props) {
         <LeagueCreationModal showLeagueCreationModal={showLeagueCreationModal} setShowLeagueCreationModal={setShowLeagueCreationModal}></LeagueCreationModal>
         <LeagueJoinModal showLeagueJoinModal={showLeagueJoinModal} setShowLeagueJoinModal={setShowLeagueJoinModal}></LeagueJoinModal>
         <div className={"league-container"}>
-            <div className={"top-bar"}>
+            <div className={"create-join-league-top-bar"}>
                 <h2>{props.force ? 'Hello, ' + user + '! Please Select a League to Continue.' : 'Select a League'}</h2>
                 <div className={"enter-league-buttons"}>
                     <button className={"enter-league-button"} style={{fontWeight: "bold"}} onClick={() => setShowLeagueJoinModal(true)}>Join League</button>

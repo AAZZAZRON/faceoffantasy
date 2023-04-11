@@ -18,6 +18,7 @@ export default function PlayersScreen (props) {
 
     // for filtering and sorting
     const [selectedPosition, setSelectedPosition] = useState("All");
+    const [selectedStatus, setSelectedStatus] = useState("All");
     const [sortingBy, setSortingBy] = useState("-1");
     const [sortingOrder, setSortingOrder] = useState(-1);
     const [searchFilter, setSearchFilter] = useState("");
@@ -75,6 +76,11 @@ export default function PlayersScreen (props) {
         setSelectedPosition(newPosition);
     }
 
+    const changeSelectedStatus = (newStatus) => {
+        if (newStatus === selectedStatus) return;
+        setSelectedStatus(newStatus);
+    }
+
     const changeSearchFilter = (text) => {
         setSearchFilter(text);
     }
@@ -112,6 +118,23 @@ export default function PlayersScreen (props) {
         }
     }
 
+    const filterByStatus = (players) => { 
+        if (selectedStatus === "All") {
+            return players;
+        } else if (selectedStatus === "Healthy") {
+            return players.filter((player) => {
+                return player.rosterStatus === "Y";
+            });
+        } else if (selectedStatus === "Injured") {
+            return players.filter((player) => {
+                return player.rosterStatus === "I";
+            });
+        } else {
+            return [];
+        }
+    }
+
+
     const filterBySearch = (players) => {
         return players.filter((player) => {
             return player.firstName.toLowerCase().includes(searchFilter.toLowerCase()) || player.lastName.toLowerCase().includes(searchFilter.toLowerCase());
@@ -130,6 +153,7 @@ export default function PlayersScreen (props) {
     const changePlayerDisplay = async () => { // whenever something happens
         // filter and sort from all players
         var players = await filterByPosition();
+        players = await filterByStatus(players);
         players = await filterBySearch(players);
         players = await sortPlayersBy(players);
 
@@ -143,7 +167,7 @@ export default function PlayersScreen (props) {
 
     useEffect(() => { // whenever a filter or sort changes, change player list
         changePlayerDisplay();
-    }, [selectedPosition, searchFilter, sortingBy, sortingOrder, isLoading]);
+    }, [selectedPosition, selectedStatus, searchFilter, sortingBy, sortingOrder, isLoading]);
 
     useEffect(() => { // when skaters/goalies changes, set pagination count
         setPaginationCount();
@@ -171,14 +195,25 @@ export default function PlayersScreen (props) {
                 Loading...
             </div>
             <div class="player-container" style={{display: (!isLoading ? 'flex' : 'none')}}>
-                <div class='position-toggle'>
-                    <div class={selectedPosition === "All" ? 'position-toggle-pressed' : 'position-toggle-button'} onClick={() => changeSelectedPosition("All")}>All Skaters</div>
-                    <div>|</div>
-                    <div class={selectedPosition === "Forward" ? 'position-toggle-pressed' : 'position-toggle-button'} onClick={() => changeSelectedPosition("Forward")}>F</div>
-                    <div>|</div>
-                    <div class={selectedPosition === "Defenseman" ? 'position-toggle-pressed' : 'position-toggle-button'} onClick={() => changeSelectedPosition("Defenseman")}>D</div>
-                    <div>|</div>
-                    <div class={selectedPosition === "Goalie" ? 'position-toggle-pressed' : 'position-toggle-button'} onClick={() => changeSelectedPosition("Goalie")}>G</div>
+                <div class="top-bar">
+                    <div class='toggle'>
+                        <div>Position: </div>
+                        <div class={selectedPosition === "All" ? 'toggle-pressed' : 'toggle-button'} onClick={() => changeSelectedPosition("All")}>All Skaters</div>
+                        <div>|</div>
+                        <div class={selectedPosition === "Forward" ? 'toggle-pressed' : 'toggle-button'} onClick={() => changeSelectedPosition("Forward")}>F</div>
+                        <div>|</div>
+                        <div class={selectedPosition === "Defenseman" ? 'toggle-pressed' : 'toggle-button'} onClick={() => changeSelectedPosition("Defenseman")}>D</div>
+                        <div>|</div>
+                        <div class={selectedPosition === "Goalie" ? 'toggle-pressed' : 'toggle-button'} onClick={() => changeSelectedPosition("Goalie")}>G</div>
+                    </div>
+                    <div class="toggle">
+                        <div>Status: </div>
+                        <div class={selectedStatus === "All" ? 'toggle-pressed' : 'toggle-button'} onClick={() => changeSelectedStatus("All")}>All</div>
+                        <div>|</div>
+                        <div class={selectedStatus === "Healthy" ? 'toggle-pressed' : 'toggle-button'} onClick={() => changeSelectedStatus("Healthy")}>Healthy</div>
+                        <div>|</div>
+                        <div class={selectedStatus === "Injured" ? 'toggle-pressed' : 'toggle-button'} onClick={() => changeSelectedStatus("Injured")}>Injured</div>
+                    </div>
                     <span className="col-5 d-flex align-items-center">
                         <Searchbar onSearch={changeSearchFilter} placeholder="Search Players"></Searchbar>
                     </span>

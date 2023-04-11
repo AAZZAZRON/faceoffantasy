@@ -32,7 +32,7 @@ export const PlayerModal = (props) => {
     const rosterStatus = (player) => {
         if (player.rosterStatus === 'Y') return 'Healthy';
         if (player.rosterStatus === 'I') return 'Injured';
-        console.log(player.firstName, player.lastName, player.rosterStatus);
+        // console.log(player.firstName, player.lastName, player.rosterStatus);
         return 'Unknown';
     }
 

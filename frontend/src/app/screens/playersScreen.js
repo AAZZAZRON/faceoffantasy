@@ -12,12 +12,12 @@ export default function PlayersScreen (props) {
     const [goalies, setGoalies] = useState([]);
     const [allSkaters, setAllSkaters] = useState([]); // for searching
     const [allGoalies, setAllGoalies] = useState([]); // for searching
+    
     const [positions, setPositions] = useState([]);
     const [NHLTeams, setNHLTeams] = useState([]);
     const [selectedPosition, setSelectedPosition] = useState("All");
     const [sortingBy, setSortingBy] = useState("-1");
-    const [sortingOrder, setSortingOrder] = useState(-1); 
-    const [searchFor, setSearchFor] = useState("");
+    const [searchFilter, setSearchFilter] = useState("");
     const [isLoading, setIsLoading] = useState(true);
 
     // for pagination
@@ -52,20 +52,20 @@ export default function PlayersScreen (props) {
         {name: "+/-", value: "plusMinus"},
     ]
 
-    const sortSkatersBy = (sortParam) => {
-        console.log(sortParam);
-        if (sortParam === sortingBy) {
-            setSortingOrder(sortingOrder * -1);
-            setSkaters(skaters.reverse());
-        } else {
-            var newSkaters = [...skaters];
-            newSkaters.sort((a, b) => (a[sortParam] > b[sortParam]) ? -1 : 1);
-            setSortingOrder(-1);
-            setSkaters(newSkaters);
-            setSortingBy(sortParam);
-        }
-        setCurrentPage(1);
-    }
+    // const sortSkatersBy = (sortParam) => {
+    //     console.log(sortParam);
+    //     if (sortParam === sortingBy) {
+    //         setSortingOrder(sortingOrder * -1);
+    //         setSkaters(skaters.reverse());
+    //     } else {
+    //         var newSkaters = [...skaters];
+    //         newSkaters.sort((a, b) => (a[sortParam] > b[sortParam]) ? -1 : 1);
+    //         setSortingOrder(-1);
+    //         setSkaters(newSkaters);
+    //         setSortingBy(sortParam);
+    //     }
+    //     setCurrentPage(1);
+    // }
 
     const goalieSortParams = [
         {name: "GS", value: "gamesStarted"},
@@ -78,61 +78,137 @@ export default function PlayersScreen (props) {
         {name: "SV%", value: "savePercentage"},
     ]
 
-    const sortGoaliesBy = (sortParam) => {
-        if (sortParam === sortingBy) {
-            setSortingOrder(sortingOrder * -1);
-            setGoalies(goalies.reverse());
-        } else {
-            var newGoalies = [...goalies];
-            newGoalies.sort((a, b) => (a[sortParam] > b[sortParam]) ? -1 : 1);
-            setSortingOrder(-1);
-            if (["goalsAgainst", "goalAgainstAverage", "ot"].includes(sortParam)) {
-                newGoalies.reverse();
-                setSortingOrder(1);
+    // const sortGoaliesBy = (sortParam) => {
+    //     if (sortParam === sortingBy) {
+    //         setSortingOrder(sortingOrder * -1);
+    //         setGoalies(goalies.reverse());
+    //     } else {
+    //         var newGoalies = [...goalies];
+    //         newGoalies.sort((a, b) => (a[sortParam] > b[sortParam]) ? -1 : 1);
+    //         setSortingOrder(-1);
+    //         if (["goalsAgainst", "goalAgainstAverage", "ot"].includes(sortParam)) {
+    //             newGoalies.reverse();
+    //             setSortingOrder(1);
+    //         }
+    //         setGoalies(newGoalies);
+    //         setSortingBy(sortParam);
+    //     }
+    //     setCurrentPage(1);
+    // }
+
+    const sortPlayersBy = (sortParam, flip=true) => { 
+        if (sortParam === "-1") return; // don't sort if no sort param
+        // flip -> if want to reverse stat
+        if (selectedPosition === "Goalie") {
+            if (sortParam === sortingBy && flip) setGoalies(goalies.reverse());
+            else {
+                var tmpGoalies = [...goalies];
+                tmpGoalies.sort((a, b) => (a[sortParam] > b[sortParam]) ? -1 : 1);
+                setGoalies(tmpGoalies);
+                if (flip && selectedPosition === "Goalie" && ["goalsAgainst", "goalAgainstAverage", "ot"].includes(sortParam)) {
+                    setGoalies(goalies.reverse());
+                }
             }
-            setGoalies(newGoalies);
-            setSortingBy(sortParam);
+        } else {
+            if (sortParam === sortingBy && flip) setSkaters(skaters.reverse());
+            else {
+                var tmpSkaters = [...skaters];
+                tmpSkaters.sort((a, b) => (a[sortParam] > b[sortParam]) ? -1 : 1);
+                setSkaters(tmpSkaters);
+            }
         }
-        setCurrentPage(1);
+        setSortingBy(sortParam);
     }
 
-    const changeSelectedPosition = (position) => {
-        if (position === selectedPosition) return;
-        if (selectedPosition === "Goalie") { // reset sorting when changing between skaters/goalies
+    const changeSelectedPosition = async (newPosition) => {
+        console.log(selectedPosition, newPosition);
+        if (newPosition === selectedPosition) return;
+        if (newPosition === "Goalie") { // skater to goalie
             setSortingBy("-1");
-            setGoalies(allGoalies);
-        }
-        if (position === "Goalie") {
-            setSortingBy("-1");
-            setSkaters(allSkaters);
-        }
-
-        if (position === "All") { // change page count for pagination
-            setPageCount(Math.ceil((skaters.length) / itemsPerPage));
-        } else if (position === "Goalie") {
-            setPageCount(Math.ceil((goalies.length) / itemsPerPage));
+            await setGoalies(allGoalies);
         } else {
-            var tmp = skaters.filter((skater) => {
+            if (selectedPosition === "Goalie") setSortingBy("-1"); // only reset sort of goalie to skater
+            var tmpSkaters = [...allSkaters];
+            tmpSkaters = tmpSkaters.filter((skater) => {
                 const tmpPosition = positions.find(position => position.id === skater.primaryPosition);
-                return position === "All" || tmpPosition.type === position;
-            });
-            setPageCount(Math.ceil((tmp.length) / itemsPerPage));
+                console.log(newPosition === "All" ? true : tmpPosition.type === newPosition);
+                return newPosition === "All" ? true : tmpPosition.type === newPosition;
+            })
+            await setSkaters(tmpSkaters);
+            console.log(skaters, tmpSkaters);
         }
-        setSelectedPosition(position); 
+        setSelectedPosition(newPosition);
+        sortPlayersBy(sortingBy, false);
+        filterBySearch();
+        setPaginationCount();
+    }
+
+    const setPaginationCount = async () => {
+        if (selectedPosition === "Goalie") setPageCount(Math.ceil((goalies.length) / itemsPerPage));
+        else setPageCount(Math.ceil((skaters.length) / itemsPerPage));
+    }
+
+    // const changeSelectedPosition2 = (position) => {
+    //     if (position === selectedPosition) return;
+    //     if (selectedPosition === "Goalie") { // reset sorting when changing between skaters/goalies
+    //         setSortingBy("-1");
+    //         setGoalies(allGoalies);
+    //     }
+    //     if (position === "Goalie") {
+    //         setSortingBy("-1");
+    //         setSkaters(allSkaters);
+    //     }
+
+    //     if (position === "All") { // change page count for pagination
+    //         setPageCount(Math.ceil((skaters.length) / itemsPerPage));
+    //     } else if (position === "Goalie") {
+    //         setPageCount(Math.ceil((goalies.length) / itemsPerPage));
+    //     } else {
+    //         var tmp = skaters.filter((skater) => {
+    //             const tmpPosition = positions.find(position => position.id === skater.primaryPosition);
+    //             return position === "All" || tmpPosition.type === position;
+    //         });
+    //         setPageCount(Math.ceil((tmp.length) / itemsPerPage));
+    //     }
+    //     setSelectedPosition(position); 
+    // }
+
+    const filterBySearch = async () => {
+        await setSkaters(allSkaters.filter((player) => {
+            return player.firstName.toLowerCase().includes(searchFilter.toLowerCase()) || player.lastName.toLowerCase().includes(searchFilter.toLowerCase());
+        }));
+        await setGoalies(allGoalies.filter((player) => {
+            return player.firstName.toLowerCase().includes(searchFilter.toLowerCase()) || player.lastName.toLowerCase().includes(searchFilter.toLowerCase());
+        }));
+        console.log(skaters);
     }
 
     // search's players by name
-    const onSearch = async (text) => {
-        setSearchFor(text);
+    const onSearch = (text) => {
+        setSearchFilter(text);
     }
 
+    useEffect(() => {
+        filterBySearch();
+        sortPlayersBy(sortingBy, false);
+    }, [searchFilter]);
+
+    useEffect(() => {
+        setPaginationCount();
+        console.log("pagination count changed", pageCount, skaters.length, goalies.length);
+    }, [skaters, goalies]);
+
+    useEffect(() => {
+        console.log("skaters changed:", skaters);
+    }, [skaters]);
+
     const onStartup = async() => {
-        setSkaters(await getDataCache("SKATERS"));
-        setGoalies(await getDataCache("GOALIES"));
-        setPositions(await getDataCache("POSITIONS"));
-        setNHLTeams(await getDataCache("NHLTEAMS"));
-        setAllSkaters(await getDataCache("SKATERS"));
-        setAllGoalies(await getDataCache("GOALIES"));
+        await setSkaters(await getDataCache("SKATERS"));
+        await setGoalies(await getDataCache("GOALIES"));
+        await setPositions(await getDataCache("POSITIONS"));
+        await setNHLTeams(await getDataCache("NHLTEAMS"));
+        await setAllSkaters(await getDataCache("SKATERS"));
+        await setAllGoalies(await getDataCache("GOALIES"));
         setIsLoading(false);
     }
 
@@ -150,11 +226,11 @@ export default function PlayersScreen (props) {
                 <div class='position-toggle'>
                     <div class={selectedPosition === "All" ? 'position-toggle-pressed' : 'position-toggle-button'} onClick={() => changeSelectedPosition("All")}>All Skaters</div>
                     <div>|</div>
-                    <div class={selectedPosition === "Forward" ? 'position-toggle-pressed' : 'position-toggle-button'} onClick={() => changeSelectedPosition("Forward")}>F</div>
+                    <div class={selectedPosition === "Forward" ? 'position-toggle-pressed' : 'position-toggle-button'} onClick={(e) => changeSelectedPosition("Forward")}>F</div>
                     <div>|</div>
-                    <div class={selectedPosition === "Defenseman" ? 'position-toggle-pressed' : 'position-toggle-button'} onClick={() => changeSelectedPosition("Defenseman")}>D</div>
+                    <div class={selectedPosition === "Defenseman" ? 'position-toggle-pressed' : 'position-toggle-button'} onClick={(e) => changeSelectedPosition("Defenseman")}>D</div>
                     <div>|</div>
-                    <div class={selectedPosition === "Goalie" ? 'position-toggle-pressed' : 'position-toggle-button'} onClick={() => changeSelectedPosition("Goalie")}>G</div>
+                    <div class={selectedPosition === "Goalie" ? 'position-toggle-pressed' : 'position-toggle-button'} onClick={(e) => changeSelectedPosition("Goalie")}>G</div>
                     <span className="col-5 d-flex align-items-center"><Searchbar onSearch={onSearch} placeholder="Search Players"></Searchbar></span>
                 </div>
                 <div class="card" style={{flexDirection: 'row'}}>
@@ -162,28 +238,23 @@ export default function PlayersScreen (props) {
                     <div class='card-body' style={{display: (selectedPosition === "Goalie" ? 'none' : 'flex')}}>
                         {skaterSortParams.map((param, index) => {
                             return (
-                                <div key={index} onClick={() => sortSkatersBy(param.value)} class={(param.value === sortingBy ? 'header-sort' : 'header')}>{param.name}</div>
+                                <div key={index} onClick={() => sortPlayersBy(param.value)} class={(param.value === sortingBy ? 'header-sort' : 'header')}>{param.name}</div>
                             )
                         })}
                     </div>
                     <div class='card-body' style={{display: (selectedPosition !== "Goalie" ? 'none' : 'flex')}}>
                         {goalieSortParams.map((param, index) => {
                             return (
-                                <div key={index} onClick={() => sortGoaliesBy(param.value)} class={(param.value === sortingBy ? 'header-sort' : 'header')}>{param.name}</div>
+                                <div key={index} onClick={() => sortPlayersBy(param.value)} class={(param.value === sortingBy ? 'header-sort' : 'header')}>{param.name}</div>
                             )
                         })}
                     </div>
                 </div>
                 <div class='list-container' id='list-container'>
-                    {skaters.filter((skater) => {
-                        const position = positions.find(position => position.id === skater.primaryPosition);
-                        return selectedPosition === "All" || position.type === selectedPosition;
-                    }).filter((skater) => {
-                        return skater.firstName.toLowerCase().includes(searchFor.toLowerCase()) || skater.lastName.toLowerCase().includes(searchFor.toLowerCase());
-                    }).slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((skater, index) => {
+                    {skaters.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((skater, index) => {
                         const position = positions.find(position => position.id === skater.primaryPosition);
                         const team = NHLTeams.find(team => team.id === skater.currentTeam);
-                        if (selectedPosition !== "All" && position.type !== selectedPosition) {
+                        if (selectedPosition === "Goalie") {
                             return null;
                         }
                         return (
@@ -191,12 +262,10 @@ export default function PlayersScreen (props) {
                         )
                         })
                     }
-                    {goalies.filter((goalie) => {
-                        return goalie.firstName.toLowerCase().includes(searchFor.toLowerCase()) || goalie.lastName.toLowerCase().includes(searchFor.toLowerCase());
-                    }).slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((goalie, index) => {
+                    {goalies.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((goalie, index) => {
                         const position = positions.find(position => position.id === goalie.primaryPosition);
                         const team = NHLTeams.find(team => team.id === goalie.currentTeam);
-                        if (selectedPosition !== "Goalie" && position.type !== selectedPosition) {
+                        if (selectedPosition !== "Goalie") {
                             return null;
                         }
                         return (

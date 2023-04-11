@@ -40,6 +40,10 @@ export default function LeagueSwitchScreen(props) {
         if (hasActiveTeam()) setSelectedLeagueID(getActiveTeam().league);
     }, []);
 
+    useEffect(() => {
+        console.log(userLeagues);
+    }, [userLeagues]);
+
     return (<>
         <LeagueCreationModal showLeagueCreationModal={showLeagueCreationModal} setShowLeagueCreationModal={setShowLeagueCreationModal}></LeagueCreationModal>
         <LeagueJoinModal showLeagueJoinModal={showLeagueJoinModal} setShowLeagueJoinModal={setShowLeagueJoinModal}></LeagueJoinModal>

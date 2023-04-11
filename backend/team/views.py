@@ -33,8 +33,11 @@ def create_team(request):
         team = Team(teamName=data['name'])
         team.league = league
         team.save()
-        owner = User.objects.get(id=data['owner'])
+        owner = User.objects.get(id=data['owner']) # add team to owner
         owner.teams.add(team)
+        owner.save()
+        league.teams.add(team) # add team to league
+        league.save()
         message['message'] = 'Team created successfully'
         message['success'] = True
     return JsonResponse(message)

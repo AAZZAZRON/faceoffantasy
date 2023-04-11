@@ -8,8 +8,7 @@ import ReactPaginate from 'react-paginate';
 export default function PlayersScreen (props) {
     props.setMessage("All Players");
 
-    const [skaters, setSkaters] = useState([]); // stores skaters filtered and sorted by params
-    const [goalies, setGoalies] = useState([]); // stores goalies filtered and sorted by params
+    const [players, setPlayers] = useState([]); // stores all players [skaters, goalies]
     const [allSkaters, setAllSkaters] = useState([]); // stores all skaters
     const [allGoalies, setAllGoalies] = useState([]); // stores all goalies
     
@@ -34,11 +33,19 @@ export default function PlayersScreen (props) {
     const [modalPlayer, setModalPlayer] = useState([]);
     const [modalTeam, setModalTeam] = useState([]);
     const [modalPosition, setModalPosition] = useState([]);
+    const [playerOwner, setPlayerOwner] = useState([]);
 
-    const setModal = (player, position, team) => {
+    // user stuff
+    const [user, setUser] = useState([]); // current user
+    const [allUsers, setAllUsers] = useState([]); // all users
+    const [teams, setTeams] = useState([]);
+    const [leagues, setLeagues] = useState([]);
+
+    const setModal = (player, position, team, owner) => {
         setModalPlayer(player);
         setModalPosition(position);
         setModalTeam(team);
+        setPlayerOwner(owner);
         setShowModal(true);
         console.log("set modal");
     }
@@ -134,7 +141,6 @@ export default function PlayersScreen (props) {
         }
     }
 
-
     const filterBySearch = (players) => {
         return players.filter((player) => {
             return player.firstName.toLowerCase().includes(searchFilter.toLowerCase()) || player.lastName.toLowerCase().includes(searchFilter.toLowerCase());
@@ -146,10 +152,10 @@ export default function PlayersScreen (props) {
     }
 
     const setPaginationCount = async () => {
-        if (selectedPosition === "Goalie") await setPageCount(Math.ceil((goalies.length) / itemsPerPage));
-        else await setPageCount(Math.ceil((skaters.length) / itemsPerPage));
+        await setPageCount(Math.ceil((players.length) / itemsPerPage));
     }
 
+    /* ----- USEEFFECTS ----- */
     const changePlayerDisplay = async () => { // whenever something happens
         // filter and sort from all players
         var players = await filterByPosition();
@@ -157,14 +163,7 @@ export default function PlayersScreen (props) {
         players = await filterBySearch(players);
         players = await sortPlayersBy(players);
 
-        // set players
-        if (selectedPosition === "Goalie") {
-            setGoalies(players);
-        } else {
-            setSkaters(players);
-        }
-
-        console.log(players);
+        setPlayers(players);
     }
 
     useEffect(() => { // whenever a filter or sort changes, change player list
@@ -174,15 +173,35 @@ export default function PlayersScreen (props) {
     useEffect(() => { // when skaters/goalies changes, set pagination count
         setPaginationCount();
         setCurrentPage(1);
-    }, [skaters, goalies]);
+    }, [players]);
 
+    /* ----- HELPER METHODS ----- */
+    const getLeagueTeamOfPlayer = (player) => {
+        if (player == null) return null;
+        // TODO: get current league
+        // const league = leagues.find(league => league.id === player.currentLeague);
+        const league = leagues[0]; // tmp
+        if (league == null) return null;
+        for (let teamId of league.teams) {
+            const team = teams.find(team => team.id === teamId);
+            if (team.forwards.includes(player.id)) return teamId;
+            if (team.defensemen.includes(player.id)) return teamId;
+            if (team.goalies.includes(player.id)) return teamId;
+        }
+        return -1;
+    }
+
+    /* ----- STARTUP LOADING ----- */
     const onStartup = async() => {
-        await setSkaters(await getDataCache("SKATERS"));
-        await setGoalies(await getDataCache("GOALIES"));
-        await setPositions(await getDataCache("POSITIONS"));
-        await setNHLTeams(await getDataCache("NHLTEAMS"));
         await setAllSkaters(await getDataCache("SKATERS"));
         await setAllGoalies(await getDataCache("GOALIES"));
+        await setPlayers(await getDataCache("SKATERS"));
+        await setPositions(await getDataCache("POSITIONS"));
+        await setNHLTeams(await getDataCache("NHLTEAMS"));
+        await setUser(await getDataCache("user"));
+        await setAllUsers(await getDataCache("USERS"));
+        await setTeams(await getDataCache("TEAMS"));
+        await setLeagues(await getDataCache("LEAGUES"));
         await setIsLoading(false);
     }
 
@@ -238,25 +257,23 @@ export default function PlayersScreen (props) {
                     </div>
                 </div>
                 <div class='list-container' id='list-container'>
-                    {skaters.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((skater, index) => {
-                        const position = positions.find(position => position.id === skater.primaryPosition);
-                        const team = NHLTeams.find(team => team.id === skater.currentTeam);
+                    {players.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((player, index) => {
+                        const position = positions.find(position => position.id === player.primaryPosition);
+                        const team = NHLTeams.find(team => team.id === player.currentTeam);
+
+                        // TODO: get team id of the user
+                        const userTeamId = 1;
+                        const owner = getLeagueTeamOfPlayer(player);
+
                         if (selectedPosition === "Goalie") {
-                            return null;
+                            return (
+                                <GoalieCard key={index} goalie={player} position={position} team={team} owner={owner} setModal={setModal}></GoalieCard>
+                            )
+                        } else {
+                            return (
+                                <SkaterCard key={index} skater={player} position={position} team={team} owner={owner} setModal={setModal}></SkaterCard>
+                            )
                         }
-                        return (
-                            <SkaterCard key={index} skater={skater} position={position} team={team} setModal={setModal}></SkaterCard>
-                        )
-                    })}
-                    {goalies.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((goalie, index) => {
-                        const position = positions.find(position => position.id === goalie.primaryPosition);
-                        const team = NHLTeams.find(team => team.id === goalie.currentTeam);
-                        if (selectedPosition !== "Goalie") {
-                            return null;
-                        }
-                        return (
-                            <GoalieCard key={index} goalie={goalie} position={position} team={team} setModal={setModal}></GoalieCard>
-                        )
                     })}
                 </div>
                 <div class='paginate'>
@@ -274,7 +291,7 @@ export default function PlayersScreen (props) {
                         setCurrentPage(e.selected + 1);
                         document.getElementById('list-container').scrollTo(0, 0);
                     }}
-                    pageCount={pageCount !== -1 ? pageCount : Math.ceil(skaters.length / itemsPerPage)}
+                    pageCount={pageCount}
                     pageClassName={'item pagination-page '}
                     pageRangeDisplayed={2}
                     previousClassName={"item previous"}
@@ -282,7 +299,7 @@ export default function PlayersScreen (props) {
                 />
                 </div>
             </div>
-            <PlayerModal showModal={showModal} player={modalPlayer} position={modalPosition} team={modalTeam} setShowModal={setShowModal}></PlayerModal>
+            <PlayerModal showModal={showModal} player={modalPlayer} position={modalPosition} team={modalTeam} owner={playerOwner} setShowModal={setShowModal}></PlayerModal>
         </>
     );
 }
@@ -294,10 +311,10 @@ const rosterStatus = (player) => {
     return 'Unknown';
 }
 
-export function HeadShot({player, setModal, position, team, avatar}) {
+export function HeadShot({player, setModal, position, team, owner, avatar}) {
     return (
     <div className="card-header" onClick={() => {
-        setModal(player, position, team);
+        setModal(player, position, team, owner);
     }}>
         <img src={player.avatar} alt="headshot" className="headshot"/>
         <div>
@@ -316,7 +333,7 @@ function SkaterCard(props) {
     const skater = props.skater;
     return (
         <div className="card" style={{flexDirection: 'row'}}>
-            <HeadShot setModal={props.setModal} player={skater} position={props.position} team={props.team}></HeadShot>
+            <HeadShot setModal={props.setModal} player={skater} position={props.position} team={props.team} owner={props.owner}></HeadShot>
             <div className="card-body">
                 <div>{skater.games}</div>
                 <div>{skater.goals}</div>
@@ -337,7 +354,7 @@ function GoalieCard(props) {
     const goalie = props.goalie;
     return (
         <div class="card" style={{flexDirection: 'row'}}>
-            <HeadShot setModal={props.setModal} position={props.position} team={props.team} player={goalie}></HeadShot>
+            <HeadShot setModal={props.setModal} player={goalie} position={props.position} team={props.team} owner={props.owner}></HeadShot>
             <div class="card-body">
                 <div>{goalie.gamesStarted}</div>
                 <div>{goalie.wins}</div>

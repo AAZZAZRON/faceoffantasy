@@ -74,6 +74,10 @@ export const PlayerModal = (props) => {
                         <div class='player-stat-value'>{averagePoints}</div>
                     </div>
                 </div>
+                <div class='modal-body'>
+                    <button class='action-button'>Add</button>
+                    <button class='action-button'>Interested In</button>
+                </div>
                 <button onClick={closeModal}>close</button>
             </Modal>
 

@@ -177,6 +177,7 @@ function LeagueCreationModal(props) {
                 },
                 body: JSON.stringify({
                     "name": teamName,
+                    'owner': ownerId,
                     "league": data.id,
             }),
             })
@@ -184,6 +185,7 @@ function LeagueCreationModal(props) {
             .then((data) => {
                 console.log('POST request success:', data);
                 callAndStore("TEAMS", `${routes.TEAMS}/`);
+                callAndStore("USERS", `${routes.USERS}/`);
             })
             .catch((error) => {
                 console.error('Error:', error);

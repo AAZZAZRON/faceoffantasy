@@ -142,7 +142,7 @@ export default function PlayersScreen (props) {
     }
 
     const sortPlayersBy = (players) => { 
-        return players.sort((a, b) => (a[sortingBy] > b[sortingBy]) ? sortingOrder : sortingOrder * -1);
+        return players.sort((a, b) => (parseInt(a[sortingBy], 10) > parseInt(b[sortingBy], 10)) ? sortingOrder : sortingOrder * -1);
     }
 
     const setPaginationCount = async () => {
@@ -163,6 +163,8 @@ export default function PlayersScreen (props) {
         } else {
             setSkaters(players);
         }
+
+        console.log(players);
     }
 
     useEffect(() => { // whenever a filter or sort changes, change player list
@@ -321,7 +323,7 @@ function SkaterCard(props) {
                 <div>{skater.assists}</div>
                 <div>{skater.pim}</div>
                 <div>{skater.powerPlayPoints}</div>
-                <div>{skater.shortHandedPoints}</div>
+                <div>{skater.shortHandedGoals}</div>
                 <div>{skater.shots}</div>
                 <div>{skater.hits}</div>
                 <div>{skater.blocked}</div>

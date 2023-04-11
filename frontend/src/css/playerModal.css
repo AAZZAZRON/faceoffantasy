@@ -83,3 +83,25 @@
     font-weight: bold;
     color: #CC0000;
 }
+
+.modal-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.action-button {
+    height: 40px;
+    width: 48%;
+    border-radius: 50px;
+    border: 1px solid #797979;
+    background-color: #F5F5F5;
+}
+
+.action-button:hover {
+    cursor: pointer;
+    background-color: #E6E6E6;
+}

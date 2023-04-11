@@ -36,6 +36,14 @@ export const PlayerModal = (props) => {
         return 'Unknown';
     }
 
+    const addPlayerToTeam = () => {
+        
+    }
+    
+    const togglePlayerOnWatchList = () => {
+        
+    }
+
     return (
         <>
             <Modal
@@ -73,6 +81,10 @@ export const PlayerModal = (props) => {
                         <div class='player-stat-name'>TOTAL POINTS</div>
                         <div class='player-stat-value'>{averagePoints}</div>
                     </div>
+                </div>
+                <div class='modal-body'>
+                    <button class='action-button'>Add</button>
+                    <button class='action-button'>Interested In</button>
                 </div>
                 <button onClick={closeModal}>close</button>
             </Modal>

@@ -6,6 +6,8 @@ from django.views.decorators.csrf import csrf_exempt
 import sys
 sys.path.append("..")
 from league.models import League
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 # Create your views here.
 
@@ -31,6 +33,8 @@ def create_team(request):
         team = Team(teamName=data['name'])
         team.league = league
         team.save()
+        owner = User.objects.get(id=data['owner'])
+        owner.teams.add(team)
         message['message'] = 'Team created successfully'
         message['success'] = True
     return JsonResponse(message)

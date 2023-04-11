@@ -13,7 +13,7 @@ import LeagueSwitchScreen from './screens/leagueSwitchScreen';
 import { getDataCache } from './utils/api/caching';
 import routes from './utils/misc/routes';
 import { callAndStore } from './utils/api/callApi';
-import { loggedIn, hasActiveTeam } from './utils/AuthService';
+import { loggedIn, hasActiveLeague } from './utils/AuthService';
 import Copyright from './components/copyright';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
@@ -29,7 +29,7 @@ export default function Base (props) {
         if (checkLoggedIn && loggedIn() && (window.location.pathname === "/faceoffantasy/login" || window.location.pathname === "/faceoffantasy/signup")) {
             window.location.href = "/faceoffantasy";
         }
-        if (checkHasLeague && loggedIn() && !hasActiveTeam() && window.location.pathname !== "/faceoffantasy/switchforce") {
+        if (checkHasLeague && loggedIn() && !hasActiveLeague() && window.location.pathname !== "/faceoffantasy/switchforce") {
             window.location.href = "/faceoffantasy/switchforce";
         }
     }, []);

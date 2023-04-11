@@ -28,16 +28,16 @@ const getUser = () => {
     return JSON.parse(localStorage.getItem("user"));
 }
 
-const setActiveTeam = (team) => {
-    localStorage.setItem("activeTeam", JSON.stringify(team));
+export const setActiveLeague = (league) => {
+    localStorage.setItem("activeLeague", JSON.stringify(league));
 }
 
-const getActiveTeam = () => {
-    return JSON.parse(localStorage.getItem("activeTeam"));
+const getActiveLeague = () => {
+    return JSON.parse(localStorage.getItem("activeLeague"));
 }
 
-export const hasActiveTeam = () => {
-    return !(!localStorage.getItem("activeTeam"));
+export const hasActiveLeague = () => {
+    return !(!localStorage.getItem("activeLeague"));
 }
 
 const refreshUser = () => {

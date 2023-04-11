@@ -2,7 +2,7 @@ from django.db import models
 import uuid
     
 class League(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200)
     users = models.ManyToManyField('user.User', related_name='users')
     owner = models.ForeignKey('user.User', on_delete=models.CASCADE, related_name='owner')

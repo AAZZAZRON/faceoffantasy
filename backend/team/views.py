@@ -25,10 +25,10 @@ def create_team(request):
         if not league:
             message['message'] = 'League does not exist'
             return JsonResponse(message)
-        if Team.objects.filter(league=league).filter(name=data['name']):
+        if Team.objects.filter(league=league).filter(teamName=data['name']):
             message['message'] = 'A team with this name already exists'
             return JsonResponse(message)
-        team = Team.objects.create(teamName=data['name'])
+        team = Team(teamName=data['name'])
         team.league = league
         team.save()
         message['message'] = 'Team created successfully'

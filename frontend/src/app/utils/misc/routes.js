@@ -1,5 +1,5 @@
-const BASEURL = "https://faceoffantasy.up.railway.app";
-// const BASEURL = "http://127.0.0.1:8000";
+// const BASEURL = "https://faceoffantasy.up.railway.app";
+const BASEURL = "http://127.0.0.1:8000";
 
 const Routes = {
   // auth
@@ -12,6 +12,7 @@ const Routes = {
     SIGNUP: `${BASEURL}/api/signup`,
     CREATELEAGUE: `${BASEURL}/api/createleague`,
     JOINLEAGUE: `${BASEURL}/api/joinleague`,
+    CREATETEAM: `${BASEURL}/api/createteam`,
   },
   USER: `${BASEURL}/api/users`,
 

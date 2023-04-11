@@ -14,7 +14,7 @@ class LeagueView(viewsets.ReadOnlyModelViewSet):
 
 @csrf_exempt
 def create_league(request):
-    message = {'message': '', 'success': False}
+    message = {'message': '', 'success': False, 'id': None}
     if request.method == 'POST':
         data = json.loads(request.body)
         data['owner'] = User.objects.get(id=data['owner'])
@@ -28,13 +28,14 @@ def create_league(request):
         league = League.objects.create(**data)
         league.users.add(data['owner'])
         league.save()
-        message['message'] = 'League created successfully'
+        message['message'] = 'League created successfully with league id: ' + str(league.id)
         message['success'] = True
+        message['id'] = str(league.id)
     return JsonResponse(message)
 
 @csrf_exempt
 def join_league(request):
-    message = {'message': '', 'success': False}
+    message = {'message': '', 'success': False, 'id': None}
     if request.method == 'POST':
         data = json.loads(request.body)
         league_id = data['league-id']
@@ -52,6 +53,7 @@ def join_league(request):
             return JsonResponse(message)
         league.users.add(data['user'])
         league.save()
-        message['message'] = 'League joined successfully'
+        message['message'] = 'Joined league ' + str(league_id) + ' successfully'
         message['success'] = True
+        message['id'] = str(league.id)
     return JsonResponse(message)

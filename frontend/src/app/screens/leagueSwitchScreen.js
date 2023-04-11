@@ -36,7 +36,7 @@ export default function LeagueSwitchScreen(props) {
             <LeagueCard name={"Sam's Fantasy League"} playercount={6}></LeagueCard>
             <LeagueCard name={":D"} playercount={8}></LeagueCard>
         </div> 
-        <div style={{width: "10%"}}><button id='logout' onClick={logout}>logout</button></div>
+        {props.force && <div style={{width: "10%"}}><button id='logout' onClick={logout}>logout</button></div>}
     </>);
 }
 
@@ -116,7 +116,7 @@ function LeagueCreationModal(props) {
 
         // post to api
         const leagueName = data.get('Name');
-
+        const teamName = data.get('Team Name');
         const ownerId = getDataCache("user").id;
 
         fetch(`${Routes.POST.CREATELEAGUE}/`, {
@@ -150,10 +150,34 @@ function LeagueCreationModal(props) {
         .then((data) => {
             console.log('POST request success:', data);
             callAndStore("LEAGUES", `${routes.LEAGUES}/`);
+
+            // create team
+            fetch(`${Routes.POST.CREATETEAM}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "name": teamName,
+                    "league": data.id,
+            }),
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('POST request success:', data);
+                callAndStore("TEAMS", `${routes.TEAMS}/`);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
         })
         .catch((error) => {
             console.error('Error:', error);
         });
+        
+
+
 
         // close modal
         closeModal();
@@ -182,7 +206,7 @@ function LeagueCreationModal(props) {
                         required
                         fullWidth
                         id="Name"
-                        label="Name"
+                        label="League Name"
                         name="Name"
                         sx = {{ mb: 3, width: '100%' }}
                         InputProps={{
@@ -194,10 +218,31 @@ function LeagueCreationModal(props) {
                         />
 
                         <h5>Roster Settings</h5>
+                        <p>Please enter how many forwards, defensemen, and goalies are allowed per team.</p>
                         <RosterSettingsForms />
 
                         <h5>Points Settings</h5>
+                        <p>Please provide how many fantasy points each statistic gives. Decimals may be used to tenths.</p>
                         <PointsSettingsForms />
+
+                        <h5>Team Name</h5>
+                        <p>Your team in the league will be created automatically when you create a league. Just provide a name for us :)</p>
+
+                        <TextField
+                        required
+                        fullWidth
+                        id="Team Name"
+                        label="Your Team's Name"
+                        name="Team Name"
+                        sx = {{ mb: 3, width: '100%' }}
+                        InputProps={{
+                            inputMode: "numeric",
+                            pattern: "^[a-zA-Z0-9]*$",
+                            minLength: 3,
+                            maxLength: 30,
+                          }}
+                        />
+
                     <Button
                         type="submit"
                         fullWidth

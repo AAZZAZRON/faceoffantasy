@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import "../../css/homeScreen.css";
 import { getUser } from "../utils/AuthService";
 import Routes from "../utils/misc/routes";
-import {HeadShot} from "./playersScreen";
+import {HeadShot} from "../components/playerCards";
 import { getDataCache } from "../utils/api/caching";
 
 const HomeLeague = ({user}) => {

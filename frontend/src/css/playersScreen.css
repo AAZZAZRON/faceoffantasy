@@ -22,8 +22,9 @@
 .top-bar {
     align-self: stretch;
     display: flex;
-    justify-content: left;
+    justify-content: space-between;
     flex-direction: column;
+    width: 100%;
 }
 
 .toggle {
@@ -31,7 +32,6 @@
     display: flex;
     justify-content: left;
     flex-direction: row;
-    margin-right: 1%;
     width: 300px;
 }
 
@@ -95,7 +95,7 @@
     flex-direction: row;
     align-items: left;
     vertical-align: middle;
-    min-width: 350px;
+    min-width: 300px;
 }
 
 .card-header:hover {
@@ -116,6 +116,21 @@
 
 .card-header-bottom > * {
     margin-right: 10px;
+}
+
+
+.team-button {
+    height: 35px;
+    width: 45px;
+    border-radius: 50px;
+    border: 1px solid #797979;
+    background-color: #F5F5F5;
+    padding: 0px;
+    margin: 0px;
+}
+
+.team-button:hover {
+    cursor: pointer;
 }
 
 .card-body {

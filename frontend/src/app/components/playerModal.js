@@ -2,7 +2,6 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import Modal from 'react-modal';
 import "../../css/playerModal.css";
-import { getDataCache } from "../utils/api/caching";
 
 export const PlayerModal = (props) => {
     const [modalIsOpen, setIsOpen] = useState(false);
@@ -68,7 +67,7 @@ export const PlayerModal = (props) => {
                             </div>
                             <div class='stat'>
                                 <div class='stat-name'>MANAGER</div>
-                                <div class='stat-value'>{owner}</div>
+                                <div class='stat-value'>{owner === "FA" ? "None (Free Agent)" : owner}</div>
                             </div>
                             <div class='stat'>
                                 <div class='stat-name'>STATUS</div>

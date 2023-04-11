@@ -177,7 +177,7 @@ export default function PlayersScreen (props) {
     }, [players]);
 
     /* ----- HELPER METHODS ----- */
-    const getLeagueTeamOfPlayer = (player) => {
+    const getLeagueTeamIdOfPlayer = (player) => {
         if (player == null) return null;
         // TODO: get current league
         // const league = leagues.find(league => league.id === player.currentLeague);
@@ -243,6 +243,7 @@ export default function PlayersScreen (props) {
                 <div class="card" style={{flexDirection: 'row'}}>
                     <div class='card-header'>Player</div>
                     <div class='card-body' style={{display: (selectedPosition === "Goalie" ? 'none' : 'flex')}}>
+                        <div style={{minWidth: '45px'}}>Owner</div>
                         {skaterSortParams.map((param, index) => {
                             return (
                                 <div key={index} onClick={() => changeSortingBy(param.value)} class={(param.value === sortingBy ? 'header-sort' : 'header')}>{param.name}</div>
@@ -250,6 +251,7 @@ export default function PlayersScreen (props) {
                         })}
                     </div>
                     <div class='card-body' style={{display: (selectedPosition !== "Goalie" ? 'none' : 'flex')}}>
+                        <div>Owner</div>
                         {goalieSortParams.map((param, index) => {
                             return (
                                 <div key={index} onClick={() => changeSortingBy(param.value)} class={(param.value === sortingBy ? 'header-sort' : 'header')}>{param.name}</div>
@@ -264,15 +266,21 @@ export default function PlayersScreen (props) {
 
                         // TODO: get team id of the user
                         const userTeamId = 1;
-                        const owner = getLeagueTeamOfPlayer(player);
+                        const ownerId = getLeagueTeamIdOfPlayer(player);
+                        var ownerName = " FA";
+                        if (ownerId === userTeamId) ownerName = "(Me)"
+                        else {
+                            var tryPlayerInTeam = teams.filter(team => team.id === ownerId);
+                            if (tryPlayerInTeam.length > 0) ownerName = tryPlayerInTeam[0].teamName; // TODO: change .teamName to .abbr or smth
+                        }
 
                         if (selectedPosition === "Goalie") {
                             return (
-                                <GoalieCard key={index} goalie={player} position={position} team={team} owner={owner} setModal={setModal}></GoalieCard>
+                                <GoalieCard key={index} goalie={player} position={position} team={team} owner={ownerName} setModal={setModal}></GoalieCard>
                             )
                         } else {
                             return (
-                                <SkaterCard key={index} skater={player} position={position} team={team} owner={owner} setModal={setModal}></SkaterCard>
+                                <SkaterCard key={index} skater={player} position={position} team={team} owner={ownerName} setModal={setModal}></SkaterCard>
                             )
                         }
                     })}

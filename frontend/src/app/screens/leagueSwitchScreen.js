@@ -23,8 +23,8 @@ export default function LeagueSwitchScreen(props) {
     props.setMessage("My leagues");
 
     const cacheTeamsAndLeagues = async () => {
-        await setUserTeams(await getDataCache("TEAMS"));
-        await setUserLeagues(await getDataCache("LEAGUES"));
+        setUserTeams(await getDataCache("TEAMS"));
+        setUserLeagues(await getDataCache("LEAGUES"));
     }
 
     function handleClick(handleclickprops) {
@@ -40,12 +40,8 @@ export default function LeagueSwitchScreen(props) {
         if (hasActiveTeam()) setSelectedLeagueID(getActiveTeam().league);
     }, []);
 
-    useEffect(() => {
-        console.log(userLeagues);
-    }, [userLeagues]);
-
     return (<>
-        <LeagueCreationModal showLeagueCreationModal={showLeagueCreationModal} setShowLeagueCreationModal={setShowLeagueCreationModal}></LeagueCreationModal>
+        <LeagueCreationModal showLeagueCreationModal={showLeagueCreationModal} setShowLeagueCreationModal={setShowLeagueCreationModal} updateTeamsAndLeagues={cacheTeamsAndLeagues}></LeagueCreationModal>
         <LeagueJoinModal showLeagueJoinModal={showLeagueJoinModal} setShowLeagueJoinModal={setShowLeagueJoinModal}></LeagueJoinModal>
         <div className={"league-container"}>
             <div className={"create-join-league-top-bar"}>
@@ -183,30 +179,32 @@ function LeagueCreationModal(props) {
         .then((response) => response.json())
         .then((data) => {
             console.log('POST request success:', data);
-            callAndStore("LEAGUES", `${routes.LEAGUES}/`);
-
-            // create team
-            fetch(`${Routes.POST.CREATETEAM}/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    "name": teamName,
-                    'owner': ownerId,
-                    "league": data.id,
-            }),
-            })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log('POST request success:', data);
-                callAndStore("TEAMS", `${routes.TEAMS}/`);
-                callAndStore("USERS", `${routes.USERS}/`);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
+            callAndStore("LEAGUES", `${routes.LEAGUES}/`).then(() => {
+                // create team
+                fetch(`${Routes.POST.CREATETEAM}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        "name": teamName,
+                        'owner': ownerId,
+                        "league": data.id,
+                }),
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log('POST request success:', data);
+                    callAndStore("TEAMS", `${routes.TEAMS}/`).then(() => {
+                        callAndStore("USERS", `${routes.USERS}/`).then(() => {
+                            props.updateTeamsAndLeagues();
+                        });
+                    });
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
             });
-
         })
         .catch((error) => {
             console.error('Error:', error);

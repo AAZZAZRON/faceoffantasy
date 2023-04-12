@@ -22,9 +22,18 @@ export default function LeagueSwitchScreen(props) {
     const [user, setUser] = React.useState(null);
     props.setMessage("My leagues");
 
+    useEffect(() => {
+        console.log(userTeams);
+        console.log(userLeagues);
+    }, [userTeams, userLeagues]);
+
     const cacheTeamsAndLeagues = async () => {
-        setUserTeams(await getDataCache("TEAMS"));
-        setUserLeagues(await getDataCache("LEAGUES"));
+        if (user === null || user === undefined) return;
+        // setUserTeams(getDataCache("TEAMS"));
+        // setUserLeagues(getDataCache("LEAGUES"));
+        setUserTeams(await callAndStore("TEAMS", `${routes.TEAMS}/`));
+        setUserLeagues(await callAndStore("LEAGUES", `${routes.LEAGUES}/`));
+        console.log(user);
     }
 
     function handleClick(handleclickprops) {
@@ -35,10 +44,20 @@ export default function LeagueSwitchScreen(props) {
     }
 
     useEffect(() => {
-        if (loggedIn()) setUser(getDataCache("user").username);
         cacheTeamsAndLeagues();
-        if (hasActiveTeam()) setSelectedLeagueID(getActiveTeam().league);
+      }, [user]);
+
+    useEffect(() => {
+        async function cacheUser() {
+            if (loggedIn()) {
+                setUser(getDataCache("user"));
+            }
+            if (hasActiveTeam()) setSelectedLeagueID(getActiveTeam().league);
+        }
+        cacheUser();
     }, []);
+
+    if (true) return (<></>);
 
     return (<>
         <LeagueCreationModal showLeagueCreationModal={showLeagueCreationModal} setShowLeagueCreationModal={setShowLeagueCreationModal} updateTeamsAndLeagues={cacheTeamsAndLeagues}></LeagueCreationModal>

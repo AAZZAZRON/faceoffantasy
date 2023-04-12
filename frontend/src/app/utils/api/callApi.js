@@ -9,16 +9,14 @@ export const callAndStore = async(cacheName, url) => {
             });
         }
         if (cacheName === "TEAMS") {
-            const leagues = getDataCache("LEAGUES");
+            const user = getDataCache("user");
             data = data.filter((team) => {
-                return leagues.some((league) => {
-                    return league.teams.includes(team.id);
-                });
+                return user.teams.includes(team.id);
             });
         }
         
         localStorage.setItem(cacheName, JSON.stringify(data));
-    }).catch((error) => console.log(error.message));
+    }).catch((error) => console.error(error.message));
 }
 
 export async function fetchData(cacheName, url) {

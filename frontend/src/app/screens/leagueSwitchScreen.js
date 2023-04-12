@@ -222,9 +222,11 @@ function LeagueCreationModal(props) {
                 .then((response) => response.json())
                 .then((data) => {
                     console.log('POST request success:', data);
-                    callAndStore("TEAMS", `${routes.TEAMS}/`).then(() => {
-                        callAndStore("USERS", `${routes.USERS}/`).then(() => {
-                            props.updateTeamsAndLeagues();
+                    callAndStore("user", `${routes.USER}/${ownerId}/`).then(() => {
+                        callAndStore("TEAMS", `${routes.TEAMS}/`).then(() => {
+                            callAndStore("USERS", `${routes.USER}/`).then(() => {
+                                props.updateTeamsAndLeagues();
+                            });
                         });
                     });
                 })

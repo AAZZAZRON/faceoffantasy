@@ -181,7 +181,7 @@ export default function PlayersScreen (props) {
         if (player == null) return null;
         // TODO: get current league
         // const league = leagues.find(league => league.id === player.currentLeague);
-        const league = leagues[0]; // tmp
+        const league = leagues[0]; // TODO: get active league
         if (league == null) return null;
         for (let teamId of league.teams) {
             const team = teams.find(team => team.id === teamId);

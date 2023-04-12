@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import Modal from 'react-modal';
 import "../../css/playerModal.css";
+import Routes from "../utils/misc/routes";
 
 export const PlayerModal = (props) => {
     const [modalIsOpen, setIsOpen] = useState(false);
@@ -38,12 +39,48 @@ export const PlayerModal = (props) => {
     }
 
     const addPlayer = () => {
-        
+        console.log("Adding player");
+
+        fetch(`${Routes.POST.ADDPLAYER}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "teamId": 1, // TODO: Change this to the user's team ID
+                "playerId": player.id,
+                "position": position.type,
+        }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
     }
 
     const dropPlayer = () => {
-        
-    }
+        console.log("Dropping player");
+
+        fetch(`${Routes.POST.DROPPLAYER}/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                "teamId": 1, // TODO: Change this to the user's team ID
+                "playerId": player.id,
+        }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });    }
 
     const togglePlayerOnWatchList = () => {
         

@@ -32,6 +32,8 @@ urlpatterns = [
     path('api/createleague/', league_views.create_league, name='create_league'),
     path('api/joinleague/', league_views.join_league, name='join_league'),
     path('api/createteam/', team_views.create_team, name='create_team'),
+    path('api/addplayer/', team_views.add_player, name='add_player'),
+    path('api/dropplayer/', team_views.drop_player, name='drop_player'),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

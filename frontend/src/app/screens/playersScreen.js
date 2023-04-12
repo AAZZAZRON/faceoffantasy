@@ -1,6 +1,6 @@
 import "../../css/playersScreen.css";
 import { useState, useEffect } from "react";
-import { getDataCache } from "../utils/api/caching";
+import { getDataCache } from "../utils/caching";
 import { Searchbar } from "../components/searchbar";
 import { PlayerModal } from "../components/playerModal";
 import ReactPaginate from 'react-paginate';

@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import Modal from 'react-modal';
 import "../../css/playerModal.css";
-import Routes from "../utils/misc/routes";
+import Routes from "../utils/routes";
 
 export const PlayerModal = (props) => {
     const [modalIsOpen, setIsOpen] = useState(false);

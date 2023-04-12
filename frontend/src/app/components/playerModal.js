@@ -37,7 +37,11 @@ export const PlayerModal = (props) => {
         return 'Unknown';
     }
 
-    const addPlayerToTeam = () => {
+    const addPlayer = () => {
+        
+    }
+
+    const dropPlayer = () => {
         
     }
 
@@ -45,6 +49,28 @@ export const PlayerModal = (props) => {
         
     }
 
+    const addDropButton = () => {
+        console.log(owner);
+        if (owner === "FA") {
+            return (
+                <div class='action-button add-player' onClick={addPlayer}>Add</div>
+            )
+        } else if (owner === "(Me)") {
+            return (
+                <div class='action-button drop-player' onClick={dropPlayer}>Drop</div>
+            )
+        } else {
+            return (
+                <div class='action-button owned-already'>Owned By {owner}</div>
+            )
+        }
+    }
+
+    const watchListButton = () => {
+        return (
+            <div class='action-button'>Interested In</div>
+        )
+    }
 
     return (
         <>
@@ -85,8 +111,8 @@ export const PlayerModal = (props) => {
                     </div>
                 </div>
                 <div class='modal-body'>
-                    <button class='action-button'>Add</button>
-                    <button class='action-button'>Interested In</button>
+                    {addDropButton()}
+                    {watchListButton()}
                 </div>
                 <button onClick={closeModal}>close</button>
             </Modal>

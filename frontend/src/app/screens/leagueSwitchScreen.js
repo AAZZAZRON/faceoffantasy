@@ -20,6 +20,8 @@ export default function LeagueSwitchScreen(props) {
     const [userLeagues, setUserLeagues] = React.useState([]);
     const [selectedLeagueID, setSelectedLeagueID] = React.useState(null);
     const [user, setUser] = React.useState(null);
+    const [doneLoading, setDoneLoading] = React.useState(false);
+
     props.setMessage("My leagues");
 
     useEffect(() => {
@@ -29,10 +31,9 @@ export default function LeagueSwitchScreen(props) {
 
     const cacheTeamsAndLeagues = async () => {
         if (user === null || user === undefined) return;
-        // setUserTeams(getDataCache("TEAMS"));
-        // setUserLeagues(getDataCache("LEAGUES"));
-        setUserTeams(await callAndStore("TEAMS", `${routes.TEAMS}/`));
-        setUserLeagues(await callAndStore("LEAGUES", `${routes.LEAGUES}/`));
+        await callAndStore("LEAGUES", `${routes.LEAGUES}/`).then((res) => {setUserLeagues(res)});
+        await callAndStore("TEAMS", `${routes.TEAMS}/`).then((res) => {setUserTeams(res)});
+        
         console.log(user);
     }
 
@@ -55,16 +56,17 @@ export default function LeagueSwitchScreen(props) {
             if (hasActiveTeam()) setSelectedLeagueID(getActiveTeam().league);
         }
         cacheUser();
+        setDoneLoading(true);
     }, []);
 
-    if (true) return (<></>);
+    if (!doneLoading) return (<></>);
 
     return (<>
         <LeagueCreationModal showLeagueCreationModal={showLeagueCreationModal} setShowLeagueCreationModal={setShowLeagueCreationModal} updateTeamsAndLeagues={cacheTeamsAndLeagues}></LeagueCreationModal>
         <LeagueJoinModal showLeagueJoinModal={showLeagueJoinModal} setShowLeagueJoinModal={setShowLeagueJoinModal}></LeagueJoinModal>
         <div className={"league-container"}>
             <div className={"create-join-league-top-bar"}>
-                <h2>{props.force ? 'Hello, ' + user + '! Please Select a League to Continue.' : 'Select a League'}</h2>
+                <h2>{props.force ? 'Hello, ' + user.username + '! Please Select a League to Continue.' : 'Select a League'}</h2>
                 <div className={"enter-league-buttons"}>
                     <button className={"enter-league-button"} style={{fontWeight: "bold"}} onClick={() => setShowLeagueJoinModal(true)}>Join League</button>
                     <button className={"enter-league-button"} style={{fontWeight: "bold", backgroundColor: "#add8e6"}} onClick={() => setShowLeagueCreationModal(true)}>Create League</button>

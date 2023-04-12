@@ -1,7 +1,7 @@
 import { getDataCache } from "./caching";
 
 export const callAndStore = async(cacheName, url) => {
-    await fetch(url).then((response) => response.json()).then((data) => {
+    return await fetch(url).then((response) => response.json()).then((data) => {
         if (cacheName === "LEAGUES") {
             const userId = getDataCache("user").id;
             data = data.filter((league) => {
@@ -14,8 +14,9 @@ export const callAndStore = async(cacheName, url) => {
                 return user.teams.includes(team.id);
             });
         }
-        
+        console.log(cacheName + " " + JSON.stringify(data));
         localStorage.setItem(cacheName, JSON.stringify(data));
+        return data;
     }).catch((error) => console.error(error.message));
 }
 

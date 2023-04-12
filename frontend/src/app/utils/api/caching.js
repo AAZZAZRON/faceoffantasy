@@ -21,6 +21,11 @@ export const deleteDataCache = (cacheName) => {
     }
 }
 
+export const purgeDataCache = () => {
+    localStorage.clear();
+    console.log("Cache purged");
+}
+
 // this doesn't work i combined it with callAPI
 export const setDataCache = async (cacheName, data) => {
     console.log(data);

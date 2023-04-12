@@ -56,7 +56,9 @@ export default function LeagueSwitchScreen(props) {
             {
             userLeagues && 
             <div className={"league-cards-container"}>
-                {userTeams.map((team, index) => ( 
+                {userTeams.map((team, index) => {
+                    if (userLeagues === undefined) return (<></>); // dont error
+                    return ( 
                     <LeagueCard
                     key={index}
                     league={userLeagues.find((league) => league.id === team.league)}
@@ -64,7 +66,7 @@ export default function LeagueSwitchScreen(props) {
                     selected={selectedLeagueID === team.league}
                     handleClick={() => {handleClick(team)}}
                     ></LeagueCard>
-                ))}
+                )})}
             </div>
             }
 

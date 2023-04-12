@@ -128,6 +128,7 @@ export function LeagueCreationModal(props) {
                         callAndStore("TEAMS", `${routes.TEAMS}/`).then(() => {
                             callAndStore("USERS", `${routes.USER}/`).then(() => {
                                 props.updateTeamsAndLeagues();
+                                closeModal();
                             });
                         });
                     });
@@ -140,9 +141,6 @@ export function LeagueCreationModal(props) {
         .catch((error) => {
             console.error('Error:', error);
         });
-        
-        // close modal
-        closeModal();
     }
 
     return (
@@ -276,6 +274,7 @@ export function LeagueJoinModal(props) {
                         callAndStore("TEAMS", `${routes.TEAMS}/`).then(() => {
                             callAndStore("USERS", `${routes.USER}/`).then(() => {
                                 props.updateTeamsAndLeagues();
+                                closeModal();
                             });
                         });
                     });
@@ -288,9 +287,6 @@ export function LeagueJoinModal(props) {
         .catch((error) => {
             console.error('Error:', error);
         });
-
-        // close modal
-        closeModal();
     }
 
     return (

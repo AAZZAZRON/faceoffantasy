@@ -19,11 +19,6 @@ export default function LeagueSwitchScreen(props) {
 
     props.setMessage("My leagues");
 
-    useEffect(() => {
-        console.log(userTeams);
-        console.log(userLeagues);
-    }, [userTeams, userLeagues]);
-
     const cacheTeamsAndLeagues = async () => {
         if (user === null || user === undefined) return;
         await callAndStore("LEAGUES", `${routes.LEAGUES}/`).then((res) => {setUserLeagues(res)});
@@ -42,13 +37,13 @@ export default function LeagueSwitchScreen(props) {
       }, [user]);
 
     useEffect(() => {
-        async function cacheUser() {
+        async function getUser() {
             if (loggedIn()) {
                 setUser(getDataCache("user"));
             }
             if (hasActiveTeam()) setSelectedLeagueID(getActiveTeam().league);
         }
-        cacheUser();
+        getUser();
         setDoneLoading(true);
     }, []);
 
@@ -95,7 +90,6 @@ export default function LeagueSwitchScreen(props) {
                     <LeagueCard
                     key={index}
                     league={userLeagues.find((league) => league.id === team.league)}
-                    force={props.force}
                     selected={selectedLeagueID === team.league}
                     handleClick={() => {handleClick(team)}}
                     ></LeagueCard>

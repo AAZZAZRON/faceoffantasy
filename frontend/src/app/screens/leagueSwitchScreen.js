@@ -53,6 +53,8 @@ export default function LeagueSwitchScreen(props) {
             </div>
             <hr style={{width: "95%"}}/>
 
+            {
+            userLeagues && 
             <div className={"league-cards-container"}>
                 {userTeams.map((team, index) => ( 
                     <LeagueCard
@@ -64,6 +66,7 @@ export default function LeagueSwitchScreen(props) {
                     ></LeagueCard>
                 ))}
             </div>
+            }
 
         </div> 
         {props.force && <div style={{width: "10%"}}><button id='logout' onClick={logout}>logout</button></div>}
@@ -71,6 +74,7 @@ export default function LeagueSwitchScreen(props) {
 }
 
 function LeagueCard(props) {
+    console.log(JSON.stringify(props));
     return (
         <div className={"league-card"} style={{backgroundColor: (props.selected) ? "#e5ddfd" : "#f1f1f1"}} onClick={props.handleClick}>
             <div className={"league-place-info"}>   

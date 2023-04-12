@@ -8,6 +8,15 @@ export const callAndStore = async(cacheName, url) => {
                 return league.users.includes(userId);
             });
         }
+        if (cacheName === "TEAMS") {
+            const leagues = getDataCache("LEAGUES");
+            data = data.filter((team) => {
+                return leagues.some((league) => {
+                    return league.teams.includes(team.id);
+                });
+            });
+        }
+        
         localStorage.setItem(cacheName, JSON.stringify(data));
     }).catch((error) => console.log(error.message));
 }

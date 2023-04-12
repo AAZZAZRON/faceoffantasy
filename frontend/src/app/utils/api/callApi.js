@@ -8,7 +8,7 @@ export const callAndStore = async(cacheName, url) => {
                 return league.users.includes(userId);
             });
         }
-        localStorage.setItem(cacheName, JSON.stringify(data));
+        if (data) localStorage.setItem(cacheName, JSON.stringify(data));
     }).catch((error) => console.log(error.message));
 }
 

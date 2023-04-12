@@ -40,10 +40,6 @@ export default function LeagueSwitchScreen(props) {
         if (hasActiveTeam()) setSelectedLeagueID(getActiveTeam().league);
     }, []);
 
-    useEffect(() => {
-        console.log(userLeagues);
-    }, [userLeagues]);
-
     return (<>
         <LeagueCreationModal showLeagueCreationModal={showLeagueCreationModal} setShowLeagueCreationModal={setShowLeagueCreationModal}></LeagueCreationModal>
         <LeagueJoinModal showLeagueJoinModal={showLeagueJoinModal} setShowLeagueJoinModal={setShowLeagueJoinModal}></LeagueJoinModal>
@@ -58,7 +54,9 @@ export default function LeagueSwitchScreen(props) {
             <hr style={{width: "95%"}}/>
 
             <div className={"league-cards-container"}>
-                {userTeams.map((team, index) => ( 
+                {userTeams.map((team, index) => {
+                    if (userLeagues === undefined) return (<></>); // dont error
+                    return ( 
                     <LeagueCard
                     key={index}
                     league={userLeagues.find((league) => league.id === team.league)}
@@ -66,7 +64,7 @@ export default function LeagueSwitchScreen(props) {
                     selected={selectedLeagueID === team.league}
                     handleClick={() => {handleClick(team)}}
                     ></LeagueCard>
-                ))}
+                )})}
             </div>
 
         </div> 

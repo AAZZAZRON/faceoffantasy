@@ -1,3 +1,4 @@
+import { purgeDataCache } from "./api/caching";
 import Routes from "./misc/routes";
 
 const getToken = () => {
@@ -65,11 +66,7 @@ const updateToken = (token) => {
 const logout = () => {
     if (!loggedIn()) return;
     setUser({});
-    localStorage.removeItem("token");
-    localStorage.removeItem("refresh");
-    localStorage.removeItem("activeTeam");
-    localStorage.removeItem("LEAGUES");
-    localStorage.removeItem("TEAMS");
+    purgeDataCache();
     window.location.href = "/faceoffantasy/login";
 }
 

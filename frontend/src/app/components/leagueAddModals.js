@@ -7,8 +7,8 @@ import TextField from '@mui/material/TextField';
 
 import "../../css/leagueSwitchScreen.css";
 import Routes from '../utils/routes';
-import { getDataCache } from '../utils/caching';
 import { callAndStore } from '../utils/callApi';
+import { getUser } from '../utils/AuthService';
 import routes from '../utils/routes';
 
 export function LeagueCreationModal(props) {
@@ -76,7 +76,7 @@ export function LeagueCreationModal(props) {
         // post to api
         const leagueName = data.get('Name');
         const teamName = data.get('Team Name');
-        const ownerId = getDataCache("user").id;
+        const ownerId = getUser().id;
 
         fetch(`${Routes.POST.CREATELEAGUE}/`, {
             method: 'POST',
@@ -243,7 +243,7 @@ export function LeagueJoinModal(props) {
         const code = data.get('Code');
         console.log(code);
 
-        const ownerId = getDataCache("user").id;
+        const ownerId = getUser().id;
 
         fetch(`${Routes.POST.JOINLEAGUE}/`, {
             method: 'POST',

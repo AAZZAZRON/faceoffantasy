@@ -6,10 +6,10 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
 import "../../css/leagueSwitchScreen.css";
-import Routes from '../utils/misc/routes';
-import { getDataCache } from '../utils/api/caching';
-import { callAndStore } from '../utils/api/callApi';
-import routes from '../utils/misc/routes';
+import Routes from '../utils/routes';
+import { getDataCache } from '../utils/caching';
+import { callAndStore } from '../utils/callApi';
+import routes from '../utils/routes';
 
 export function LeagueCreationModal(props) {
     const [modalIsOpen , setModalIsOpen] = React.useState(false);

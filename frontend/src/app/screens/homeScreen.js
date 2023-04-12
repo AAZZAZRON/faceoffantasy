@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import "../../css/homeScreen.css";
 import { getUser } from "../utils/AuthService";
-import Routes from "../utils/misc/routes";
+import Routes from "../utils/routes";
 import {HeadShot} from "../components/playerCards";
-import { getDataCache } from "../utils/api/caching";
+import { getDataCache } from "../utils/caching";
 
 const HomeLeague = ({user}) => {
     const [rank, setRank] = useState("");

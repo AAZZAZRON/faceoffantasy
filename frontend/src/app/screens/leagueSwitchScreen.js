@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 
 import "../../css/leagueSwitchScreen.css";
-import { getDataCache } from '../utils/api/caching';
-import { callAndStore } from '../utils/api/callApi';
-import routes from '../utils/misc/routes';
+import { getDataCache } from '../utils/caching';
+import { callAndStore } from '../utils/callApi';
+import routes from '../utils/routes';
 import { setActiveTeam, getActiveTeam, logout, hasActiveTeam, loggedIn } from '../utils/AuthService';
 import { LeagueCreationModal, LeagueJoinModal } from '../components/leagueAddModals';
 

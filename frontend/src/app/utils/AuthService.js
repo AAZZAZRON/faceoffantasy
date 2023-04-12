@@ -1,5 +1,5 @@
-import { purgeDataCache } from "./api/caching";
-import Routes from "./misc/routes";
+import { purgeDataCache } from "./caching";
+import Routes from "./routes";
 
 const getToken = () => {
     return localStorage.getItem("token");

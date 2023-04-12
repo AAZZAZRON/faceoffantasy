@@ -13,6 +13,8 @@ const Routes = {
     CREATELEAGUE: `${BASEURL}/api/createleague`,
     JOINLEAGUE: `${BASEURL}/api/joinleague`,
     CREATETEAM: `${BASEURL}/api/createteam`,
+    ADDPLAYER: `${BASEURL}/api/addplayer`,
+    DROPPLAYER: `${BASEURL}/api/dropplayer`,
   },
   USER: `${BASEURL}/api/users`,
 

@@ -10,12 +10,12 @@ import PlayersScreen from "./screens/playersScreen";
 import LoginScreen from './screens/loginScreen';
 import SignupScreen from './screens/signupScreen';
 import LeagueSwitchScreen from './screens/leagueSwitchScreen';
-import routes from './utils/misc/routes';
+import routes from './utils/routes';
 import { loggedIn, hasActiveTeam } from './utils/AuthService';
 import Copyright from './components/copyright';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { fetchData } from './utils/api/callApi';
+import { fetchData } from './utils/callApi';
 
 export default function Base (props) {
     const basePath = "/faceoffantasy";

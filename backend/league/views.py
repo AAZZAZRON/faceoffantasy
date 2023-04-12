@@ -18,7 +18,6 @@ def create_league(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         data['owner'] = User.objects.get(id=data['owner'])
-        print(data)
         if (not data['name']):
             message['message'] = 'League name is required'
             return JsonResponse(message)

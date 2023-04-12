@@ -55,14 +55,32 @@ export default function LeagueSwitchScreen(props) {
     if (!doneLoading) return (<></>);
 
     return (<>
-        <LeagueCreationModal showLeagueCreationModal={showLeagueCreationModal} setShowLeagueCreationModal={setShowLeagueCreationModal} updateTeamsAndLeagues={cacheTeamsAndLeagues}></LeagueCreationModal>
-        <LeagueJoinModal showLeagueJoinModal={showLeagueJoinModal} setShowLeagueJoinModal={setShowLeagueJoinModal}></LeagueJoinModal>
+        <LeagueCreationModal
+        showLeagueCreationModal={showLeagueCreationModal}
+        setShowLeagueCreationModal={setShowLeagueCreationModal}
+        updateTeamsAndLeagues={cacheTeamsAndLeagues}>
+        </LeagueCreationModal>
+        <LeagueJoinModal
+        showLeagueJoinModal={showLeagueJoinModal}
+        setShowLeagueJoinModal={setShowLeagueJoinModal}>
+        </LeagueJoinModal>
         <div className={"league-container"}>
             <div className={"create-join-league-top-bar"}>
                 <h2>{props.force ? 'Hello, ' + user.username + '! Please Select a League to Continue.' : 'Select a League'}</h2>
                 <div className={"enter-league-buttons"}>
-                    <button className={"enter-league-button"} style={{fontWeight: "bold"}} onClick={() => setShowLeagueJoinModal(true)}>Join League</button>
-                    <button className={"enter-league-button"} style={{fontWeight: "bold", backgroundColor: "#add8e6"}} onClick={() => setShowLeagueCreationModal(true)}>Create League</button>
+
+                    <button className={"enter-league-button"}
+                    style={{fontWeight: "bold"}}
+                    onClick={() => setShowLeagueJoinModal(true)}>
+                    Join League
+                    </button>
+
+                    <button className={"enter-league-button"}
+                    style={{fontWeight: "bold", backgroundColor: "#add8e6"}}
+                    onClick={() => setShowLeagueCreationModal(true)}>
+                    Create League
+                    </button>
+                    
                 </div>
             </div>
             <hr style={{width: "95%"}}/>

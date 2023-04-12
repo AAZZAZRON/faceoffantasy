@@ -241,6 +241,7 @@ export function LeagueJoinModal(props) {
 
         // post to api
         const code = data.get('Code');
+        const teamName = data.get('Team Name');
         console.log(code);
 
         const ownerId = getDataCache("user").id;
@@ -257,7 +258,7 @@ export function LeagueJoinModal(props) {
         })
         .then((response) => response.json())
         .then((data) => {
-            console.log('Success:', data);
+            console.log('POST request success:', data);
             callAndStore("LEAGUES", `${routes.LEAGUES}/`);
         })
         .catch((error) => {

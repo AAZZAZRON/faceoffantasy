@@ -33,15 +33,13 @@ export default function LeagueSwitchScreen(props) {
         if (user === null || user === undefined) return;
         await callAndStore("LEAGUES", `${routes.LEAGUES}/`).then((res) => {setUserLeagues(res)});
         await callAndStore("TEAMS", `${routes.TEAMS}/`).then((res) => {setUserTeams(res)});
-        
-        console.log(user);
     }
 
     function handleClick(handleclickprops) {
         const league = userLeagues.find((league) => league.id === handleclickprops.league);
         setSelectedLeagueID(league.id);
         setActiveTeam(handleclickprops);
-        if (props.force) window.location.href = "/faceoffantasy/";
+        if (props.force) window.location.href = "/faceoffantasy";
     }
 
     useEffect(() => {
@@ -104,7 +102,7 @@ function LeagueCard(props) {
                 <div style={{fontSize: "1.5em", marginLeft: "3%"}}>{props.league.name}</div>
 
             </div>
-            <div>{props.league.users} players</div>
+            <div>{props.league.users.length} players</div>
         </div>
     )
 }

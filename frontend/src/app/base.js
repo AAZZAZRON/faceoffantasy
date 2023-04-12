@@ -25,14 +25,14 @@ export default function Base (props) {
 
     // sent to login if not logged in, sent to forceswitch if not in a league, sent to home if logged in and in a league
     useEffect(() => {
-        if(checkLoggedIn && !loggedIn() && window.location.pathname !== "/faceoffantasy/signup" && window.location.pathname !== "/faceoffantasy/login") {
-            window.location.href = "/faceoffantasy/login";
+        if(checkLoggedIn && !loggedIn() && window.location.pathname !== basePath + "/signup" && window.location.pathname !== basePath + "/login") {
+            window.location.href = basePath + "/login";
         }
-        if (checkLoggedIn && loggedIn() && (window.location.pathname === "/faceoffantasy/login" || window.location.pathname === "/faceoffantasy/signup")) {
+        if (checkLoggedIn && loggedIn() && (window.location.pathname === basePath + "/login" || window.location.pathname === basePath + "/signup")) {
             window.location.href = "/faceoffantasy";
         }
-        if (checkHasLeague && loggedIn() && !hasActiveTeam() && window.location.pathname !== "/faceoffantasy/switchforce") {
-            window.location.href = "/faceoffantasy/switchforce";
+        if (checkHasLeague && loggedIn() && !hasActiveTeam() && window.location.pathname !== basePath + "/switchforce") {
+            window.location.href = basePath + "/switchforce";
         }
     }, []);
 
@@ -56,7 +56,7 @@ export default function Base (props) {
         "/faceoffantasy/switch": "Switch"
     };
 
-    const noSideNavBar = ["/faceoffantasy/signup", "/faceoffantasy/login", "/faceoffantasy/switchforce"];
+    const noSideNavBar = [basePath + "/signup", basePath + "/login", basePath + "/switchforce"];
 
     var selected = selections[window.location.pathname];
     return (<>

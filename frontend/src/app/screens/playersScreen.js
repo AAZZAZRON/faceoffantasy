@@ -267,7 +267,7 @@ export default function PlayersScreen (props) {
                         // TODO: get team id of the user
                         const userTeamId = 1;
                         const ownerId = getLeagueTeamIdOfPlayer(player);
-                        var ownerName = " FA";
+                        var ownerName = "FA";
                         if (ownerId === userTeamId) ownerName = "(Me)"
                         else {
                             var tryPlayerInTeam = teams.filter(team => team.id === ownerId);

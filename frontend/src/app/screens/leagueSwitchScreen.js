@@ -62,7 +62,8 @@ export default function LeagueSwitchScreen(props) {
         </LeagueCreationModal>
         <LeagueJoinModal
         showLeagueJoinModal={showLeagueJoinModal}
-        setShowLeagueJoinModal={setShowLeagueJoinModal}>
+        setShowLeagueJoinModal={setShowLeagueJoinModal}
+        updateTeamsAndLeagues={cacheTeamsAndLeagues}>
         </LeagueJoinModal>
         <div className={"league-container"}>
             <div className={"create-join-league-top-bar"}>

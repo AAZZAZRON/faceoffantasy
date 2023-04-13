@@ -29,15 +29,15 @@ const getUser = () => {
     return JSON.parse(localStorage.getItem("user"));
 }
 
-export const setActiveTeam = (team) => {
+const setActiveTeam = (team) => {
     localStorage.setItem("activeTeam", JSON.stringify(team));
 }
 
-export const getActiveTeam = () => {
+const getActiveTeam = () => {
     return JSON.parse(localStorage.getItem("activeTeam"));
 }
 
-export const hasActiveTeam = () => {
+const hasActiveTeam = () => {
     return !(!localStorage.getItem("activeTeam"));
 }
 
@@ -70,4 +70,4 @@ const logout = () => {
     window.location.href = "/faceoffantasy/login";
 }
 
-export { getToken, setToken, getRefresh, setRefresh, loggedIn, logout, setUser, updateToken, refreshUser, getUser };
+export { getToken, setToken, getRefresh, setRefresh, loggedIn, logout, setUser, updateToken, refreshUser, getUser, setActiveTeam, getActiveTeam, hasActiveTeam };

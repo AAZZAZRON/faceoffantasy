@@ -12,6 +12,12 @@ import Routes from '../utils/routes';
 import { setToken, setRefresh, setUser } from '../utils/AuthService';
 import { getRandomImage } from '../utils/imageRandomizer';
 
+import { useDispatch } from "react-redux";
+import { setMyLeagues } from '../features/leagues';
+import { setMyTeams } from '../features/teams';
+import { setCurrentUser } from '../features/users';
+import { callAPI } from '../utils/callApi';
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -29,7 +35,24 @@ const theme = createTheme();
 
 export default function LoginScreen(props) {
 
+  const dispatch = useDispatch();
   const [notify, setNotify] = React.useState("");
+
+  async function storeTeamsAndLeagues(props) {
+    callAPI(`${Routes.LEAGUES}/`).then((json) => {
+      const myLeagues = json.filter((league) => league.users.includes(props.id));
+      dispatch(setMyLeagues(myLeagues));
+    }).catch((error) => {
+      console.log(error);
+    });
+
+    callAPI(`${Routes.TEAMS}/`).then((json) => {
+      const myTeams = json.filter((team) => props.teams.includes(team.id));
+      dispatch(setMyTeams(myTeams));
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -57,7 +80,10 @@ export default function LoginScreen(props) {
                     for(let i = 0; i < json.length; i++) {
                         if(json[i].username === username) {
                             setUser(json[i]);
-                            window.location.href = "/faceoffantasy/";
+                            dispatch(setCurrentUser(json[i]));
+                            storeTeamsAndLeagues(json[i]).then(() => {
+                              window.location.href = "/faceoffantasy/";
+                            });
                             break;
                         }
                     }

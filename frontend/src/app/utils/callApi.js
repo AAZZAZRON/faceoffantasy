@@ -23,6 +23,14 @@ export const callAndStore = async(cacheName, url) => {
 export const callAPI = async(url) => {
     return await fetch(url).then((response) => response.json())
     .catch((error) => console.error(error.message));
+    // console.log(url);
+    // return await fetch(url)
+    // .then(response => response.json())
+    // .then(data => {
+    //     console.log(data);
+    //     return data;
+    // })
+    // .catch(error => {console.log(error)});
 }
 
 export async function fetchData(cacheName, url) {

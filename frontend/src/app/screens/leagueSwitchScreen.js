@@ -1,53 +1,58 @@
 import React, { useEffect } from 'react';
 
 import "../../css/leagueSwitchScreen.css";
-import { getDataCache } from '../utils/caching';
-import { callAndStore } from '../utils/callApi';
-import routes from '../utils/routes';
-import { setActiveTeam, getActiveTeam, logout, hasActiveTeam, loggedIn } from '../utils/AuthService';
+import { callAPI } from '../utils/callApi';
+import Routes from '../utils/routes';
+import { logout } from '../utils/AuthService';
 import { LeagueCreationModal, LeagueJoinModal } from '../components/leagueAddModals';
+
+import { useSelector, useDispatch } from "react-redux";
+import { setMyLeagues, setCurrentLeague } from '../features/leagues';
+import { setMyTeams, setCurrentTeam } from '../features/teams';
 
 export default function LeagueSwitchScreen(props) {
     
+    const currentUser = useSelector((state) => state.users.currentUser);
+    const currentTeam = useSelector((state) => state.teams.currentTeam);
+    const userLeagues = useSelector((state) => state.leagues.myLeagues);
+    const userTeams = useSelector((state) => state.teams.myTeams);
+
+    const dispatch = useDispatch();
+
     const [showLeagueCreationModal, setShowLeagueCreationModal] = React.useState(false);
     const [showLeagueJoinModal, setShowLeagueJoinModal] = React.useState(false);
-    const [userTeams, setUserTeams] = React.useState([]);
-    const [userLeagues, setUserLeagues] = React.useState([]);
-    const [selectedLeagueID, setSelectedLeagueID] = React.useState(null);
-    const [user, setUser] = React.useState(null);
-    const [doneLoading, setDoneLoading] = React.useState(false);
 
     props.setMessage("My leagues");
 
-    const cacheTeamsAndLeagues = async () => {
-        if (user === null || user === undefined) return;
-        await callAndStore("LEAGUES", `${routes.LEAGUES}/`).then((res) => {setUserLeagues(res)});
-        await callAndStore("TEAMS", `${routes.TEAMS}/`).then((res) => {setUserTeams(res)});
+    const cacheTeamsAndLeagues = async (user) => {
+        callAPI(`${Routes.LEAGUES}/`).then((json) => {
+            const myLeagues = json.filter((league) => league.users.includes(user.id));
+            dispatch(setMyLeagues(myLeagues));
+          }).catch((error) => {
+            console.log(error);
+          });
+      
+          callAPI(`${Routes.TEAMS}/`).then((json) => {
+            const myTeams = json.filter((team) => user.teams.includes(team.id));
+            console.log("My Teams:" + myTeams);
+            dispatch(setMyTeams(myTeams));
+          }).catch((error) => {
+            console.log(error);
+          });
     }
+
+    useEffect(() => {
+        if (currentUser) {
+            cacheTeamsAndLeagues(currentUser);
+        }
+    }, []);
 
     function handleClick(handleclickprops) {
         const league = userLeagues.find((league) => league.id === handleclickprops.league);
-        setSelectedLeagueID(league.id);
-        setActiveTeam(handleclickprops);
+        dispatch(setCurrentLeague(league));
+        dispatch(setCurrentTeam(handleclickprops));
         if (props.force) window.location.href = "/faceoffantasy";
     }
-
-    useEffect(() => {
-        cacheTeamsAndLeagues();
-      }, [user]);
-
-    useEffect(() => {
-        async function getUser() {
-            if (loggedIn()) {
-                setUser(getDataCache("user"));
-            }
-            if (hasActiveTeam()) setSelectedLeagueID(getActiveTeam().league);
-        }
-        getUser();
-        setDoneLoading(true);
-    }, []);
-
-    if (!doneLoading) return (<></>);
 
     return (<>
         <LeagueCreationModal
@@ -62,7 +67,7 @@ export default function LeagueSwitchScreen(props) {
         </LeagueJoinModal>
         <div className={"league-container"}>
             <div className={"create-join-league-top-bar"}>
-                <h2>{props.force ? 'Hello, ' + user.username + '! Please Select a League to Continue.' : 'Select a League'}</h2>
+                <h2>{props.force ? 'Hello, ' + currentUser.username + '! Please Select a League to Continue.' : 'Select a League'}</h2>
                 <div className={"enter-league-buttons"}>
 
                     <button className={"enter-league-button"}
@@ -90,7 +95,7 @@ export default function LeagueSwitchScreen(props) {
                     <LeagueCard
                     key={index}
                     league={userLeagues.find((league) => league.id === team.league)}
-                    selected={selectedLeagueID === team.league}
+                    selected={(currentTeam && currentTeam.league === team.league)}
                     handleClick={() => {handleClick(team)}}
                     ></LeagueCard>
                 )})}

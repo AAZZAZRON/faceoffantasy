@@ -9,13 +9,13 @@ export const teamsSlice = createSlice({
     },
     reducers: {
         setAllTeams: (state, action) => {
-            state.allLeagues = action.payload;
+            state.allTeams = action.payload;
         },
         setMyTeams: (state, action) => {
-            state.myLeagues = action.payload;
+            state.myTeams = action.payload;
         },
         setCurrentTeam: (state, action) => {
-            state.currentLeague = action.payload;
+            state.currentTeam = action.payload;
         },
     },
 });

@@ -16,8 +16,10 @@ import Copyright from './components/copyright';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import { fetchData } from './utils/callApi';
-
 import { useSelector } from "react-redux";
+
+import { ToastContainer, toast } from 'react-toastify';
+
 
 
 export default function Base (props) {

@@ -5,6 +5,7 @@ import "../../css/playerModal.css";
 import Routes from "../utils/routes";
 import { useSelector, useDispatch } from 'react-redux';
 import { setLoaded } from '../features/loaded';
+import { toast } from 'react-toastify';
 
 export const PlayerModal = (props) => {
     const dispatch = useDispatch();
@@ -61,6 +62,7 @@ export const PlayerModal = (props) => {
         .then(data => {
             console.log('Success:', data);
             dispatch(setLoaded(false));
+            toast.success("Player added to your team!");
         })
         .catch((error) => {
             console.error('Error:', error);

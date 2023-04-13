@@ -8,6 +8,8 @@ import { setAllLeagues, setMyLeagues } from './app/features/leagues';
 import { setAllTeams, setMyTeams } from './app/features/teams';
 import Routes from './app/utils/routes';
 import { callAPI } from './app/utils/callApi';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const dispatch = useDispatch();
@@ -56,7 +58,21 @@ function App() {
   }
 
   return (
-    <Base></Base>
+    <>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        />
+      <Base></Base>
+    </>
   );
 }
 

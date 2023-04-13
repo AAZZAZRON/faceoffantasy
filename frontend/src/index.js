@@ -15,6 +15,7 @@ import loadedReducer from './app/features/loaded';
 import nhlReducer from './app/features/nhl';
 import leaguesReducer from './app/features/leagues';
 import teamsReducer from './app/features/teams';
+import usersReducer from './app/features/users';
 
 // as per https://www.youtube.com/watch?v=b88Z5POQBwI
 const persistConfig = {
@@ -29,6 +30,8 @@ const reducer = combineReducers({
   nhl: nhlReducer,
   leagues: leaguesReducer,
   teams: teamsReducer,
+
+  users: usersReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

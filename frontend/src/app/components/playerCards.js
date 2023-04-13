@@ -18,11 +18,12 @@ export function HeadShot({player, setModal, position, team, owner, avatar}) {
 
 export function SkaterCard(props) {
     const skater = props.skater;
+    // TODO: abbr instead of teamName
     return (
         <div className="card" style={{flexDirection: 'row'}}>
             <HeadShot setModal={props.setModal} player={skater} position={props.position} team={props.team} owner={props.owner}></HeadShot>
             <div className="card-body">
-                <div style={{minWidth: '45px'}}>{props.owner}</div>
+                <div style={{width: '45px', overflow: 'clip'}}>{props.owner.teamName}</div>
                 <div>{skater.games}</div>
                 <div>{skater.goals}</div>
                 <div>{skater.assists}</div>
@@ -44,7 +45,7 @@ export function GoalieCard(props) {
         <div class="card" style={{flexDirection: 'row'}}>
             <HeadShot setModal={props.setModal} player={goalie} position={props.position} team={props.team} owner={props.owner}></HeadShot>
             <div class="card-body">
-                <div style={{minWidth: '45px'}}>{props.owner}</div>
+                <div style={{width: '45px', overflow: 'clip'}}>{props.owner.teamName}</div>
                 <div>{goalie.gamesStarted}</div>
                 <div>{goalie.wins}</div>
                 <div>{goalie.goalsAgainst}</div>

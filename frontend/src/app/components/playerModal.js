@@ -3,8 +3,11 @@ import { useState, useEffect } from "react";
 import Modal from 'react-modal';
 import "../../css/playerModal.css";
 import Routes from "../utils/routes";
+import { useSelector, useDispatch } from 'react-redux';
+import { setLoaded } from '../features/loaded';
 
 export const PlayerModal = (props) => {
+    const dispatch = useDispatch();
     const [modalIsOpen, setIsOpen] = useState(false);
 
     function openModal() {
@@ -25,6 +28,8 @@ export const PlayerModal = (props) => {
     const position = props.position;
     const NHLteam = props.team;
     const owner = props.owner;
+    const currentTeam = useSelector((state) => state.teams.currentTeam);
+
     const totalPoints = 69420;
     var averagePoints;
     if (player.games === 0) averagePoints = (0).toFixed(1);
@@ -55,6 +60,7 @@ export const PlayerModal = (props) => {
         .then(response => response.json())
         .then(data => {
             console.log('Success:', data);
+            dispatch(setLoaded(false));
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -70,7 +76,7 @@ export const PlayerModal = (props) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "teamId": 1, // TODO: Change this to the user's team ID
+                "teamId": owner.id, 
                 "playerId": player.id,
         }),
         })
@@ -80,25 +86,25 @@ export const PlayerModal = (props) => {
         })
         .catch((error) => {
             console.error('Error:', error);
-        });    }
+        });    
+    }
 
     const togglePlayerOnWatchList = () => {
         
     }
 
     const addDropButton = () => {
-        console.log(owner);
-        if (owner === "FA") {
+        if (owner.teamName === "None (Free Agent)") {
             return (
                 <div class='action-button add-player' onClick={addPlayer}>Add</div>
             )
-        } else if (owner === "(Me)") {
+        } else if (owner.id === currentTeam.id) {
             return (
                 <div class='action-button drop-player' onClick={dropPlayer}>Drop</div>
             )
         } else {
             return (
-                <div class='action-button owned-already'>Owned By {owner}</div>
+                <div class='action-button owned-already'>Owned By {owner.teamName}</div>
             )
         }
     }
@@ -130,7 +136,7 @@ export const PlayerModal = (props) => {
                             </div>
                             <div class='stat'>
                                 <div class='stat-name'>MANAGER</div>
-                                <div class='stat-value'>{owner === "FA" ? "None (Free Agent)" : owner}</div>
+                                <div class='stat-value'>{owner.teamName}</div>
                             </div>
                             <div class='stat'>
                                 <div class='stat-name'>STATUS</div>

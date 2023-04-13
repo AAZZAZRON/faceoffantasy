@@ -4,31 +4,52 @@ import "./css/bootstrap.css";
 import { useSelector, useDispatch } from "react-redux";
 import { setLoaded } from './app/features/loaded';
 import { setSkaters, setGoalies, setPositions, setNHLTeams } from './app/features/nhl';
-import routes from './app/utils/routes';
+import { setAllLeagues, setMyLeagues } from './app/features/leagues';
+import { setAllTeams, setMyTeams } from './app/features/teams';
+import Routes from './app/utils/routes';
 import { callAPI } from './app/utils/callApi';
 
 function App() {
   const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.users.isLoggedIn);
+  const currentUser = useSelector((state) => state.users.currentUser);
+  const loaded = useSelector((state) => state.loaded.value);
+
 
   const loadResources = () => {
-    callAPI(`${routes.SKATERS}/`).then((data) => { // all skaters
+    callAPI(`${Routes.SKATERS}/`).then((data) => { // all skaters
         dispatch(setSkaters(data));
     });
 
-    callAPI(`${routes.GOALIES}/`).then((data) => { // all goalies
+    callAPI(`${Routes.GOALIES}/`).then((data) => { // all goalies
         dispatch(setGoalies(data));
     });
 
-    callAPI(`${routes.POSITIONS}/`).then((data) => { // all positions
+    callAPI(`${Routes.POSITIONS}/`).then((data) => { // all positions
         dispatch(setPositions(data));
     });
 
-    callAPI(`${routes.NHLTEAMS}/`).then((data) => { // all nhl teams
+    callAPI(`${Routes.NHLTEAMS}/`).then((data) => { // all nhl teams
         dispatch(setNHLTeams(data));
+    });
+
+    callAPI(`${Routes.LEAGUES}/`).then((data) => { // all leagues
+      dispatch(setAllLeagues(data));
+      if (isLoggedIn) {
+        const myLeagues = data.filter((league) => league.users.includes(currentUser.id));
+        dispatch(setMyLeagues(myLeagues));
+      }
+    });
+
+    callAPI(`${Routes.TEAMS}/`).then((data) => { // all teams
+      dispatch(setAllTeams(data));
+      if (isLoggedIn) {
+        const myTeams = data.filter((team) => currentUser.teams.includes(team.id));
+        dispatch(setMyTeams(myTeams));
+      }
     });
   }
   
-  const loaded = useSelector((state) => state.loaded.value);
   if (loaded === false) { // if loaded
     loadResources();
     dispatch(setLoaded(true));

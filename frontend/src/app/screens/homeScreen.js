@@ -3,7 +3,7 @@ import "../../css/homeScreen.css";
 import { getUser } from "../utils/AuthService";
 import Routes from "../utils/routes";
 import {HeadShot} from "../components/playerCards";
-import { getDataCache } from "../utils/caching";
+import { useSelector } from "react-redux";
 
 const HomeLeague = ({user}) => {
     const [rank, setRank] = useState("");
@@ -61,7 +61,7 @@ const HomeTeam = ({team, skaters, goalies, positions}) => {
         boxShadow: "grey 2px 2px 5px"
     };
 
-    function mapToHeadshot(player){
+    function mapToHeadshot(player) {
         return (
         <div style={headShotStyle}>
             <HeadShot key={player.id} player={player} team={team} 
@@ -95,10 +95,11 @@ export default function HomeScreen (props) {
     if(user === null) console.log("logged in but no user...");
     else props.setMessage("Hello, " + user["username"] + "!");
     const [team, setTeam] = useState(undefined);
-    const [allSkaters, setAllSkaters] = useState([]); // for searching
-    const [allGoalies, setAllGoalies] = useState([]); // for searching
-    const [positions, setPositions] = useState([]);
-    const [NHLTeams, setNHLTeams] = useState([]);
+
+    const allSkaters = useSelector(state => state.nhl.skaters);
+    const allGoalies = useSelector(state => state.nhl.goalies);
+    const positions = useSelector(state => state.nhl.positions);
+    const NHLTeams = useSelector(state => state.nhl.nhlteams);
 
     useEffect(() => {
         if(user.teams.length > 0){
@@ -109,12 +110,6 @@ export default function HomeScreen (props) {
     }, []);
 
     const onStartup = async() => {
-        setPositions(await getDataCache("POSITIONS"));
-        setNHLTeams(await getDataCache("NHLTEAMS"));
-        setAllSkaters(await getDataCache("SKATERS"));
-        console.log("thing: ");
-        console.log(await getDataCache("SKATERS"));
-        setAllGoalies(await getDataCache("GOALIES"));
     }
 
     useEffect(() => {

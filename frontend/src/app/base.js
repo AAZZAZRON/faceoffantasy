@@ -38,10 +38,6 @@ export default function Base (props) {
 
     // cache everything
     useEffect(() => {
-        fetchData("SKATERS", `${routes.SKATERS}/`);
-        fetchData("GOALIES", `${routes.GOALIES}/`);
-        fetchData("POSITIONS", `${routes.POSITIONS}/`);
-        fetchData("NHLTEAMS", `${routes.NHLTEAMS}/`);
         fetchData("LEAGUES", `${routes.LEAGUES}/`); // accounted for league filtering
         fetchData("TEAMS", `${routes.TEAMS}/`);
     }, []);
@@ -96,7 +92,6 @@ export default function Base (props) {
                     </Typography>
                     &nbsp;
                     <Copyright />
-                    
                 </div>
             </div>
         </BrowserRouter>

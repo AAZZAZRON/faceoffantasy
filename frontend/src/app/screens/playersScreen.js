@@ -5,16 +5,17 @@ import { Searchbar } from "../components/searchbar";
 import { PlayerModal } from "../components/playerModal";
 import ReactPaginate from 'react-paginate';
 import { SkaterCard, GoalieCard } from "../components/playerCards";
+import { useSelector } from "react-redux";
 
 export default function PlayersScreen (props) {
     props.setMessage("All Players");
 
     const [players, setPlayers] = useState([]); // stores all players [skaters, goalies]
-    const [allSkaters, setAllSkaters] = useState([]); // stores all skaters
-    const [allGoalies, setAllGoalies] = useState([]); // stores all goalies
-    
-    const [positions, setPositions] = useState([]);
-    const [NHLTeams, setNHLTeams] = useState([]);
+
+    const allSkaters = useSelector(state => state.nhl.skaters);
+    const allGoalies = useSelector(state => state.nhl.goalies);
+    const positions = useSelector(state => state.nhl.positions);
+    const NHLTeams = useSelector(state => state.nhl.nhlteams);
 
     // for filtering and sorting
     const [selectedPosition, setSelectedPosition] = useState("All");
@@ -194,11 +195,6 @@ export default function PlayersScreen (props) {
 
     /* ----- STARTUP LOADING ----- */
     const onStartup = async() => {
-        await setAllSkaters(await getDataCache("SKATERS"));
-        await setAllGoalies(await getDataCache("GOALIES"));
-        await setPlayers(await getDataCache("SKATERS"));
-        await setPositions(await getDataCache("POSITIONS"));
-        await setNHLTeams(await getDataCache("NHLTEAMS"));
         await setUser(await getDataCache("user"));
         await setAllUsers(await getDataCache("USERS"));
         await setTeams(await getDataCache("TEAMS"));

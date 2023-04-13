@@ -128,6 +128,7 @@ export function LeagueCreationModal(props) {
                         callAndStore("TEAMS", `${routes.TEAMS}/`).then(() => {
                             callAndStore("USERS", `${routes.USER}/`).then(() => {
                                 props.updateTeamsAndLeagues();
+                                closeModal();
                             });
                         });
                     });
@@ -140,9 +141,6 @@ export function LeagueCreationModal(props) {
         .catch((error) => {
             console.error('Error:', error);
         });
-        
-        // close modal
-        closeModal();
     }
 
     return (
@@ -206,15 +204,14 @@ export function LeagueCreationModal(props) {
                             maxLength: 30,
                           }}
                         />
-
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                    >
-                        create
-                    </Button>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                        >
+                            create
+                        </Button>
                     </div>
                 </Box>
             </Modal>
@@ -241,8 +238,7 @@ export function LeagueJoinModal(props) {
 
         // post to api
         const code = data.get('Code');
-        console.log(code);
-
+        const teamName = data.get('Team Name');
         const ownerId = getUser().id;
 
         fetch(`${Routes.POST.JOINLEAGUE}/`, {
@@ -257,15 +253,40 @@ export function LeagueJoinModal(props) {
         })
         .then((response) => response.json())
         .then((data) => {
-            console.log('Success:', data);
-            callAndStore("LEAGUES", `${routes.LEAGUES}/`);
+            console.log('POST request success:', data);
+            callAndStore("LEAGUES", `${routes.LEAGUES}/`).then(() => {
+                // create team
+                fetch(`${Routes.POST.CREATETEAM}/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        "name": teamName,
+                        'owner': ownerId,
+                        "league": data.id,
+                }),
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log('POST request success:', data);
+                    callAndStore("user", `${routes.USER}/${ownerId}/`).then(() => {
+                        callAndStore("TEAMS", `${routes.TEAMS}/`).then(() => {
+                            callAndStore("USERS", `${routes.USER}/`).then(() => {
+                                props.updateTeamsAndLeagues();
+                                closeModal();
+                            });
+                        });
+                    });
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            });
         })
         .catch((error) => {
             console.error('Error:', error);
         });
-
-        // close modal
-        closeModal();
     }
 
     return (
@@ -294,6 +315,23 @@ export function LeagueJoinModal(props) {
                         id="Code"
                         label="Code"
                         name="Code"
+                        sx = {{ mb: 3, width: '100%' }}
+                        InputProps={{
+                            inputMode: "numeric",
+                            pattern: "^[a-zA-Z0-9]*$",
+                            minLength: 3,
+                            maxLength: 30,
+                          }}
+                        />
+                        <h5>Team Name</h5>
+                        <p>Your team in the league will be created automatically when you create a league. Just provide a name for us :)</p>
+
+                        <TextField
+                        required
+                        fullWidth
+                        id="Team Name"
+                        label="Your Team's Name"
+                        name="Team Name"
                         sx = {{ mb: 3, width: '100%' }}
                         InputProps={{
                             inputMode: "numeric",

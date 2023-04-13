@@ -19,11 +19,6 @@ export default function LeagueSwitchScreen(props) {
 
     props.setMessage("My leagues");
 
-    useEffect(() => {
-        console.log(userTeams);
-        console.log(userLeagues);
-    }, [userTeams, userLeagues]);
-
     const cacheTeamsAndLeagues = async () => {
         if (user === null || user === undefined) return;
         await callAndStore("LEAGUES", `${routes.LEAGUES}/`).then((res) => {setUserLeagues(res)});
@@ -42,27 +37,46 @@ export default function LeagueSwitchScreen(props) {
       }, [user]);
 
     useEffect(() => {
-        async function cacheUser() {
+        async function getUser() {
             if (loggedIn()) {
                 setUser(getDataCache("user"));
             }
             if (hasActiveTeam()) setSelectedLeagueID(getActiveTeam().league);
         }
-        cacheUser();
+        getUser();
         setDoneLoading(true);
     }, []);
 
     if (!doneLoading) return (<></>);
 
     return (<>
-        <LeagueCreationModal showLeagueCreationModal={showLeagueCreationModal} setShowLeagueCreationModal={setShowLeagueCreationModal} updateTeamsAndLeagues={cacheTeamsAndLeagues}></LeagueCreationModal>
-        <LeagueJoinModal showLeagueJoinModal={showLeagueJoinModal} setShowLeagueJoinModal={setShowLeagueJoinModal}></LeagueJoinModal>
+        <LeagueCreationModal
+        showLeagueCreationModal={showLeagueCreationModal}
+        setShowLeagueCreationModal={setShowLeagueCreationModal}
+        updateTeamsAndLeagues={cacheTeamsAndLeagues}>
+        </LeagueCreationModal>
+        <LeagueJoinModal
+        showLeagueJoinModal={showLeagueJoinModal}
+        setShowLeagueJoinModal={setShowLeagueJoinModal}
+        updateTeamsAndLeagues={cacheTeamsAndLeagues}>
+        </LeagueJoinModal>
         <div className={"league-container"}>
             <div className={"create-join-league-top-bar"}>
                 <h2>{props.force ? 'Hello, ' + user.username + '! Please Select a League to Continue.' : 'Select a League'}</h2>
                 <div className={"enter-league-buttons"}>
-                    <button className={"enter-league-button"} style={{fontWeight: "bold"}} onClick={() => setShowLeagueJoinModal(true)}>Join League</button>
-                    <button className={"enter-league-button"} style={{fontWeight: "bold", backgroundColor: "#add8e6"}} onClick={() => setShowLeagueCreationModal(true)}>Create League</button>
+
+                    <button className={"enter-league-button"}
+                    style={{fontWeight: "bold"}}
+                    onClick={() => setShowLeagueJoinModal(true)}>
+                    Join League
+                    </button>
+
+                    <button className={"enter-league-button"}
+                    style={{fontWeight: "bold", backgroundColor: "#add8e6"}}
+                    onClick={() => setShowLeagueCreationModal(true)}>
+                    Create League
+                    </button>
+                    
                 </div>
             </div>
             <hr style={{width: "95%"}}/>
@@ -76,7 +90,6 @@ export default function LeagueSwitchScreen(props) {
                     <LeagueCard
                     key={index}
                     league={userLeagues.find((league) => league.id === team.league)}
-                    force={props.force}
                     selected={selectedLeagueID === team.league}
                     handleClick={() => {handleClick(team)}}
                     ></LeagueCard>

@@ -16,7 +16,7 @@ import { useDispatch } from "react-redux";
 import { setMyLeagues } from '../features/leagues';
 import { setMyTeams } from '../features/teams';
 import { setCurrentUser, setIsLoggedIn } from '../features/users';
-import { setLoaded } from '../features/loaded';
+import { setLoaded, setGoTo } from '../features/loaded';
 import { callAPI } from '../utils/callApi';
 import { toast } from 'react-toastify';
 
@@ -40,25 +40,10 @@ export default function LoginScreen(props) {
   const dispatch = useDispatch();
   const [notify, setNotify] = React.useState("");
 
-  async function storeTeamsAndLeagues(props) {
-    callAPI(`${Routes.LEAGUES}/`).then((json) => {
-      const myLeagues = json.filter((league) => league.users.includes(props.id));
-      dispatch(setMyLeagues(myLeagues));
-    }).catch((error) => {
-      console.log(error);
-    });
-
-    callAPI(`${Routes.TEAMS}/`).then((json) => {
-      const myTeams = json.filter((team) => props.teams.includes(team.id));
-      dispatch(setMyTeams(myTeams));
-    }).catch((error) => {
-      console.log(error);
-    });
-  }
-
   const loginDispatch = async(user) =>  {
     await dispatch(setCurrentUser(user));
     await dispatch(setIsLoggedIn(true));
+    await dispatch(setGoTo("/faceoffantasy/switchforce/"));
     await dispatch(setLoaded(false));
   }
 
@@ -89,9 +74,7 @@ export default function LoginScreen(props) {
                         if(json[i].username === username) {
                             setUser(json[i]);
                             toast.loading("Logging in...");
-                            loginDispatch(json[i]).then(() => {
-                              window.location.href = "/faceoffantasy/";
-                            });
+                            loginDispatch(json[i]);
                             break;
                         }
                     }

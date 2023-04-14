@@ -101,21 +101,6 @@ export default function HomeScreen (props) {
     const NHLTeams = useSelector(state => state.nhl.nhlteams);
     const team = useSelector(state => state.teams.currentTeam);
 
-    // useEffect(() => {
-    //     if(user.teams.length > 0){
-    //         fetch(`${Routes.TEAMS}/${user.teams[0]}/`).then(res => res.json().then(team => {
-    //             setTeam(team);
-    //         }));
-    //     }
-    // }, []);
-
-    // const onStartup = async() => {
-    // }
-
-    // useEffect(() => {
-    //     onStartup()
-    // }, []);
-
     return (
         <>
             <div className="col-7 h-100">

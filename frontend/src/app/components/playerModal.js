@@ -146,7 +146,7 @@ export const PlayerModal = (props) => {
                         <div class='stat-table'>
                             <div class='stat'>
                                 <div class='stat-name'>ELIG</div>
-                                <div class='stat-value'>{position.code}</div>
+                                <div class='stat-value'>{position.abbreviation}</div>
                             </div>
                             <div class='stat'>
                                 <div class='stat-name'>MANAGER</div>

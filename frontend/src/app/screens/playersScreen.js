@@ -197,7 +197,6 @@ export default function PlayersScreen (props) {
     /* ----- STARTUP LOADING ----- */
     const onStartup = async() => {
         await setIsLoading(false);
-        toast = toast.success(allSkaters.length);
     }
 
     useEffect(() => {

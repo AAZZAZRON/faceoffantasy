@@ -12,7 +12,7 @@ import { getUser } from '../utils/AuthService';
 import routes from '../utils/routes';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
-import { setLoaded } from '../features/loaded';
+import { setGoTo, setLoaded } from '../features/loaded';
 
 export function LeagueCreationModal(props) {
     const [modalIsOpen , setModalIsOpen] = React.useState(false);
@@ -25,7 +25,6 @@ export function LeagueCreationModal(props) {
 
     function closeModal() {
         setModalIsOpen(false);
-        dispatch(setLoaded(false));
         props.setShowLeagueCreationModal(false);
     }
 
@@ -114,30 +113,33 @@ export function LeagueCreationModal(props) {
         .then((response) => response.json())
         .then((leaguedata) => {
             console.log('POST request success:',leaguedata);
-            callAndStore("LEAGUES", `${routes.LEAGUES}/`).then(() => {
+            // create team
+            fetch(`${Routes.POST.CREATETEAM}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "name": teamName,
+                    'abbreviation': teamAbbr,
+                    'owner': ownerId,
+                    "league": leaguedata.id,
+            }),
+            })
+            .then((response) => response.json())
+            .then((data) => {
                 toast(`${teamName} ${teamAbbr} created!`);
-                // create team
-                fetch(`${Routes.POST.CREATETEAM}/`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        "name": teamName,
-                        'abbreviation': teamAbbr,
-                        'owner': ownerId,
-                        "league": leaguedata.id,
-                }),
-                })
-                .then((response) => response.json())
-                .then((teamdata) => {
-                    console.log('POST request success:', teamdata);
-                    console.log("teamdata: ", teamdata);             
+                console.log('Success:', data);
+                if (data.success) {
+                    dispatch(setLoaded(false));
+                    toast.success(data.message);
                     closeModal();
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                });
+                } else {
+                    toast.error(data.message);
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
             });
         })
         .catch((error) => {
@@ -238,6 +240,7 @@ export function LeagueCreationModal(props) {
 
 export function LeagueJoinModal(props) {
     const [modalIsOpen , setModalIsOpen] = React.useState(false);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (props.showLeagueJoinModal) setModalIsOpen(true);
@@ -246,6 +249,7 @@ export function LeagueJoinModal(props) {
 
     function closeModal() {
         setModalIsOpen(false);
+        dispatch(setLoaded(false));
         props.setShowLeagueJoinModal(false);
     }
     
@@ -256,6 +260,7 @@ export function LeagueJoinModal(props) {
         // post to api
         const code = data.get('Code');
         const teamName = data.get('Team Name');
+        const teamAbbr = data.get('Team Abbreviation');
         const ownerId = getUser().id;
 
         fetch(`${Routes.POST.JOINLEAGUE}/`, {
@@ -280,6 +285,7 @@ export function LeagueJoinModal(props) {
                     },
                     body: JSON.stringify({
                         "name": teamName,
+                        'abbreviation': teamAbbr,
                         'owner': ownerId,
                         "league": data.id,
                 }),

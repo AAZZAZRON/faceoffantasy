@@ -6,6 +6,7 @@ export const teamsSlice = createSlice({
         allTeams: [],
         myTeams: [],
         currentTeam: null,
+        currentTeamId: null,
     },
     reducers: {
         setAllTeams: (state, action) => {
@@ -17,9 +18,12 @@ export const teamsSlice = createSlice({
         setCurrentTeam: (state, action) => {
             state.currentTeam = action.payload;
         },
+        setCurrentTeamId: (state, action) => {
+            state.currentTeamId = action.payload;
+        },
     },
 });
 
-export const { setAllTeams, setMyTeams, setCurrentTeam } = teamsSlice.actions;
+export const { setAllTeams, setMyTeams, setCurrentTeam, setCurrentTeamId } = teamsSlice.actions;
 
 export default teamsSlice.reducer;

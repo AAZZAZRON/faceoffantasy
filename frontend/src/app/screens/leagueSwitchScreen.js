@@ -10,6 +10,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { setCurrentUser } from '../features/users';
 import { setMyLeagues, setCurrentLeague } from '../features/leagues';
 import { setMyTeams, setCurrentTeam } from '../features/teams';
+import { setGoTo, setLoaded } from '../features/loaded';
+import {toast} from 'react-toastify';
 
 export default function LeagueSwitchScreen(props) {
     
@@ -25,12 +27,13 @@ export default function LeagueSwitchScreen(props) {
 
     props.setMessage("My leagues");
 
-    function handleClick(handleclickprops) {
+    async function handleClick(handleclickprops) {
         const league = userLeagues.find((league) => league.id === handleclickprops.league);
-        dispatch(setCurrentLeague(league));
-        dispatch(setCurrentTeam(handleclickprops));
-        if (props.force) window.location.href = "/faceoffantasy";
-    }
+        await dispatch(setCurrentLeague(league));
+        await dispatch(setCurrentTeam(handleclickprops));
+        await dispatch(setGoTo("/faceoffantasy/"));
+        await dispatch(setLoaded(false));
+    }        
 
     return (<>
         <LeagueCreationModal

@@ -13,12 +13,22 @@ import { setToken, setRefresh, setUser } from '../utils/AuthService';
 import { getRandomImage } from '../utils/imageRandomizer';
 import validator from "validator";
 import Copyright from '../components/copyright';
-
+import { useDispatch } from "react-redux";
+import { setCurrentUser, setIsLoggedIn } from '../features/users';
+import { setLoaded, setGoTo } from '../features/loaded';
+import { toast } from 'react-toastify';
 const theme = createTheme();
 
 export default function SignupScreen(props) {
-
+  const dispatch = useDispatch();
   const [notify, setNotify] = React.useState("");
+
+  const setupDispatch = async(user) =>  {
+    await dispatch(setCurrentUser(user));
+    await dispatch(setIsLoggedIn(true));
+    await dispatch(setGoTo("/faceoffantasy/"));
+    await dispatch(setLoaded(false));
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -77,7 +87,8 @@ export default function SignupScreen(props) {
                             for(let i = 0; i < json.length; i++) {
                                 if(json[i].username === username) {
                                     setUser(json[i]);
-                                    window.location.href = "/faceoffantasy/";
+                                    toast.loading("Signing up...");
+                                    setupDispatch(json[i]);
                                     break;
                                 }
                             }

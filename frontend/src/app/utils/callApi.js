@@ -14,7 +14,7 @@ export const callAndStore = async(cacheName, url) => {
                 return user.teams.includes(team.id);
             });
         }
-        console.log(cacheName + " " + JSON.stringify(data));
+        // console.log(cacheName + " " + JSON.stringify(data));
         localStorage.setItem(cacheName, JSON.stringify(data));
         return data;
     }).catch((error) => console.error(error.message));

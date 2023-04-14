@@ -6,6 +6,7 @@ export const leaguesSlice = createSlice({
         allLeagues: [],
         myLeagues: [],
         currentLeague: null,
+        currentLeagueId: null,
     },
     reducers: {
         setAllLeagues: (state, action) => {
@@ -17,9 +18,12 @@ export const leaguesSlice = createSlice({
         setCurrentLeague: (state, action) => {
             state.currentLeague = action.payload;
         },
+        setCurrentLeagueId: (state, action) => {
+            state.currentLeagueId = action.payload;
+        },
     },
 });
 
-export const { setAllLeagues, setMyLeagues, setCurrentLeague } = leaguesSlice.actions;
+export const { setAllLeagues, setMyLeagues, setCurrentLeague, setCurrentLeagueId } = leaguesSlice.actions;
 
 export default leaguesSlice.reducer;

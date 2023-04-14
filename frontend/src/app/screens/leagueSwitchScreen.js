@@ -7,6 +7,7 @@ import { logout } from '../utils/AuthService';
 import { LeagueCreationModal, LeagueJoinModal } from '../components/leagueAddModals';
 
 import { useSelector, useDispatch } from "react-redux";
+import { setCurrentUser, appendTeamToCurrentUser } from '../features/users';
 import { setMyLeagues, setCurrentLeague } from '../features/leagues';
 import { setMyTeams, setCurrentTeam } from '../features/teams';
 
@@ -24,27 +25,40 @@ export default function LeagueSwitchScreen(props) {
 
     props.setMessage("My leagues");
 
-    const cacheTeamsAndLeagues = async (user) => {
-        callAPI(`${Routes.LEAGUES}/`).then((json) => {
-            const myLeagues = json.filter((league) => league.users.includes(user.id));
-            dispatch(setMyLeagues(myLeagues));
-          }).catch((error) => {
+    const cacheTeamsAndLeagues = async () => {
+
+        callAPI(`${Routes.USER}/${currentUser.id}/`).then((json) => {
+            dispatch(setCurrentUser(json));
+            console.log("Current User:" + JSON.stringify(currentUser));
+        }).catch((error) => {
             console.log(error);
-          });
-      
-          callAPI(`${Routes.TEAMS}/`).then((json) => {
-            const myTeams = json.filter((team) => user.teams.includes(team.id));
-            console.log("My Teams:" + myTeams);
-            dispatch(setMyTeams(myTeams));
+        }).then(() => {
+            callAPI(`${Routes.TEAMS}/`).then((json) => {
+                console.log("current user's teams: " + currentUser.teams);
+                console.log(JSON.stringify(json));
+                const myTeams = json.filter((team) => currentUser.teams.includes(team.id));
+                console.log("My Teams:" + JSON.stringify(myTeams));
+                dispatch(setMyTeams(myTeams));
+              }).catch((error) => {
+                console.log(error);
+              });
+        }).catch((error) => {
+            console.log(error);
+        });
+
+        callAPI(`${Routes.LEAGUES}/`).then((json) => {
+            console.log(currentUser);
+            console.log(JSON.stringify(json));
+            const myLeagues = json.filter((league) => league.users.includes(currentUser.id));
+            console.log("My Leagues:" + JSON.stringify(myLeagues));
+            dispatch(setMyLeagues(myLeagues));
           }).catch((error) => {
             console.log(error);
           });
     }
 
     useEffect(() => {
-        if (currentUser) {
-            cacheTeamsAndLeagues(currentUser);
-        }
+        if (currentUser) cacheTeamsAndLeagues();
     }, []);
 
     function handleClick(handleclickprops) {
@@ -67,7 +81,7 @@ export default function LeagueSwitchScreen(props) {
         </LeagueJoinModal>
         <div className={"league-container"}>
             <div className={"create-join-league-top-bar"}>
-                <h2>{props.force ? 'Hello, ' + currentUser.username + '! Please Select a League to Continue.' : 'Select a League'}</h2>
+                <h2>{props.force ? 'Hello, ' + (currentUser && currentUser.username) + '! Please Select a League to Continue.' : 'Select a League'}</h2>
                 <div className={"enter-league-buttons"}>
 
                     <button className={"enter-league-button"}
@@ -108,7 +122,7 @@ export default function LeagueSwitchScreen(props) {
 }
 
 function LeagueCard(props) {
-    console.log(JSON.stringify(props));
+    // console.log(JSON.stringify(props));
     return (
         <div className={"league-card"} style={{backgroundColor: (props.selected) ? "#e5ddfd" : "#f1f1f1"}} onClick={props.handleClick}>
             <div className={"league-place-info"}>   

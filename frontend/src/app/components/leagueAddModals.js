@@ -106,8 +106,8 @@ export function LeagueCreationModal(props) {
         }),
         })
         .then((response) => response.json())
-        .then((data) => {
-            console.log('POST request success:', data);
+        .then((leaguedata) => {
+            console.log('POST request success:',leaguedata);
             callAndStore("LEAGUES", `${routes.LEAGUES}/`).then(() => {
                 // create team
                 fetch(`${Routes.POST.CREATETEAM}/`, {
@@ -118,20 +118,15 @@ export function LeagueCreationModal(props) {
                     body: JSON.stringify({
                         "name": teamName,
                         'owner': ownerId,
-                        "league": data.id,
+                        "league": leaguedata.id,
                 }),
                 })
                 .then((response) => response.json())
-                .then((data) => {
-                    console.log('POST request success:', data);
-                    callAndStore("user", `${routes.USER}/${ownerId}/`).then(() => {
-                        callAndStore("TEAMS", `${routes.TEAMS}/`).then(() => {
-                            callAndStore("USERS", `${routes.USER}/`).then(() => {
-                                props.updateTeamsAndLeagues();
-                                closeModal();
-                            });
-                        });
-                    });
+                .then((teamdata) => {
+                    console.log('POST request success:', teamdata);
+                    console.log("teamdata: ", teamdata);
+                    props.updateTeamsAndLeagues();                                
+                    closeModal();
                 })
                 .catch((error) => {
                     console.error('Error:', error);

@@ -16,6 +16,8 @@ export default function PlayersScreen (props) {
     const allGoalies = useSelector(state => state.nhl.goalies);
     const positions = useSelector(state => state.nhl.positions);
     const NHLTeams = useSelector(state => state.nhl.nhlteams);
+    const teams = useSelector(state => state.teams.allTeams);
+    const leagues = useSelector(state => state.leagues.allLeagues);
 
     // for filtering and sorting
     const [selectedPosition, setSelectedPosition] = useState("All");
@@ -35,19 +37,19 @@ export default function PlayersScreen (props) {
     const [modalPlayer, setModalPlayer] = useState([]);
     const [modalTeam, setModalTeam] = useState([]);
     const [modalPosition, setModalPosition] = useState([]);
-    const [playerOwner, setPlayerOwner] = useState([]);
+    const [modalOwner, setModalOwner] = useState([]);
 
     // user stuff
-    const [user, setUser] = useState([]); // current user
+    const user = useSelector(state => state.users.currentuser);
     const [allUsers, setAllUsers] = useState([]); // all users
-    const [teams, setTeams] = useState([]);
-    const [leagues, setLeagues] = useState([]);
+    const currentTeam = useSelector(state => state.teams.currentTeam);
+    const currentLeague = useSelector(state => state.leagues.currentLeague);
 
     const setModal = (player, position, team, owner) => {
         setModalPlayer(player);
         setModalPosition(position);
         setModalTeam(team);
-        setPlayerOwner(owner);
+        setModalOwner(owner);
         setShowModal(true);
         console.log("set modal");
     }
@@ -178,27 +180,20 @@ export default function PlayersScreen (props) {
     }, [players]);
 
     /* ----- HELPER METHODS ----- */
-    const getLeagueTeamIdOfPlayer = (player) => {
+    const getTeamOfPlayer = (player) => {
         if (player == null) return null;
-        // TODO: get current league
-        // const league = leagues.find(league => league.id === player.currentLeague);
-        const league = leagues[0]; // TODO: get active league
-        if (league == null) return null;
-        for (let teamId of league.teams) {
+
+        for (let teamId of currentLeague.teams) {
             const team = teams.find(team => team.id === teamId);
-            if (team.forwards.includes(player.id)) return teamId;
-            if (team.defensemen.includes(player.id)) return teamId;
-            if (team.goalies.includes(player.id)) return teamId;
+            if (team.forwards.includes(player.id)) return team;
+            if (team.defensemen.includes(player.id)) return team;
+            if (team.goalies.includes(player.id)) return team;
         }
-        return -1;
+        return {teamName: "None (Free Agent)", abbreviation: "FA"};
     }
 
     /* ----- STARTUP LOADING ----- */
     const onStartup = async() => {
-        await setUser(await getDataCache("user"));
-        await setAllUsers(await getDataCache("USERS"));
-        await setTeams(await getDataCache("TEAMS"));
-        await setLeagues(await getDataCache("LEAGUES"));
         await setIsLoading(false);
     }
 
@@ -259,24 +254,15 @@ export default function PlayersScreen (props) {
                     {players.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((player, index) => {
                         const position = positions.find(position => position.id === player.primaryPosition);
                         const team = NHLTeams.find(team => team.id === player.currentTeam);
-
-                        // TODO: get team id of the user
-                        const userTeamId = 1;
-                        const ownerId = getLeagueTeamIdOfPlayer(player);
-                        var ownerName = "FA";
-                        if (ownerId === userTeamId) ownerName = "(Me)"
-                        else {
-                            var tryPlayerInTeam = teams.filter(team => team.id === ownerId);
-                            if (tryPlayerInTeam.length > 0) ownerName = tryPlayerInTeam[0].teamName; // TODO: change .teamName to .abbr or smth
-                        }
+                        const owner = getTeamOfPlayer(player);
 
                         if (selectedPosition === "Goalie") {
                             return (
-                                <GoalieCard key={index} goalie={player} position={position} team={team} owner={ownerName} setModal={setModal}></GoalieCard>
+                                <GoalieCard key={index} goalie={player} position={position} team={team} owner={owner} setModal={setModal}></GoalieCard>
                             )
                         } else {
                             return (
-                                <SkaterCard key={index} skater={player} position={position} team={team} owner={ownerName} setModal={setModal}></SkaterCard>
+                                <SkaterCard key={index} skater={player} position={position} team={team} owner={owner} setModal={setModal}></SkaterCard>
                             )
                         }
                     })}
@@ -304,7 +290,7 @@ export default function PlayersScreen (props) {
                 />
                 </div>
             </div>
-            <PlayerModal showModal={showModal} player={modalPlayer} position={modalPosition} team={modalTeam} owner={playerOwner} setShowModal={setShowModal}></PlayerModal>
+            <PlayerModal showModal={showModal} player={modalPlayer} position={modalPosition} team={modalTeam} owner={modalOwner} setShowModal={setShowModal}></PlayerModal>
         </>
     );
 }

@@ -6,6 +6,7 @@ import uuid
 # Create your models here.
 class Team(models.Model):
     teamName = models.CharField(max_length=200)
+    abbreviation = models.CharField(max_length=4)
 
     league = models.ForeignKey('league.League', on_delete=models.CASCADE, related_name='league')
 

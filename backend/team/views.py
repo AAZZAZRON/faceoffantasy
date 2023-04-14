@@ -24,6 +24,13 @@ def create_team(request):
         if (not data['name']):
             message['message'] = 'Team name is required'
             return JsonResponse(message)
+        if (not data['abbreviation']):
+            message['message'] = 'Team abbreviation is required'
+            return JsonResponse(message)
+        if len(data['abbreviation']) > 4:
+            message['message'] = 'Team abbreviation must be 4 characters or less'
+            return JsonResponse(message)
+        
         league = League.objects.filter(id=data['league']).first()
         if not league:
             message['message'] = 'League does not exist'
@@ -31,7 +38,9 @@ def create_team(request):
         if Team.objects.filter(league=league).filter(teamName=data['name']):
             message['message'] = 'A team with this name already exists'
             return JsonResponse(message)
+        
         team = Team(teamName=data['name'])
+        team.abbreviation = data['abbreviation']
         team.league = league
         team.save()
         owner = User.objects.get(id=data['owner']) # add team to owner

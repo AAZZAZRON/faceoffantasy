@@ -7,7 +7,7 @@ import { logout } from '../utils/AuthService';
 import { LeagueCreationModal, LeagueJoinModal } from '../components/leagueAddModals';
 
 import { useSelector, useDispatch } from "react-redux";
-import { setCurrentUser, appendTeamToCurrentUser } from '../features/users';
+import { setCurrentUser } from '../features/users';
 import { setMyLeagues, setCurrentLeague } from '../features/leagues';
 import { setMyTeams, setCurrentTeam } from '../features/teams';
 
@@ -25,42 +25,6 @@ export default function LeagueSwitchScreen(props) {
 
     props.setMessage("My leagues");
 
-    const cacheTeamsAndLeagues = async () => {
-
-        callAPI(`${Routes.USER}/${currentUser.id}/`).then((json) => {
-            dispatch(setCurrentUser(json));
-            console.log("Current User:" + JSON.stringify(currentUser));
-        }).catch((error) => {
-            console.log(error);
-        }).then(() => {
-            callAPI(`${Routes.TEAMS}/`).then((json) => {
-                console.log("current user's teams: " + currentUser.teams);
-                console.log(JSON.stringify(json));
-                const myTeams = json.filter((team) => currentUser.teams.includes(team.id));
-                console.log("My Teams:" + JSON.stringify(myTeams));
-                dispatch(setMyTeams(myTeams));
-              }).catch((error) => {
-                console.log(error);
-              });
-        }).catch((error) => {
-            console.log(error);
-        });
-
-        callAPI(`${Routes.LEAGUES}/`).then((json) => {
-            console.log(currentUser);
-            console.log(JSON.stringify(json));
-            const myLeagues = json.filter((league) => league.users.includes(currentUser.id));
-            console.log("My Leagues:" + JSON.stringify(myLeagues));
-            dispatch(setMyLeagues(myLeagues));
-          }).catch((error) => {
-            console.log(error);
-          });
-    }
-
-    useEffect(() => {
-        if (currentUser) cacheTeamsAndLeagues();
-    }, []);
-
     function handleClick(handleclickprops) {
         const league = userLeagues.find((league) => league.id === handleclickprops.league);
         dispatch(setCurrentLeague(league));
@@ -71,13 +35,11 @@ export default function LeagueSwitchScreen(props) {
     return (<>
         <LeagueCreationModal
         showLeagueCreationModal={showLeagueCreationModal}
-        setShowLeagueCreationModal={setShowLeagueCreationModal}
-        updateTeamsAndLeagues={cacheTeamsAndLeagues}>
+        setShowLeagueCreationModal={setShowLeagueCreationModal}>
         </LeagueCreationModal>
         <LeagueJoinModal
         showLeagueJoinModal={showLeagueJoinModal}
-        setShowLeagueJoinModal={setShowLeagueJoinModal}
-        updateTeamsAndLeagues={cacheTeamsAndLeagues}>
+        setShowLeagueJoinModal={setShowLeagueJoinModal}>
         </LeagueJoinModal>
         <div className={"league-container"}>
             <div className={"create-join-league-top-bar"}>

@@ -94,27 +94,27 @@ export default function HomeScreen (props) {
     const user = getUser()
     if(user === null) console.log("logged in but no user...");
     else props.setMessage("Hello, " + user["username"] + "!");
-    const [team, setTeam] = useState(undefined);
 
     const allSkaters = useSelector(state => state.nhl.skaters);
     const allGoalies = useSelector(state => state.nhl.goalies);
     const positions = useSelector(state => state.nhl.positions);
     const NHLTeams = useSelector(state => state.nhl.nhlteams);
+    const team = useSelector(state => state.teams.currentTeam);
 
-    useEffect(() => {
-        if(user.teams.length > 0){
-            fetch(`${Routes.TEAMS}/${user.teams[0]}/`).then(res => res.json().then(team => {
-                setTeam(team);
-            }));
-        }
-    }, []);
+    // useEffect(() => {
+    //     if(user.teams.length > 0){
+    //         fetch(`${Routes.TEAMS}/${user.teams[0]}/`).then(res => res.json().then(team => {
+    //             setTeam(team);
+    //         }));
+    //     }
+    // }, []);
 
-    const onStartup = async() => {
-    }
+    // const onStartup = async() => {
+    // }
 
-    useEffect(() => {
-        onStartup()
-    }, []);
+    // useEffect(() => {
+    //     onStartup()
+    // }, []);
 
     return (
         <>

@@ -15,8 +15,10 @@ import { getRandomImage } from '../utils/imageRandomizer';
 import { useDispatch } from "react-redux";
 import { setMyLeagues } from '../features/leagues';
 import { setMyTeams } from '../features/teams';
-import { setCurrentUser } from '../features/users';
+import { setCurrentUser, setIsLoggedIn } from '../features/users';
+import { setLoaded } from '../features/loaded';
 import { callAPI } from '../utils/callApi';
+import { toast } from 'react-toastify';
 
 function Copyright(props) {
   return (
@@ -54,6 +56,12 @@ export default function LoginScreen(props) {
     });
   }
 
+  const loginDispatch = async(user) =>  {
+    await dispatch(setCurrentUser(user));
+    await dispatch(setIsLoggedIn(true));
+    await dispatch(setLoaded(false));
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -80,8 +88,8 @@ export default function LoginScreen(props) {
                     for(let i = 0; i < json.length; i++) {
                         if(json[i].username === username) {
                             setUser(json[i]);
-                            dispatch(setCurrentUser(json[i]));
-                            storeTeamsAndLeagues(json[i]).then(() => {
+                            toast.loading("Logging in...");
+                            loginDispatch(json[i]).then(() => {
                               window.location.href = "/faceoffantasy/";
                             });
                             break;

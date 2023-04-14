@@ -6,6 +6,7 @@ import { PlayerModal } from "../components/playerModal";
 import ReactPaginate from 'react-paginate';
 import { SkaterCard, GoalieCard } from "../components/playerCards";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 export default function PlayersScreen (props) {
     props.setMessage("All Players");
@@ -185,6 +186,7 @@ export default function PlayersScreen (props) {
 
         for (let teamId of currentLeague.teams) {
             const team = teams.find(team => team.id === teamId);
+            console.log(teamId, team, teams);
             if (team.forwards.includes(player.id)) return team;
             if (team.defensemen.includes(player.id)) return team;
             if (team.goalies.includes(player.id)) return team;
@@ -195,6 +197,7 @@ export default function PlayersScreen (props) {
     /* ----- STARTUP LOADING ----- */
     const onStartup = async() => {
         await setIsLoading(false);
+        toast = toast.success(allSkaters.length);
     }
 
     useEffect(() => {

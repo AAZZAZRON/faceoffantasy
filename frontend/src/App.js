@@ -6,9 +6,10 @@ import { setLoaded } from './app/features/loaded';
 import { setSkaters, setGoalies, setPositions, setNHLTeams } from './app/features/nhl';
 import { setAllLeagues, setMyLeagues } from './app/features/leagues';
 import { setAllTeams, setMyTeams } from './app/features/teams';
+import { setCurrentUser } from './app/features/users';
 import Routes from './app/utils/routes';
 import { callAPI } from './app/utils/callApi';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
@@ -19,6 +20,13 @@ function App() {
 
 
   const loadResources = () => {
+    if (isLoggedIn) {
+      callAPI(`${Routes.USER}/${currentUser.id}/`).then((json) => {
+        dispatch(setCurrentUser(json));
+        console.log("Current User:" + JSON.stringify(currentUser));
+      })
+    }
+
     callAPI(`${Routes.SKATERS}/`).then((data) => { // all skaters
         dispatch(setSkaters(data));
     });
@@ -44,6 +52,7 @@ function App() {
     });
 
     callAPI(`${Routes.TEAMS}/`).then((data) => { // all teams
+      console.log("!", data);
       dispatch(setAllTeams(data));
       if (isLoggedIn) {
         const myTeams = data.filter((team) => currentUser.teams.includes(team.id));
@@ -53,6 +62,7 @@ function App() {
   }
   
   if (loaded === false) { // if loaded
+    toast.success("loading");
     loadResources();
     dispatch(setLoaded(true));
   }

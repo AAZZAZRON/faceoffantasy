@@ -10,9 +10,13 @@ import Routes from '../utils/routes';
 import { callAndStore } from '../utils/callApi';
 import { getUser } from '../utils/AuthService';
 import routes from '../utils/routes';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { setLoaded } from '../features/loaded';
 
 export function LeagueCreationModal(props) {
     const [modalIsOpen , setModalIsOpen] = React.useState(false);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (props.showLeagueCreationModal) setModalIsOpen(true);
@@ -21,6 +25,7 @@ export function LeagueCreationModal(props) {
 
     function closeModal() {
         setModalIsOpen(false);
+        dispatch(setLoaded(false));
         props.setShowLeagueCreationModal(false);
     }
 
@@ -76,6 +81,7 @@ export function LeagueCreationModal(props) {
         // post to api
         const leagueName = data.get('Name');
         const teamName = data.get('Team Name');
+        const teamAbbr = data.get('Team Abbreviation');
         const ownerId = getUser().id;
 
         fetch(`${Routes.POST.CREATELEAGUE}/`, {
@@ -109,6 +115,7 @@ export function LeagueCreationModal(props) {
         .then((leaguedata) => {
             console.log('POST request success:',leaguedata);
             callAndStore("LEAGUES", `${routes.LEAGUES}/`).then(() => {
+                toast(`${teamName} ${teamAbbr} created!`);
                 // create team
                 fetch(`${Routes.POST.CREATETEAM}/`, {
                     method: 'POST',
@@ -117,6 +124,7 @@ export function LeagueCreationModal(props) {
                     },
                     body: JSON.stringify({
                         "name": teamName,
+                        'abbreviation': teamAbbr,
                         'owner': ownerId,
                         "league": leaguedata.id,
                 }),
@@ -124,8 +132,7 @@ export function LeagueCreationModal(props) {
                 .then((response) => response.json())
                 .then((teamdata) => {
                     console.log('POST request success:', teamdata);
-                    console.log("teamdata: ", teamdata);
-                    props.updateTeamsAndLeagues();                                
+                    console.log("teamdata: ", teamdata);             
                     closeModal();
                 })
                 .catch((error) => {
@@ -199,6 +206,21 @@ export function LeagueCreationModal(props) {
                             maxLength: 30,
                           }}
                         />
+                        <TextField
+                        required
+                        fullWidth
+                        id="Team Abbreviation"
+                        label="Your Team's Abbreviation"
+                        name="Team Abbreviation"
+                        sx = {{ mb: 3, width: '100%' }}
+                        helperText="3-4 characters, all caps"
+                        InputProps={{
+                            inputMode: "numeric", // TODO: ERROR TRAP
+                            pattern: "^[A-Z]*$",
+                            minLength: 3,
+                            maxLength: 4,
+                          }}
+                        />
                         <Button
                             type="submit"
                             fullWidth
@@ -268,7 +290,6 @@ export function LeagueJoinModal(props) {
                     callAndStore("user", `${routes.USER}/${ownerId}/`).then(() => {
                         callAndStore("TEAMS", `${routes.TEAMS}/`).then(() => {
                             callAndStore("USERS", `${routes.USER}/`).then(() => {
-                                props.updateTeamsAndLeagues();
                                 closeModal();
                             });
                         });
@@ -333,6 +354,21 @@ export function LeagueJoinModal(props) {
                             pattern: "^[a-zA-Z0-9]*$",
                             minLength: 3,
                             maxLength: 30,
+                          }}
+                        />
+                        <TextField
+                        required
+                        fullWidth
+                        id="Team Abbreviation"
+                        label="Your Team's Abbreviation"
+                        name="Team Abbreviation"
+                        sx = {{ mb: 3, width: '100%' }}
+                        helperText="3-4 characters, all caps"
+                        InputProps={{
+                            inputMode: "numeric", // TODO: ERROR TRAP
+                            pattern: "^[A-Z]*$",
+                            minLength: 3,
+                            maxLength: 4,
                           }}
                         />
                     <Button

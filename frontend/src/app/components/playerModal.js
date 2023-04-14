@@ -61,8 +61,13 @@ export const PlayerModal = (props) => {
         .then(response => response.json())
         .then(data => {
             console.log('Success:', data);
-            dispatch(setLoaded(false));
-            toast.success("Player added to your team!");
+            if (data.success) {
+                dispatch(setLoaded(false));
+                toast.success(data.message);
+                closeModal();
+            } else {
+                toast.error(data.message);
+            }
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -85,10 +90,17 @@ export const PlayerModal = (props) => {
         .then(response => response.json())
         .then(data => {
             console.log('Success:', data);
+            if (data.success) {
+                dispatch(setLoaded(false));
+                toast.success(data.message);
+                closeModal();
+            } else {
+                toast.error(data.message);
+            }
         })
         .catch((error) => {
             console.error('Error:', error);
-        });    
+        });
     }
 
     const togglePlayerOnWatchList = () => {

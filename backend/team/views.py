@@ -69,7 +69,7 @@ def add_player(request):
         
         if position == "Forward":
             if team.forwards.count() == league.numForwards:
-                message['message'] = 'Team already has maximum number of forwards'
+                message['message'] = 'Team already has maximum number of forwards. Please drop a forward to add another.'
                 return JsonResponse(message)
             if player in team.forwards.all():
                 message['message'] = 'Player is already in team'
@@ -77,7 +77,7 @@ def add_player(request):
             team.forwards.add(player)
         elif position == "Defenseman":
             if team.defensemen.count() == league.numDefensemen:
-                message['message'] = 'Team already has maximum number of defensemen'
+                message['message'] = 'Team already has maximum number of defensemen. Please drop a defensemen to add another.'
                 return JsonResponse(message)
             if player in team.defensemen.all():
                 message['message'] = 'Player is already in team'
@@ -85,7 +85,7 @@ def add_player(request):
             team.defensemen.add(player)
         elif position == "Goalie":
             if team.goalies.count() == league.numGoalies:
-                message['message'] = 'Team already has maximum number of goalies'
+                message['message'] = 'Team already has maximum number of goalies. Please drop a goalie to add another.'
                 return JsonResponse(message)
             if player in team.goalies.all():
                 message['message'] = 'Player is already in team'

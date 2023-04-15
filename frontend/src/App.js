@@ -39,7 +39,7 @@ function App() {
         const myLeagues = data.filter((league) => league.users.includes(currentUser.id));
         dispatch(setMyLeagues(myLeagues));
         if (currentLeagueId !== null) {
-          const currentLeague = myLeagues.filter((league) => league.id === currentLeagueId);
+          const currentLeague = myLeagues.find((league) => league.id === currentLeagueId);
           dispatch(setCurrentLeague(currentLeague));
         }
       }
@@ -52,7 +52,7 @@ function App() {
         const myTeams = data.filter((team) => currentUser.teams.includes(team.id));
         dispatch(setMyTeams(myTeams));
         if (currentTeamId !== null) {
-          const currentTeam = myTeams.filter((team) => team.id === currentTeamId);
+          const currentTeam = myTeams.find((team) => team.id === currentTeamId);
           dispatch(setCurrentTeam(currentTeam));
         }
       }

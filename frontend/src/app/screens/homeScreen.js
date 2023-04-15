@@ -45,8 +45,7 @@ const HomeLeague = ({user}) => {
 }
 
 const HomeTeam = ({team, skaters, goalies, positions}) => {
-    console.log(team)
-    console.log(skaters)
+    console.log(team, team.forwards)
 
     const cardGroupStyle = {
         display: "flex", 
@@ -91,7 +90,7 @@ const HomeTeam = ({team, skaters, goalies, positions}) => {
 }
 
 export default function HomeScreen (props) {
-    const user = getUser()
+    const user = useSelector(state => state.users.currentUser);
     if(user === null) console.log("logged in but no user...");
     else props.setMessage("Hello, " + user["username"] + "!");
 

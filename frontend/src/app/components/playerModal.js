@@ -48,7 +48,7 @@ export const PlayerModal = (props) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                "teamId": 1, // TODO: Change this to the user's team ID
+                "teamId": currentTeam.id,
                 "playerId": player.id,
                 "position": position.type,
         }),

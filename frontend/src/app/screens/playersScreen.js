@@ -20,8 +20,8 @@ export default function PlayersScreen (props) {
     const currentTeam = useSelector(state => state.teams.currentTeam);
     const currentLeague = useSelector(state => state.leagues.currentLeague);
 
-    const allSkaters = useSelector(state => state.nhl.skaters);
-    const allGoalies = useSelector(state => state.nhl.goalies);
+    var allSkaters = useSelector(state => state.nhl.skaters);
+    var allGoalies = useSelector(state => state.nhl.goalies);
 
     allSkaters.forEach((skater) => {
         skater.fantasyPoints = PlayerPoints(skater, currentLeague);
@@ -29,7 +29,7 @@ export default function PlayersScreen (props) {
     });
     allGoalies.forEach((goalie) => {
         goalie.fantasyPoints = PlayerPoints(goalie, currentLeague);
-        allGoalies.forEach((goalie) => goalie.avgFantasyPoints = (goalie.games !== 0 ? goalie.fantasyPoints / goalie.games : 0).toFixed(1));
+        goalie.avgFantasyPoints = (goalie.games !== 0 ? goalie.fantasyPoints / goalie.games : 0).toFixed(1);
     });
 
     const positions = useSelector(state => state.nhl.positions);

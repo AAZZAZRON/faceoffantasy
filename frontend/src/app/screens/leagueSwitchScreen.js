@@ -7,9 +7,8 @@ import { logout } from '../utils/AuthService';
 import { LeagueCreationModal, LeagueJoinModal } from '../components/leagueAddModals';
 
 import { useSelector, useDispatch } from "react-redux";
-import { setCurrentUser } from '../features/users';
-import { setMyLeagues, setCurrentLeague } from '../features/leagues';
-import { setMyTeams, setCurrentTeam } from '../features/teams';
+import { setCurrentLeagueId } from '../features/leagues';
+import { setCurrentTeamId } from '../features/teams';
 import { setGoTo, setLoaded } from '../features/loaded';
 import {toast} from 'react-toastify';
 
@@ -30,10 +29,10 @@ export default function LeagueSwitchScreen(props) {
 
     props.setMessage("My leagues");
 
-    async function handleClick(handleclickprops) {
-        const league = userLeagues.find((league) => league.id === handleclickprops.league);
-        await dispatch(setCurrentLeague(league));
-        await dispatch(setCurrentTeam(handleclickprops));
+    async function handleClick(team) {
+        const league = userLeagues.find((league) => league.id === team.league);
+        await dispatch(setCurrentLeagueId(league.id));
+        await dispatch(setCurrentTeamId(team.id));
         await dispatch(setGoTo("/faceoffantasy/"));
         await dispatch(setLoaded(false));
     }        

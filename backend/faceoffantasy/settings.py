@@ -137,10 +137,21 @@ WSGI_APPLICATION = 'faceoffantasy.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+DB_ENGINE = os.environ.get("DB_ENGINE")
+DATABASE_URL = os.environ.get("DATABASE_URL")
+PGUSER = os.environ.get("DB_USER")
+PGPASSWORD = os.environ.get("DB_PASSWORD")
+PGHOST = os.environ.get("DB_HOST")
+PGPORT = os.environ.get("DB_PORT")
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': DB_ENGINE,
+        'NAME': DATABASE_URL,
+        'USER': PGUSER,
+        'PASSWORD': PGPASSWORD,
+        'HOST': PGHOST,
+        'PORT': PGPORT,
     }
 }
 

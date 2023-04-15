@@ -1,9 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import "../../css/leagueSwitchScreen.css";
-import { callAPI } from '../utils/callApi';
-import Routes from '../utils/routes';
-import { logout } from '../utils/AuthService';
 import { LeagueCreationModal, LeagueJoinModal } from '../components/leagueAddModals';
 
 import { useSelector, useDispatch } from "react-redux";
@@ -31,10 +28,10 @@ export default function LeagueSwitchScreen(props) {
 
     async function handleClick(team) {
         const league = userLeagues.find((league) => league.id === team.league);
-        await dispatch(setCurrentLeagueId(league.id));
-        await dispatch(setCurrentTeamId(team.id));
-        await dispatch(setGoTo("/faceoffantasy/"));
-        await dispatch(setLoaded(false));
+        dispatch(setCurrentLeagueId(league.id));
+        dispatch(setCurrentTeamId(team.id));
+        if (props.force) dispatch(setGoTo("/faceoffantasy/"));
+        dispatch(setLoaded(false));
     }        
 
     return (<>
@@ -94,7 +91,7 @@ function LeagueCard(props) {
         <div className={"league-card"} style={{backgroundColor: (props.selected) ? "#e5ddfd" : "#f1f1f1"}} onClick={props.handleClick}>
             <div className={"league-place-info"}>   
                 <div style={{fontSize: "1.5em"}}>{props.league.name}</div>
-                <div>{props.league.users.length} players</div>
+                <div>{props.league.users.length} team{props.league.users.length === 1 ? "" : "s"}</div>
             </div>
             <div className={"league-team-details"}>
                 <div className={"league-detail"}>Your Team: {props.team.teamName} ({props.team.abbreviation})</div>

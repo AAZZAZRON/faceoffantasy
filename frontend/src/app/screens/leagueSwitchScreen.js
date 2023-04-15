@@ -13,6 +13,9 @@ import { setMyTeams, setCurrentTeam } from '../features/teams';
 import { setGoTo, setLoaded } from '../features/loaded';
 import {toast} from 'react-toastify';
 
+import { IconButton } from "@mui/material";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+
 export default function LeagueSwitchScreen(props) {
     
     const currentUser = useSelector((state) => state.users.currentUser);
@@ -73,6 +76,7 @@ export default function LeagueSwitchScreen(props) {
                     return ( 
                     <LeagueCard
                     key={index}
+                    team={team}
                     league={userLeagues.find((league) => league.id === team.league)}
                     selected={(currentTeam && currentTeam.league === team.league)}
                     handleClick={() => {handleClick(team)}}
@@ -87,15 +91,26 @@ export default function LeagueSwitchScreen(props) {
 }
 
 function LeagueCard(props) {
-    // console.log(JSON.stringify(props));
-    return (
+    console.log(JSON.stringify(props.team.teamName));
+    return (<>
         <div className={"league-card"} style={{backgroundColor: (props.selected) ? "#e5ddfd" : "#f1f1f1"}} onClick={props.handleClick}>
             <div className={"league-place-info"}>   
-                <div style={{fontSize: "1.5em", marginLeft: "3%"}}>{props.league.name}</div>
-
+                <div style={{fontSize: "1.5em"}}>{props.league.name}</div>
+                <div>{props.league.users.length} players</div>
             </div>
-            <div>{props.league.users.length} players</div>
+            <div className={"league-team-details"}>
+                <div className={"league-detail"}>Your Team: {props.team.teamName} ({props.team.abbreviation})</div>
+                <div className={"league-detail"}>
+                    <div style={{marginRight: "0.5%"}}>League ID: {props.league.id}</div>
+                    <IconButton
+                    onClick={(clickevent) => {navigator.clipboard.writeText(props.league.id); clickevent.stopPropagation(); toast.success("League ID copied to clipboard!")}}
+                    >
+                        <ContentCopyIcon />
+                    </IconButton>
+                </div>
+            </div>
         </div>
-    )
+
+    </>)
 }
 

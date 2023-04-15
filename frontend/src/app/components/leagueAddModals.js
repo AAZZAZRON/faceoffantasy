@@ -139,11 +139,11 @@ export function LeagueCreationModal(props) {
                 }
             })
             .catch((error) => {
-                console.error('Error:', error);
+                toast.info("something wrong occurred: " + error.message);
             });
         })
         .catch((error) => {
-            console.error('Error:', error);
+            toast.info("something wrong occurred: " + error.message);
         });
     }
 
@@ -276,38 +276,45 @@ export function LeagueJoinModal(props) {
         .then((response) => response.json())
         .then((data) => {
             console.log('POST request success:', data);
-            callAndStore("LEAGUES", `${routes.LEAGUES}/`).then(() => {
-                // create team
-                fetch(`${Routes.POST.CREATETEAM}/`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        "name": teamName,
-                        'abbreviation': teamAbbr,
-                        'owner': ownerId,
-                        "league": data.id,
-                }),
-                })
-                .then((response) => response.json())
-                .then((data) => {
-                    console.log('POST request success:', data);
-                    callAndStore("user", `${routes.USER}/${ownerId}/`).then(() => {
-                        callAndStore("TEAMS", `${routes.TEAMS}/`).then(() => {
-                            callAndStore("USERS", `${routes.USER}/`).then(() => {
-                                closeModal();
-                            });
-                        });
+            if (data.success) {
+                callAndStore("LEAGUES", `${routes.LEAGUES}/`).then(() => {
+                    // create team
+                    fetch(`${Routes.POST.CREATETEAM}/`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            "name": teamName,
+                            'abbreviation': teamAbbr,
+                            'owner': ownerId,
+                            "league": data.id,
+                    }),
+                    })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        console.log('Success:', data.success);
+                        if (data.success) {
+                            dispatch(setLoaded(false));
+                            toast.success(data.message);
+                            toast(`joined league ${code} with team ${teamName} ${teamAbbr} created!`);
+                            closeModal();
+                        } else {
+                            console.log(data);
+                            toast.error(data.message);
+                        }
+                    })
+                    .catch((error) => {
+                        toast.info("something wrong occurred: " + error.message);
                     });
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
                 });
-            });
+            } else {
+                console.log(data);
+                toast.error(data.message);
+            }
         })
         .catch((error) => {
-            console.error('Error:', error);
+            toast.info("something wrong occurred: " + error.message);
         });
     }
 

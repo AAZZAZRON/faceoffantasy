@@ -7,14 +7,26 @@ import ReactPaginate from 'react-paginate';
 import { SkaterCard, GoalieCard } from "../components/playerCards";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { PlayerPoints } from "../utils/calculator";
 
 export default function PlayersScreen (props) {
+
     props.setMessage("All Players");
 
     const [players, setPlayers] = useState([]); // stores all players [skaters, goalies]
 
+    // user stuff
+    const user = useSelector(state => state.users.currentuser);
+    const [allUsers, setAllUsers] = useState([]); // all users
+    const currentTeam = useSelector(state => state.teams.currentTeam);
+    const currentLeague = useSelector(state => state.leagues.currentLeague);
+
     const allSkaters = useSelector(state => state.nhl.skaters);
     const allGoalies = useSelector(state => state.nhl.goalies);
+
+    allSkaters.forEach((skater) => skater.fantasyPoints = PlayerPoints(skater, currentLeague));
+    allGoalies.forEach((goalie) => goalie.fantasyPoints = PlayerPoints(goalie, currentLeague));
+
     const positions = useSelector(state => state.nhl.positions);
     const NHLTeams = useSelector(state => state.nhl.nhlteams);
     const teams = useSelector(state => state.teams.allTeams);
@@ -40,12 +52,6 @@ export default function PlayersScreen (props) {
     const [modalPosition, setModalPosition] = useState([]);
     const [modalOwner, setModalOwner] = useState([]);
 
-    // user stuff
-    const user = useSelector(state => state.users.currentuser);
-    const [allUsers, setAllUsers] = useState([]); // all users
-    const currentTeam = useSelector(state => state.teams.currentTeam);
-    const currentLeague = useSelector(state => state.leagues.currentLeague);
-
     const setModal = (player, position, team, owner) => {
         setModalPlayer(player);
         setModalPosition(position);
@@ -66,7 +72,7 @@ export default function PlayersScreen (props) {
         {name: "SOG", value: "shots"},
         {name: "HIT", value: "hits"},
         {name: "BLK", value: "blocked"},
-        {name: "+/-", value: "plusMinus"},
+        {name: "FP", value: "fantasyPoints"},
     ]
 
     const goalieSortParams = [
@@ -78,6 +84,7 @@ export default function PlayersScreen (props) {
         {name: "SO", value: "shutouts"},
         {name: "OTL", value: "ot"},
         {name: "SV%", value: "savePercentage"},
+        {name: "FP", value: "fantasyPoints"},
     ]
 
     /* ----- CHANGE USESTATES ----- */
@@ -153,6 +160,7 @@ export default function PlayersScreen (props) {
     }
 
     const sortPlayersBy = (players) => { 
+        if (sortingBy === "savePercentage") return players.sort((a, b) => (parseFloat(a[sortingBy], 10) > parseFloat(b[sortingBy], 10)) ? sortingOrder : sortingOrder * -1);
         return players.sort((a, b) => (parseInt(a[sortingBy], 10) > parseInt(b[sortingBy], 10)) ? sortingOrder : sortingOrder * -1);
     }
 

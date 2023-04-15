@@ -1,4 +1,3 @@
-import { purgeDataCache } from "./caching";
 import Routes from "./routes";
 
 const getToken = () => {
@@ -66,7 +65,7 @@ const updateToken = (token) => {
 const logout = () => {
     if (!loggedIn()) return;
     setUser({});
-    purgeDataCache();
+    localStorage.clear();
     window.location.href = "/faceoffantasy/login";
 }
 

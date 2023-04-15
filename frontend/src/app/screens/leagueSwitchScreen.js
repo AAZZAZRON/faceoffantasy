@@ -86,7 +86,6 @@ export default function LeagueSwitchScreen(props) {
             }
 
         </div> 
-        {props.force && <div style={{width: "10%"}}><button id='logout' onClick={logout}>logout</button></div>}
     </>);
 }
 

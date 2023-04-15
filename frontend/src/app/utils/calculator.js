@@ -14,7 +14,7 @@ export const PlayerPoints = (player, league) => {
     points += (player.ot ? player.ot : 0) * parseFloat(league.ot);
     points += (player.powerPlayPoints ? player.powerPlayPoints : 0) * parseFloat(league.powerPlayPoints);
     points += (player.shortHandedPoints ? player.shortHandedPoints : 0) * parseFloat(league.shortHandedPoints);
-    return Math.round(points*1000)/1000;
+    return points.toFixed(1);
 }
 
 export const PlayerPointsById = (playerId, allSkatGoal, league) => {

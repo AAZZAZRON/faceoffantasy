@@ -15,7 +15,6 @@ import { loggedIn, hasActiveTeam } from './utils/AuthService';
 import Copyright from './components/copyright';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import { fetchData } from './utils/callApi';
 import { useSelector } from "react-redux";
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -43,11 +42,6 @@ export default function Base (props) {
         }
     }, []);
 
-    // cache everything
-    useEffect(() => {
-        fetchData("LEAGUES", `${routes.LEAGUES}/`); // accounted for league filtering
-        fetchData("TEAMS", `${routes.TEAMS}/`);
-    }, []);
 
     const [message, setMessage] = React.useState("Hello, <user>!");
 

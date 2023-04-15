@@ -30,12 +30,7 @@ export const PlayerModal = (props) => {
     const NHLteam = props.team;
     const owner = props.owner;
     const currentTeam = useSelector((state) => state.teams.currentTeam);
-
-    const totalPoints = 69420;
-    var averagePoints;
-    if (player.games === 0) averagePoints = (0).toFixed(1);
-    else if (position.code === "G") averagePoints =( Math.round(totalPoints / player.gamesStarted * 10) / 10).toFixed(1);
-    else averagePoints = (Math.round(totalPoints / player.games * 10) / 10).toFixed(1);
+    console.log(player);
 
     const rosterStatus = (player) => {
         if (player.rosterStatus === 'Y') return 'Healthy';
@@ -161,10 +156,10 @@ export const PlayerModal = (props) => {
                     <div class='modal-head-player-info-2'>
                         <div class='player-stat-name'>JERSEY NUMBER</div>
                         <div class='player-stat-value'>{player.primaryNumber}</div>
-                        <div class='player-stat-name'>AVERAGE POINTS</div>
-                        <div class='player-stat-value'>{totalPoints}</div>
                         <div class='player-stat-name'>TOTAL POINTS</div>
-                        <div class='player-stat-value'>{averagePoints}</div>
+                        <div class='player-stat-value'>{player.fantasyPoints}</div>
+                        <div class='player-stat-name'>AVERAGE POINTS</div>
+                        <div class='player-stat-value'>{player.avgFantasyPoints}</div>
                     </div>
                 </div>
                 <div class='modal-body'>

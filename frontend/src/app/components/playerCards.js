@@ -34,6 +34,7 @@ export function SkaterCard(props) {
                 <div>{skater.hits}</div>
                 <div>{skater.blocked}</div>
                 <div>{skater.fantasyPoints}</div>
+                <div>{skater.avgFantasyPoints}</div>
             </div>
         </div>
     )
@@ -54,7 +55,8 @@ export function GoalieCard(props) {
                 <div>{goalie.shutouts}</div>
                 <div>{goalie.ot}</div>
                 <div>{(Math.round(goalie.savePercentage * 1000) / 1000).toFixed(3)}</div>
-                <div>{goalie.fantasyPoints.toFixed(1)}</div>
+                <div>{goalie.fantasyPoints}</div>
+                <div>{goalie.avgFantasyPoints}</div>
             </div>
         </div>
     )

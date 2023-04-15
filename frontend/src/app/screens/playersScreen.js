@@ -1,6 +1,5 @@
 import "../../css/playersScreen.css";
 import { useState, useEffect } from "react";
-import { getDataCache } from "../utils/caching";
 import { Searchbar } from "../components/searchbar";
 import { PlayerModal } from "../components/playerModal";
 import ReactPaginate from 'react-paginate';
@@ -24,8 +23,14 @@ export default function PlayersScreen (props) {
     const allSkaters = useSelector(state => state.nhl.skaters);
     const allGoalies = useSelector(state => state.nhl.goalies);
 
-    allSkaters.forEach((skater) => skater.fantasyPoints = PlayerPoints(skater, currentLeague));
-    allGoalies.forEach((goalie) => goalie.fantasyPoints = PlayerPoints(goalie, currentLeague));
+    allSkaters.forEach((skater) => {
+        skater.fantasyPoints = PlayerPoints(skater, currentLeague);
+        skater.avgFantasyPoints = (skater.games !== 0 ? skater.fantasyPoints / skater.games : 0).toFixed(1);
+    });
+    allGoalies.forEach((goalie) => {
+        goalie.fantasyPoints = PlayerPoints(goalie, currentLeague);
+        allGoalies.forEach((goalie) => goalie.avgFantasyPoints = (goalie.games !== 0 ? goalie.fantasyPoints / goalie.games : 0).toFixed(1));
+    });
 
     const positions = useSelector(state => state.nhl.positions);
     const NHLTeams = useSelector(state => state.nhl.nhlteams);
@@ -72,7 +77,8 @@ export default function PlayersScreen (props) {
         {name: "SOG", value: "shots"},
         {name: "HIT", value: "hits"},
         {name: "BLK", value: "blocked"},
-        {name: "FP", value: "fantasyPoints"},
+        {name: "TOT", value: "fantasyPoints"},
+        {name: "AVG", value: "avgFantasyPoints"}
     ]
 
     const goalieSortParams = [
@@ -84,7 +90,8 @@ export default function PlayersScreen (props) {
         {name: "SO", value: "shutouts"},
         {name: "OTL", value: "ot"},
         {name: "SV%", value: "savePercentage"},
-        {name: "FP", value: "fantasyPoints"},
+        {name: "TOT", value: "fantasyPoints"},
+        {name: "AVG", value: "avgFantasyPoints"}
     ]
 
     /* ----- CHANGE USESTATES ----- */
@@ -160,8 +167,7 @@ export default function PlayersScreen (props) {
     }
 
     const sortPlayersBy = (players) => { 
-        if (sortingBy === "savePercentage") return players.sort((a, b) => (parseFloat(a[sortingBy], 10) > parseFloat(b[sortingBy], 10)) ? sortingOrder : sortingOrder * -1);
-        return players.sort((a, b) => (parseInt(a[sortingBy], 10) > parseInt(b[sortingBy], 10)) ? sortingOrder : sortingOrder * -1);
+        return players.sort((a, b) => (parseFloat(a[sortingBy], 10) > parseFloat(b[sortingBy], 10)) ? sortingOrder : sortingOrder * -1);
     }
 
     const setPaginationCount = async () => {
@@ -194,7 +200,6 @@ export default function PlayersScreen (props) {
 
         for (let teamId of currentLeague.teams) {
             const team = teams.find(team => team.id === teamId);
-            console.log(teamId, team, teams);
             if (team.forwards.includes(player.id)) return team;
             if (team.defensemen.includes(player.id)) return team;
             if (team.goalies.includes(player.id)) return team;

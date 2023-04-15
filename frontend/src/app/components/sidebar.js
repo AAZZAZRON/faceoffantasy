@@ -39,9 +39,9 @@ export default function Sidebar(props){
                         selected={selected === "Settings"} to="/faceoffantasy/settings"></Button>
                 <Button icon={<SwapHorizRounded color="action" fontSize="small"></SwapHorizRounded>} text="Switch Leagues" 
                         selected={selected === "Switch"} to="/faceoffantasy/switch"></Button>
+                <button id='logout' onClick={logout}>logout</button>
                 </div>
             </div>
-            <button id='logout' onClick={logout}>logout</button>
         </div>
     )
 }

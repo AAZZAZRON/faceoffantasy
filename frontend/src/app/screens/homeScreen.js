@@ -63,10 +63,16 @@ const HomeTeam = ({team, skaters, goalies, positions}) => {
     function mapToHeadshot(player) {
         return (
         <div style={headShotStyle}>
+            <div className="card-body">
             <HeadShot key={player.id} player={player} team={team} 
                 position={positions.find(position => position.id === player.primaryPosition)} 
                 setModal={() => {}}>
             </HeadShot>
+            <div className="card-body" style={{display: "flex", flexDirection: "column"}}>
+                <div>TOT</div>
+                <div>{player.fantasyPoints}</div>
+            </div>
+            </div>
         </div>);
     }
 

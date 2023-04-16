@@ -85,15 +85,15 @@ const HomeTeam = ({team, skaters, goalies, positions}) => {
             <span style={{textAlign: "center"}}><h5>{team ? team.teamName : "No Team"}</h5></span>
             <p>Forwards</p>
             <div className="card-group" style={cardGroupStyle}>
-                {team && skaters.filter(player => team.forwards.some(id => id === player.id)).map(mapToHeadshot)}
+                {team && skaters.filter(player => team.forwards.some(id => id === player.id)).sort((a, b) => b.fantasyPoints - a.fantasyPoints).sort((a, b) => b.avgFantasyPoints - a.avgFantasyPoints).map(mapToHeadshot)}
             </div>
             <p>Defensemen</p>
             <div className="card-group" style={cardGroupStyle}>
-                {team && skaters.filter(player => team.defensemen.some(id => id === player.id)).map(mapToHeadshot)}
+                {team && skaters.filter(player => team.defensemen.some(id => id === player.id)).sort((a, b) => b.fantasyPoints - a.fantasyPoints).sort((a, b) => b.avgFantasyPoints - a.avgFantasyPoints).map(mapToHeadshot)}
             </div>
             <p>Goalies</p>
             <div className="card-group" style={cardGroupStyle}>
-                {team && goalies.filter(player => team.goalies.some(id => id === player.id)).map(mapToHeadshot)}
+                {team && goalies.filter(player => team.goalies.some(id => id === player.id)).sort((a, b) => b.fantasyPoints - a.fantasyPoints).sort((a, b) => b.avgFantasyPoints - a.avgFantasyPoints).map(mapToHeadshot)}
             </div>
         </div>
     )

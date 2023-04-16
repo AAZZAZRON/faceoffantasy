@@ -6,17 +6,19 @@ import { setGoTo, setLoaded } from './app/features/loaded';
 import { setSkaters, setGoalies, setPositions, setNHLTeams } from './app/features/nhl';
 import { setAllLeagues, setMyLeagues, setCurrentLeague } from './app/features/leagues';
 import { setAllTeams, setMyTeams, setCurrentTeam } from './app/features/teams';
-import { setCurrentUser } from './app/features/users';
+import { setAllUsers, setCurrentUser } from './app/features/users';
 import Routes from './app/utils/routes';
 import { callAPI } from './app/utils/callApi';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useState, useEffect } from 'react';
+import { PlayerPoints } from './app/utils/calculator';
 
 function App() {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.users.isLoggedIn);
   var currentUser = useSelector((state) => state.users.currentUser);
+  var currentLeague = useSelector((state) => state.leagues.currentLeague);
   const currentTeamId = useSelector((state) => state.teams.currentTeamId);
   const currentLeagueId = useSelector((state) => state.leagues.currentLeagueId);
   const loaded = useSelector((state) => state.loaded.value);
@@ -33,14 +35,19 @@ function App() {
       })
     }
 
+    await callAPI(`${Routes.USER}/`).then((data) => { // all users
+      dispatch(setAllUsers(data));
+    });
+
     await callAPI(`${Routes.LEAGUES}/`).then((data) => { // all leagues
       dispatch(setAllLeagues(data));
       if (isLoggedIn) {
         const myLeagues = data.filter((league) => league.users.includes(currentUser.id));
         dispatch(setMyLeagues(myLeagues));
         if (currentLeagueId !== null) {
-          const currentLeague = myLeagues.find((league) => league.id === currentLeagueId);
-          dispatch(setCurrentLeague(currentLeague));
+          const tmpCurrLeague = myLeagues.find((league) => league.id === currentLeagueId);
+          dispatch(setCurrentLeague(tmpCurrLeague));
+          currentLeague = tmpCurrLeague;
         }
       }
     });
@@ -58,12 +65,24 @@ function App() {
       }
     });
 
-    await callAPI(`${Routes.SKATERS}/`).then((data) => { // all skaters
-        dispatch(setSkaters(data));
+    await callAPI(`${Routes.SKATERS}/`).then((allSkaters) => { // all skaters
+      if (isLoggedIn && currentLeagueId !== null) {
+        allSkaters.forEach((skater) => {
+          skater.fantasyPoints = PlayerPoints(skater, currentLeague);
+          skater.avgFantasyPoints = (skater.games !== 0 ? skater.fantasyPoints / skater.games : 0).toFixed(1);
+        });
+      }
+      dispatch(setSkaters(allSkaters));
     });
 
-    await callAPI(`${Routes.GOALIES}/`).then((data) => { // all goalies
-        dispatch(setGoalies(data));
+    await callAPI(`${Routes.GOALIES}/`).then((allGoalies) => { // all goalies
+      if (isLoggedIn && currentLeagueId !== null) {
+        allGoalies.forEach((goalie) => {
+          goalie.fantasyPoints = PlayerPoints(goalie, currentLeague);
+          goalie.avgFantasyPoints = (goalie.games !== 0 ? goalie.fantasyPoints / goalie.games : 0).toFixed(1);
+        });
+      }
+      dispatch(setGoalies(allGoalies));
     });
 
     await callAPI(`${Routes.POSITIONS}/`).then((data) => { // all positions

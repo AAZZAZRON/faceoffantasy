@@ -63,10 +63,20 @@ const HomeTeam = ({team, skaters, goalies, positions}) => {
     function mapToHeadshot(player) {
         return (
         <div style={headShotStyle}>
-            <HeadShot key={player.id} player={player} team={team} 
-                position={positions.find(position => position.id === player.primaryPosition)} 
-                setModal={() => {}}>
-            </HeadShot>
+            <div style={{display: "flex", flexDirection: "row"}}>
+                <HeadShot key={player.id} player={player} team={team} 
+                    position={positions.find(position => position.id === player.primaryPosition)} 
+                    setModal={() => {}}>
+                </HeadShot>
+                <div className="card-body" style={{display: "flex", flexDirection: "column"}}>
+                    <div>TOT</div>
+                    <div>{player.fantasyPoints}</div>
+                </div>
+                <div className="card-body" style={{display: "flex", flexDirection: "column"}}>
+                    <div>AVG</div>
+                    <div>{player.avgFantasyPoints}</div>
+                </div>
+            </div>
         </div>);
     }
 
@@ -75,15 +85,15 @@ const HomeTeam = ({team, skaters, goalies, positions}) => {
             <span style={{textAlign: "center"}}><h5>{team ? team.teamName : "No Team"}</h5></span>
             <p>Forwards</p>
             <div className="card-group" style={cardGroupStyle}>
-                {team && skaters.filter(player => team.forwards.some(id => id === player.id)).map(mapToHeadshot)}
+                {team && skaters.filter(player => team.forwards.some(id => id === player.id)).sort((a, b) => b.fantasyPoints - a.fantasyPoints).sort((a, b) => b.avgFantasyPoints - a.avgFantasyPoints).map(mapToHeadshot)}
             </div>
             <p>Defensemen</p>
             <div className="card-group" style={cardGroupStyle}>
-                {team && skaters.filter(player => team.defensemen.some(id => id === player.id)).map(mapToHeadshot)}
+                {team && skaters.filter(player => team.defensemen.some(id => id === player.id)).sort((a, b) => b.fantasyPoints - a.fantasyPoints).sort((a, b) => b.avgFantasyPoints - a.avgFantasyPoints).map(mapToHeadshot)}
             </div>
             <p>Goalies</p>
             <div className="card-group" style={cardGroupStyle}>
-                {team && goalies.filter(player => team.goalies.some(id => id === player.id)).map(mapToHeadshot)}
+                {team && goalies.filter(player => team.goalies.some(id => id === player.id)).sort((a, b) => b.fantasyPoints - a.fantasyPoints).sort((a, b) => b.avgFantasyPoints - a.avgFantasyPoints).map(mapToHeadshot)}
             </div>
         </div>
     )
@@ -99,6 +109,17 @@ export default function HomeScreen (props) {
     const positions = useSelector(state => state.nhl.positions);
     const NHLTeams = useSelector(state => state.nhl.nhlteams);
     const team = useSelector(state => state.teams.currentTeam);
+
+    if (user === null) {
+        //window.location.href = '/faceoffantasy/login';
+        console.log("redirecting from home to login");
+        return;
+    }
+
+    if (team === null) {
+        window.location.href = '/faceoffantasy/switchforce';
+        return;
+    }
 
     return (
         <>

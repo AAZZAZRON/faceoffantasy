@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+
 export function HeadShot({player, setModal, position, team, owner, avatar}) {
     return (
     <div className="card-header" onClick={() => {
@@ -18,12 +20,13 @@ export function HeadShot({player, setModal, position, team, owner, avatar}) {
 
 export function SkaterCard(props) {
     const skater = props.skater;
+    const currentTeam = useSelector(state => state.teams.currentTeam);
     // TODO: abbr instead of teamName
     return (
         <div className="card" style={{flexDirection: 'row'}}>
             <HeadShot setModal={props.setModal} player={skater} position={props.position} team={props.team} owner={props.owner}></HeadShot>
             <div className="card-body">
-                <div style={{width: '45px', overflow: 'clip'}}>{props.owner.abbreviation}</div>
+                <div style={{width: '45px', overflow: 'clip', fontWeight: (currentTeam.id === props.owner.id ? 'bold' : '')}}>{props.owner.abbreviation}</div>
                 <div>{skater.games}</div>
                 <div>{skater.goals}</div>
                 <div>{skater.assists}</div>

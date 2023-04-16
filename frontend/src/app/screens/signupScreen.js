@@ -26,7 +26,7 @@ export default function SignupScreen(props) {
   const setupDispatch = async(user) =>  {
     await dispatch(setCurrentUser(user));
     await dispatch(setIsLoggedIn(true));
-    await dispatch(setGoTo("/faceoffantasy/"));
+    await dispatch(setGoTo("/faceoffantasy/switchforce"));
     await dispatch(setLoaded(false));
   }
 

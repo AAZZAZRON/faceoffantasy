@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useSelector } from "react-redux";
+
 import "../../css/leagueScreen.css";
 
 const colors = {
@@ -10,10 +12,19 @@ const colors = {
 }
 
 export default function LeagueScreen (props) {
-    props.setMessage("Standings for <League Name>");
+
+    const currentTeam = useSelector((state) => state.teams.currentTeam);
+    const currentLeague = useSelector((state) => state.leagues.currentLeague);
+
+    // sort currentLeague.team by points
+    let sortedTeams = currentLeague.teams.sort((a, b) => b.points - a.points);
+    console.log(sortedTeams);
+
+    props.setMessage(`Standings for ${currentLeague.name}`);
     return (
         <div className="league-container">
-            <h3>{"<League Name>: Standings as of <Date>"}</h3>
+            <h3>{`${currentLeague.name}: Standings as of ${new Date().toLocaleDateString()}`}</h3>
+
             <TeamCard place={1} name={"Boston Bruins"} points={120.45}></TeamCard>
             <TeamCard place={2} name={"Toronto Maple Leafs"} points={101.99} self={true}></TeamCard>
             <TeamCard place={3} name={"Edmonton Oilers"} points={97.3}></TeamCard>

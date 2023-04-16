@@ -100,6 +100,17 @@ export default function HomeScreen (props) {
     const NHLTeams = useSelector(state => state.nhl.nhlteams);
     const team = useSelector(state => state.teams.currentTeam);
 
+    if (user === null) {
+        //window.location.href = '/faceoffantasy/login';
+        console.log("redirecting from home to login");
+        return;
+    }
+
+    if (team === null) {
+        window.location.href = '/faceoffantasy/switchforce';
+        return;
+    }
+
     return (
         <>
             <div className="col-7 h-100">

@@ -6,7 +6,7 @@ import { setGoTo, setLoaded } from './app/features/loaded';
 import { setSkaters, setGoalies, setPositions, setNHLTeams } from './app/features/nhl';
 import { setAllLeagues, setMyLeagues, setCurrentLeague } from './app/features/leagues';
 import { setAllTeams, setMyTeams, setCurrentTeam } from './app/features/teams';
-import { setCurrentUser } from './app/features/users';
+import { setAllUsers, setCurrentUser } from './app/features/users';
 import Routes from './app/utils/routes';
 import { callAPI } from './app/utils/callApi';
 import { ToastContainer, toast } from 'react-toastify';
@@ -32,6 +32,10 @@ function App() {
         console.log("Current User:" + JSON.stringify(currentUser));
       })
     }
+
+    await callAPI(`${Routes.USER}/`).then((data) => { // all users
+      dispatch(setAllUsers(data));
+    });
 
     await callAPI(`${Routes.LEAGUES}/`).then((data) => { // all leagues
       dispatch(setAllLeagues(data));

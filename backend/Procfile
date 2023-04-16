@@ -1,2 +1,2 @@
-release: python manage.py migrate auth && python manage.py migrate --run-syncdb && python manage.py shell --command="from scripts.onLoadApi import initialLoad; initialLoad();" && python manage.py createsuperuser --noinput
+release: python manage.py migrate auth && python manage.py migrate --run-syncdb && python manage.py shell --command="from scripts.onLoadApi import initialLoad; initialLoad();"
 web: gunicorn faceoffantasy.wsgi --log-file -

@@ -146,12 +146,7 @@ PGHOST = os.environ.get("PGHOST")
 PGPORT = os.environ.get("PGPORT")
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
-if DATABASE_URL:
-    DATABASES = {
-        'default': dj_database_url.parse(DATABASE_URL)
-    }
-else:
-    DATABASES = {
+DATABASES = { 'default': dj_database_url.parse(DATABASE_URL) } if DATABASE_URL else {
         'default': {
             'ENGINE': DB_ENGINE,
             'NAME': DB_NAME,

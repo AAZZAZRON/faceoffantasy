@@ -2,7 +2,8 @@ import requests
 from player.models import Position, NHLTeam, Skater
 from scripts.dailyApiUpdate import updatePlayers
 from django.http import HttpResponse
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+User = get_user_model()
 from dotenv import load_dotenv
 import os
 

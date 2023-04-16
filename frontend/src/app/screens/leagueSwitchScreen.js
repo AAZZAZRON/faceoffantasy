@@ -11,6 +11,7 @@ import {toast} from 'react-toastify';
 
 import { IconButton } from "@mui/material";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { logout } from '../utils/AuthService';
 
 export default function LeagueSwitchScreen(props) {
 
@@ -64,6 +65,14 @@ export default function LeagueSwitchScreen(props) {
                     Create League
                     </button>
                     
+                    {props.force && 
+                    <button className={"enter-league-button"}
+                    style={{fontWeight: "bold", color: "#FF5C5C"}}
+                    onClick={logout}>
+                    Logout
+                    </button>
+                    }
+
                 </div>
             </div>
             <hr style={{width: "95%"}}/>

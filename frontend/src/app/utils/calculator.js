@@ -18,17 +18,19 @@ export const PlayerPoints = (player, league) => {
 }
 
 export const PlayerPointsById = (playerId, allSkatGoal, league) => {
-    console.log(allSkatGoal);
     return PlayerPoints(allSkatGoal.find(p => p.id === playerId), league);
 }
 
 export const TeamPoints = (team, allSkatGoal, league) => {
     let points = 0;
-    for(let i = 0; i < team.players.length; i++) {
-        points += PlayerPointsById(team.players[i], allSkatGoal, league);
+    for (let i = 0; i < team.forwards.length; i++) {
+        points += parseFloat(PlayerPointsById(team.forwards[i], allSkatGoal, league));
+    }
+    for(let i = 0; i < team.defensemen.length; i++) {
+        points += parseFloat(PlayerPointsById(team.defensemen[i], allSkatGoal, league));
     }
     for(let i = 0; i < team.goalies.length; i++) {
-        points += PlayerPointsById(team.goalies[i], allSkatGoal, league);
+        points += parseFloat(PlayerPointsById(team.goalies[i], allSkatGoal, league));
     }
     return points;
 }

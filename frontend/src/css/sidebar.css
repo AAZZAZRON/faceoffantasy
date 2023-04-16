@@ -78,7 +78,7 @@
     margin-right: 20px;
 }
 
-#logout{
+.rl-actions {
     position: relative;
     top:100px;
     padding-top: 10px;
@@ -92,7 +92,7 @@
     left: 30px;
 }
 
-#logout:hover{
+.rl-actions:hover {
     background-color: #e0e0e0;
     text-decoration: none;
 }

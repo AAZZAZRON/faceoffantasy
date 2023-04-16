@@ -3,6 +3,7 @@ import React from 'react';
 import { useSelector } from "react-redux";
 
 import "../../css/leagueScreen.css";
+import { TeamPoints } from '../utils/calculator';
 
 const colors = {
     1: "#FFD700",
@@ -15,20 +16,32 @@ export default function LeagueScreen (props) {
 
     const currentTeam = useSelector((state) => state.teams.currentTeam);
     const currentLeague = useSelector((state) => state.leagues.currentLeague);
+    const allTeams = useSelector((state) => state.teams.allTeams);
+    const allSkaters = useSelector((state) => state.nhl.skaters);
+    const allGoalies = useSelector((state) => state.nhl.goalies);
 
     // sort currentLeague.team by points
-    let sortedTeams = currentLeague.teams.sort((a, b) => b.points - a.points);
-    console.log(sortedTeams);
+    const sortedTeamIds = currentLeague.teams.slice().sort((a, b) => {
+        const aTeam = allTeams.find((team) => team.id === a);
+        const bTeam = allTeams.find((team) => team.id === b);
+        const aTeamPoints = TeamPoints(aTeam, [...allSkaters, ...allGoalies] , currentLeague);
+        const bTeamPoints = TeamPoints(bTeam, [...allSkaters, ...allGoalies] , currentLeague);
+        return bTeamPoints - aTeamPoints;
+    });
+    console.log("sorted team ids: " + sortedTeamIds);
 
     props.setMessage(`Standings for ${currentLeague.name}`);
     return (
         <div className="league-container">
             <h3>{`${currentLeague.name}: Standings as of ${new Date().toLocaleDateString()}`}</h3>
 
-            <TeamCard place={1} name={"Boston Bruins"} points={120.45}></TeamCard>
-            <TeamCard place={2} name={"Toronto Maple Leafs"} points={101.99} self={true}></TeamCard>
-            <TeamCard place={3} name={"Edmonton Oilers"} points={97.3}></TeamCard>
-            <TeamCard place={4} name={"New Jersey Devils"} points={89.53}></TeamCard>
+            {sortedTeamIds.map((teamId, index) => {
+                const team = allTeams.find((team) => team.id === teamId);
+                const teamPoints = TeamPoints(team, [...allSkaters, ...allGoalies] , currentLeague).toFixed(1);
+                return (
+                    <TeamCard place={index + 1} name={team.teamName} points={teamPoints} self={currentTeam.id === team.id}></TeamCard>
+                )
+            })}
         </div>
     );
 }

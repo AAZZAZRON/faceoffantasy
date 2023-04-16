@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 from dotenv import load_dotenv
-import dj_database_url
 import os
 
 load_dotenv()
@@ -138,10 +137,22 @@ WSGI_APPLICATION = 'faceoffantasy.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASE_URL = os.environ.get("DATABASE_URL")
+DB_ENGINE = os.environ.get("DB_ENGINE")
+DB_NAME = os.environ.get("DB_NAME")
+PGUSER = os.environ.get("PGUSER")
+PGPASSWORD = os.environ.get("PGPASSWORD")
+PGHOST = os.environ.get("PGHOST")
+PGPORT = os.environ.get("PGPORT")
 
 DATABASES = {
-    'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
+    'default': {
+        'ENGINE': DB_ENGINE,
+        'NAME': DB_NAME,
+        'USER': PGUSER,
+        'PASSWORD': PGPASSWORD,
+        'HOST': PGHOST,
+        'PORT': PGPORT,
+    }
 }
 
 AUTH_USER_MODEL = "user.User"

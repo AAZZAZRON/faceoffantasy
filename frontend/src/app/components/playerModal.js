@@ -30,7 +30,6 @@ export const PlayerModal = (props) => {
     const NHLteam = props.team;
     const owner = props.owner;
     const currentTeam = useSelector((state) => state.teams.currentTeam);
-    console.log(player);
 
     const rosterStatus = (player) => {
         if (player.rosterStatus === 'Y') return 'Healthy';

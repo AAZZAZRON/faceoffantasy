@@ -9,6 +9,7 @@ import LeagueScreen from "./screens/leagueScreen";
 import PlayersScreen from "./screens/playersScreen";
 import LoginScreen from './screens/loginScreen';
 import SignupScreen from './screens/signupScreen';
+import LeagueSettingsScreen from './screens/leagueSettingsScreen';
 import LeagueSwitchScreen from './screens/leagueSwitchScreen';
 import routes from './utils/routes';
 import { loggedIn, hasActiveTeam } from './utils/AuthService';
@@ -78,6 +79,7 @@ export default function Base (props) {
                             <Route path={basePath} element={<HomeScreen setMessage={setMessage}></HomeScreen>}></Route>
                             <Route path={basePath + '/league'} element={<LeagueScreen setMessage={setMessage}></LeagueScreen>}></Route>
                             <Route path={basePath + '/players'} element={<PlayersScreen setMessage={setMessage}></PlayersScreen>}></Route>
+                            <Route path={basePath + '/settings'} element={<LeagueSettingsScreen setMessage={setMessage}></LeagueSettingsScreen>}></Route>
                             <Route path={basePath + '/switch'} element={<LeagueSwitchScreen setMessage={setMessage}></LeagueSwitchScreen>}></Route>
                         </Routes>
                     </div>

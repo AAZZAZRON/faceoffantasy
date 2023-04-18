@@ -1,11 +1,15 @@
 import requests
 from player.models import Position, NHLTeam, Skater
-from scripts.dailyApiUpdate import updatePlayers
+from scripts.dailyApiUpdate import updatePlayers, addPlayers
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
 User = get_user_model()
 from dotenv import load_dotenv
+import sys
+sys.path.append("..")
+from user.models import LastUpdated
 import os
+from faceoffantasy import config
 
 def initialLoad():
     load_dotenv()
@@ -14,9 +18,15 @@ def initialLoad():
             username=os.environ.get("DJANGO_SUPERUSER_USERNAME"),
             password=os.environ.get("DJANGO_SUPERUSER_PASSWORD"),
         )
-    initPositions()
-    initTeams()
-    updatePlayers()
+    if not Position.objects.all():
+        initPositions()
+    if not NHLTeam.objects.all():
+        initTeams()
+    if not Skater.objects.all():
+        addPlayers()
+    else:
+        updatePlayers()
+    LastUpdated.objects.filter(id=1).update(last_updated=config.last_updated)
     return HttpResponse("Success")
 
 def initPositions():

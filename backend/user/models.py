@@ -15,3 +15,9 @@ class User(AbstractUser):
     
     def __str__(self):
         return self.username
+
+class LastUpdated(models.Model):
+    last_updated = models.DateTimeField()
+
+    class Meta:
+        abstract = True

@@ -18,6 +18,3 @@ class User(AbstractUser):
 
 class LastUpdated(models.Model):
     last_updated = models.DateTimeField()
-
-    class Meta:
-        abstract = True

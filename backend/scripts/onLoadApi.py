@@ -14,10 +14,9 @@ def initialLoad():
             username=os.environ.get("DJANGO_SUPERUSER_USERNAME"),
             password=os.environ.get("DJANGO_SUPERUSER_PASSWORD"),
         )
-    if not Skater.objects.all():
-        initPositions()
-        initTeams()
-        updatePlayers()
+    initPositions()
+    initTeams()
+    updatePlayers()
     return HttpResponse("Success")
 
 def initPositions():

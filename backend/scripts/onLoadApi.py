@@ -26,7 +26,10 @@ def initialLoad():
         addPlayers()
     else:
         updatePlayers()
-    LastUpdated.objects.filter(id=1).update(last_updated=config.last_updated)
+    if not LastUpdated.objects.filter(id=1):
+        LastUpdated.objects.create(last_updated=config.last_updated)
+    else:
+        LastUpdated.objects.filter(id=1).update(last_updated=config.last_updated)
     return HttpResponse("Success")
 
 def initPositions():

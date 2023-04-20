@@ -7,6 +7,8 @@ import { SkaterCard, GoalieCard } from "../components/playerCards";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { PlayerPoints } from "../utils/calculator";
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 
 export default function PlayersScreen (props) {
 
@@ -29,12 +31,26 @@ export default function PlayersScreen (props) {
     const leagues = useSelector(state => state.leagues.allLeagues);
 
     // for filtering and sorting
+    const [options, setOptions] = useState([]); // options for filter by team
+    const firstOption = "Ignore this Filter";
+
     const [selectedPosition, setSelectedPosition] = useState("All");
     const [selectedStatus, setSelectedStatus] = useState("All");
+    const [selectedTeam, setSelectedTeam] = useState(firstOption);
     const [sortingBy, setSortingBy] = useState("-1");
     const [sortingOrder, setSortingOrder] = useState(-1);
     const [searchFilter, setSearchFilter] = useState("");
     const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const teamOptions = currentLeague.teams.map(teamId => {
+            const team = teams.find(team => team.id === teamId);
+            console.log(team);
+            return team.teamName;
+        });
+        console.log(teamOptions);
+        setOptions([firstOption].concat(teamOptions));
+    }, [currentLeague]);
 
     // for pagination
     const itemsPerPage = 20;
@@ -135,6 +151,14 @@ export default function PlayersScreen (props) {
         }
     }
 
+    const filterByTeam = (players) => { // returns players filtered by team
+        if (selectedTeam === firstOption) return players;
+        const team = teams.find(team => team.teamName === selectedTeam);
+        return team.forwards.concat(team.defensemen, team.goalies).map(playerId => {
+            return players.find(player => player.id === playerId);
+        }).filter(player => player !== undefined);
+    }
+
     const filterByStatus = (players) => { 
         if (selectedStatus === "All") {
             return players;
@@ -169,6 +193,7 @@ export default function PlayersScreen (props) {
     const changePlayerDisplay = async () => { // whenever something happens
         // filter and sort from all players
         var players = await filterByPosition();
+        players = await filterByTeam(players);
         players = await filterByStatus(players);
         players = await filterBySearch(players);
         players = await sortPlayersBy(players);
@@ -178,7 +203,7 @@ export default function PlayersScreen (props) {
 
     useEffect(() => { // whenever a filter or sort changes, change player list
         changePlayerDisplay();
-    }, [selectedPosition, selectedStatus, searchFilter, sortingBy, sortingOrder, isLoading]);
+    }, [selectedPosition, selectedStatus, searchFilter, sortingBy, sortingOrder, isLoading, selectedTeam]);
 
     useEffect(() => { // when skaters/goalies changes, set pagination count
         setPaginationCount();
@@ -233,7 +258,8 @@ export default function PlayersScreen (props) {
                         <div>|</div>
                         <div class={selectedStatus === "Injured" ? 'toggle-pressed' : 'toggle-button'} onClick={() => changeSelectedStatus("Injured")}>Injured</div>
                     </div>
-                    <span className="col-5 d-flex align-items-center">
+                    <Dropdown className='team-dropdown' options={options} onChange={(e) => setSelectedTeam(e.value)} placeholder="Filter by Team" />
+                    <span className="col-4 d-flex align-items-center">
                         <Searchbar onSearch={changeSearchFilter} placeholder="Search Players"></Searchbar>
                     </span>
                 </div>

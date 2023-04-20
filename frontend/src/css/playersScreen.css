@@ -59,6 +59,10 @@
     cursor: pointer;
 }
 
+.team-dropdown {
+    width: 300px;
+}
+
 .header:hover {
     cursor: pointer;
 }

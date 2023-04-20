@@ -23,6 +23,7 @@ router.register(r'positions', player_views.PositionView, 'positions')
 router.register(r'leagues', league_views.LeagueView, 'leagues')
 router.register(r'users', user_views.UserView, 'users')
 router.register(r'teams', team_views.TeamView, 'teams')
+router.register(r'lastupdated', user_views.LastUpdatedView, 'lastupdated')
 
 urlpatterns = [
     path('api/signup/', user_views.signup, name='signup'),
@@ -34,7 +35,6 @@ urlpatterns = [
     path('api/createteam/', team_views.create_team, name='create_team'),
     path('api/addplayer/', team_views.add_player, name='add_player'),
     path('api/dropplayer/', team_views.drop_player, name='drop_player'),
-    path('api/lastupdated/', user_views.LastUpdatedView, name='last_updated'),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

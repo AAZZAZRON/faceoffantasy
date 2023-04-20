@@ -11,6 +11,7 @@ from user.models import LastUpdated
 import os
 from faceoffantasy import config
 from datetime import datetime
+import pytz
 
 def initialLoad():
     load_dotenv()
@@ -27,7 +28,7 @@ def initialLoad():
         addPlayers()
     else:
         updatePlayers()
-    last_updated = datetime.strptime(config.last_updated, "%m/%d/%y %H:%M:%S")
+    last_updated = datetime.strptime(config.last_updated, "%m/%d/%y %H:%M:%S", tzinfo=pytz.UTC)
     if not LastUpdated.objects.filter(id=1):
         LastUpdated.objects.create(last_updated=last_updated)
     else:

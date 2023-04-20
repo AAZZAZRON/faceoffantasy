@@ -10,6 +10,7 @@ sys.path.append("..")
 from user.models import LastUpdated
 import os
 from faceoffantasy import config
+from datetime import datetime
 
 def initialLoad():
     load_dotenv()
@@ -26,10 +27,11 @@ def initialLoad():
         addPlayers()
     else:
         updatePlayers()
+    last_updated = datetime.strptime(config.last_updated, "%m/%d/%y %H:%M:%S")
     if not LastUpdated.objects.filter(id=1):
-        LastUpdated.objects.create(last_updated=config.last_updated)
+        LastUpdated.objects.create(last_updated=last_updated)
     else:
-        LastUpdated.objects.filter(id=1).update(last_updated=config.last_updated)
+        LastUpdated.objects.filter(id=1).update(last_updated=last_updated)
     return HttpResponse("Success")
 
 def initPositions():

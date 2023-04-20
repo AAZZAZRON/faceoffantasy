@@ -39,7 +39,7 @@ export default function Sidebar(props){
                         selected={selected === "League"} to="/faceoffantasy/league"></Button>
                 <Button icon={<SportsHockeyRounded color="action" fontSize="small"></SportsHockeyRounded>} text="Players" 
                         selected={selected === "Players"} to="/faceoffantasy/players"></Button>
-                <Button icon={<SettingsRounded color="action" fontSize="small"></SettingsRounded>} text="League Owner Only League Settings" 
+                <Button icon={<SettingsRounded color="action" fontSize="small"></SettingsRounded>} text="League Settings" 
                         selected={selected === "Settings"} to="/faceoffantasy/settings"></Button>
                 <Button icon={<SwapHorizRounded color="action" fontSize="small"></SwapHorizRounded>} text="Switch Leagues" 
                         selected={selected === "Switch"} to="/faceoffantasy/switch"></Button>

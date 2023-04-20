@@ -11,7 +11,6 @@ from user.models import LastUpdated
 import os
 from faceoffantasy import config
 from dateutil import parser
-import pytz
 
 def initialLoad():
     load_dotenv()

@@ -19,6 +19,11 @@ def initialLoad():
             username=os.environ.get("DJANGO_SUPERUSER_USERNAME"),
             password=os.environ.get("DJANGO_SUPERUSER_PASSWORD"),
         )
+    last_updated = parser.parse(config.last_updated)
+    if not LastUpdated.objects.filter(id=1).exists():
+        LastUpdated.objects.create(last_updated=last_updated)
+    else:
+        LastUpdated.objects.filter(id=1).update(last_updated=last_updated)
     if not Position.objects.all():
         initPositions()
     if not NHLTeam.objects.all():
@@ -27,11 +32,6 @@ def initialLoad():
         addPlayers()
     else:
         updatePlayers()
-    last_updated = parser.parse(config.last_updated)
-    if not LastUpdated.objects.filter(id=1):
-        LastUpdated.objects.create(last_updated=last_updated)
-    else:
-        LastUpdated.objects.filter(id=1).update(last_updated=last_updated)
     return HttpResponse("Success")
 
 def initPositions():

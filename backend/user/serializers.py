@@ -10,4 +10,4 @@ class UserSerializer(serializers.ModelSerializer):
 class LastUpdatedSerializer(serializers.ModelSerializer):
     class Meta:
         model = LastUpdated
-        fields = ('last_updated')
+        fields = '__all__'
